@@ -1,14 +1,20 @@
 /**
  * VoltchZ Brasil - Estilos Base e Componentes Customizados
+ * Define o design system da marca: cores, fontes, animações e componentes.
  */
 
 :root {
+  /* ── PALETA DE CORES BRAND ── */
   --green: #22c55e;
   --green-dim: rgba(34, 197, 94, 0.12);
   --green-border: rgba(34, 197, 94, 0.25);
+  
+  /* ── TONS DE FUNDO (DARK MODE) ── */
   --bg: #0a0a0f;
   --bg2: #0d0d14;
   --bg3: #111118;
+  
+  /* ── TIPOGRAFIA E ELEMENTOS ── */
   --white: #ffffff;
   --white-secondary: #f5f5f7;
   --text: #f0f0f4;
@@ -19,17 +25,20 @@
   --border-light: rgba(0, 0, 0, 0.08);
 }
 
+/* ── CONFIGURAÇÕES GERAIS ── */
 html, body {
   height: 100%;
   margin: 0;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; /* Rolagem suave nativa */
   background: var(--bg);
   color: var(--text);
   font-family: 'Outfit', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── GRAIN OVERLAY ── */
+/* ── GRAIN OVERLAY ── 
+   Adiciona uma textura de ruído sutil sobre o site para um visual mais premium 
+*/
 .grain-overlay {
   position: fixed;
   top: -50%;
@@ -61,13 +70,13 @@ html, body {
     100% { transform: translate(5%,0) }
 }
 
-/* ── FOCUS STATES ── */
+/* ── ESTADOS DE FOCO (ACESSIBILIDADE) ── */
 :focus-visible {
   outline: 2px solid var(--green);
   outline-offset: 4px;
 }
 
-/* ── SCROLLBAR ── */
+/* ── BARRA DE ROLAGEM CUSTOMIZADA ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
@@ -75,17 +84,11 @@ html, body {
   border-radius: 2px;
 }
 
-/* ── ANIMATIONS ── */
+/* ── ANIMAÇÕES DE ORBES (GLOW EFFECTS) ── */
 @keyframes orbFloat {
   0% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(28px, -18px) scale(1.08); }
   100% { transform: translate(-18px, 28px) scale(.94); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.5; }
-  100% { transform: scale(1); opacity: 1; }
 }
 
 .orb {
@@ -97,7 +100,7 @@ html, body {
   pointer-events: none;
 }
 
-/* ── COMPONENTS ── */
+/* ── COMPONENTES DE DESIGN ── */
 .voltage-line {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--green), transparent);
@@ -105,7 +108,7 @@ html, body {
   width: 100%;
 }
 
-/* ── CAROUSEL SLIDES ── */
+/* ── CARROSSEL (HERO) ── */
 .carousel-slide {
   position: absolute;
   inset: 0;
@@ -153,7 +156,7 @@ html, body {
   opacity: 1;
 }
 
-/* ── CLIENT SLIDER ── */
+/* ── CARROSSEL DE CLIENTES ── */
 .client-slide {
   position: absolute;
   inset: 0;
@@ -172,10 +175,11 @@ html, body {
 }
 
 .client-slide:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
   transition: transform 0.5s ease;
 }
 
+/* Gradiente escuro sobre as fotos dos clientes para legibilidade */
 .client-slide::after {
   content: '';
   position: absolute;
@@ -189,14 +193,37 @@ html, body {
   color: white;
 }
 
+/* ── SEÇÃO DE LOGOS ── */
 #logos-container img {
-  filter: grayscale(1);
+  filter: brightness(0) invert(1);
   opacity: 0.5;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 160px;
+  max-height: 50px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
-#logos-container img:hover {
-  filter: grayscale(0);
+/* Cartões individuais para as logos dos clientes */
+#logos-container .logo-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px 32px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+#logos-container .logo-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--green-border);
+  transform: translateY(-5px);
+}
+
+#logos-container .logo-card:hover img {
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.08);
 }

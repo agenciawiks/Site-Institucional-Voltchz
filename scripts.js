@@ -1,9 +1,12 @@
 /**
  * VoltchZ Brasil - Scripts de Interatividade
+ * Este arquivo gerencia todas as animações, carrosséis, carregamento dinâmico
+ * e lógica de navegação do site.
  */
 
 // ──────────────────────────────────────────
 //  LOGO AUTO-LOADER
+//  Garante que a logo correta seja carregada em todos os elementos de imagem
 // ──────────────────────────────────────────
 (function () {
   const logoSrc = 'IMAGENS/logo.png';
@@ -12,46 +15,158 @@
 
 // ──────────────────────────────────────────
 //  CLIENTS SLIDER & LIGHTBOX
+//  Gerencia o carrossel de fotos de instalações (clientes)
+//  e a visualização ampliada (lightbox).
 // ──────────────────────────────────────────
 (function() {
-  const clientImages = [
-    'IMAGENS/CLIENTES/cliente-1.png',
-    'IMAGENS/CLIENTES/cliente-2.png',
-    'IMAGENS/CLIENTES/cliente-3.png'
-  ];
+  const clientImages = [];
+  const possibleExtensions = ['jpeg', 'jpg', 'png', 'webp'];
   
   const slider = document.getElementById('clients-slider');
+  const dotsContainer = document.getElementById('client-dots');
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   let currentIdx = 0;
   let timer = null;
 
+  /**
+   * Varre a pasta IMAGENS/CLIENTES procurando por arquivos cliente-1, cliente-2...
+   * Testa múltiplas extensões para garantir compatibilidade.
+   */
+  async function initClients() {
+    if (!slider) return;
+    console.log("VoltchZ: Iniciando carregamento de clientes...");
+
+    // Tenta encontrar até 30 imagens na sequência
+    for (let i = 1; i <= 30; i++) {
+      let foundSrc = null;
+      for (const ext of possibleExtensions) {
+        const testSrc = `IMAGENS/CLIENTES/cliente-${i}.${ext}`;
+        
+        const exists = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = testSrc;
+        });
+
+        if (exists) {
+          foundSrc = testSrc;
+          console.log(`VoltchZ: Cliente ${i} encontrado: ${testSrc}`);
+          break;
+        }
+      }
+
+      if (foundSrc) {
+        const idx = clientImages.length;
+        clientImages.push(foundSrc);
+        
+        // Cria o elemento do Slide
+        const slide = document.createElement('div');
+        slide.className = 'client-slide' + (idx === 0 ? ' active' : '');
+        slide.style.backgroundImage = `url('${foundSrc}')`;
+        slide.setAttribute('role', 'group');
+        slide.setAttribute('aria-roledescription', 'slide');
+        slide.setAttribute('aria-label', `Cliente ${i}`);
+        slide.onclick = () => openLightbox(foundSrc);
+        slider.appendChild(slide);
+
+        // Cria a bolinha (dot) de navegação correspondente
+        if (dotsContainer) {
+          const dot = document.createElement('button');
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-black/20 border border-black/10 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green' + (idx === 0 ? ' bg-brand-green !w-6' : '');
+          dot.setAttribute('aria-label', `Ir para slide ${idx + 1}`);
+          dot.onclick = (e) => {
+            e.stopPropagation();
+            goToSlide(idx);
+          };
+          dotsContainer.appendChild(dot);
+        }
+      } else {
+        console.log(`VoltchZ: Fim da sequência de clientes no índice ${i}.`);
+        break;
+      }
+    }
+
+    if (clientImages.length > 0) {
+      console.log(`VoltchZ: Total de ${clientImages.length} clientes carregados.`);
+      startTimer();
+      setupControls();
+    } else {
+      console.warn("VoltchZ: Nenhuma imagem de cliente encontrada em IMAGENS/CLIENTES/");
+    }
+  }
+
+  // Configura cliques nas setas e gestos de toque
+  function setupControls() {
+    const prev = document.getElementById('client-prev');
+    const next = document.getElementById('client-next');
+    if (prev) prev.onclick = (e) => { e.stopPropagation(); goToSlide(currentIdx - 1); };
+    if (next) next.onclick = (e) => { e.stopPropagation(); goToSlide(currentIdx + 1); };
+
+    // Suporte a deslize (swipe) em dispositivos móveis
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slider.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopTimer();
+    }, { passive: true });
+
+    slider.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+      startTimer();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const threshold = 50;
+      if (touchEndX < touchStartX - threshold) goToSlide(currentIdx + 1);
+      if (touchEndX > touchStartX + threshold) goToSlide(currentIdx - 1);
+    }
+  }
+
+  // Muda para um slide específico e atualiza as bolinhas
+  function goToSlide(idx) {
+    const slides = slider.querySelectorAll('.client-slide');
+    const dots = dotsContainer ? dotsContainer.querySelectorAll('button') : [];
+    if (slides.length === 0) return;
+
+    slides[currentIdx].classList.remove('active');
+    if (dots[currentIdx]) {
+      dots[currentIdx].classList.remove('bg-brand-green', '!w-6');
+      dots[currentIdx].classList.add('bg-black/20');
+    }
+
+    currentIdx = (idx + slides.length) % slides.length;
+
+    slides[currentIdx].classList.add('active');
+    if (dots[currentIdx]) {
+      dots[currentIdx].classList.add('bg-brand-green', '!w-6');
+      dots[currentIdx].classList.remove('bg-black/20');
+    }
+    
+    startTimer();
+  }
+
+  // Inicialização e Lightbox
   if (slider) {
-    // Inject slides
-    clientImages.forEach((src, idx) => {
-      const slide = document.createElement('div');
-      slide.className = 'client-slide' + (idx === 0 ? ' active' : '');
-      slide.style.backgroundImage = `url('${src}')`;
-      slide.onclick = () => openLightbox(src);
-      slider.appendChild(slide);
-    });
+    initClients();
 
     function nextSlide() {
-      const slides = slider.querySelectorAll('.client-slide');
-      slides[currentIdx].classList.remove('active');
-      currentIdx = (currentIdx + 1) % slides.length;
-      slides[currentIdx].classList.add('active');
+      goToSlide(currentIdx + 1);
     }
 
     function startTimer() {
       stopTimer();
-      timer = setInterval(nextSlide, 4000);
+      timer = setInterval(nextSlide, 5000);
     }
 
     function stopTimer() {
       if (timer) clearInterval(timer);
     }
 
+    // Funções globais para abrir/fechar o lightbox
     window.openLightbox = (src) => {
       stopTimer();
       lightboxImg.src = src;
@@ -64,30 +179,58 @@
       lightbox.classList.remove('flex');
       startTimer();
     };
-
-    startTimer();
   }
 
-  // LOGOS
-  const logos = [
-    'IMAGENS/LOGOS-CLIENTES/logo-1.png',
-    'IMAGENS/LOGOS-CLIENTES/logo-2.png',
-    'IMAGENS/LOGOS-CLIENTES/logo-3.png'
-  ];
-  const logosContainer = document.getElementById('logos-container');
-  if (logosContainer) {
-    logos.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'Logo Cliente';
-      img.className = 'h-12 w-auto object-contain';
-      logosContainer.appendChild(img);
-    });
+  // ──────────────────────────────────────────
+  //  LOGOS AUTO-INJECTION
+  //  Insere as logos dos clientes de forma organizada e dinâmica
+  // ──────────────────────────────────────────
+  async function initLogos() {
+    const logosContainer = document.getElementById('logos-container');
+    if (!logosContainer) return;
+
+    const possibleLogoExtensions = ['svg', 'png', 'webp', 'jpg'];
+    
+    // Tenta carregar até 20 logos
+    for (let i = 1; i <= 20; i++) {
+      let foundLogo = null;
+      for (const ext of possibleLogoExtensions) {
+        const testPath = `IMAGENS/LOGOS-CLIENTES/logo-${i}.${ext}`;
+        const exists = await new Promise(r => {
+          const img = new Image();
+          img.onload = () => r(true);
+          img.onerror = () => r(false);
+          img.src = testPath;
+        });
+        if (exists) {
+          foundLogo = testPath;
+          break;
+        }
+      }
+
+      if (foundLogo) {
+        const card = document.createElement('div');
+        card.className = 'logo-card';
+        
+        const img = document.createElement('img');
+        img.src = foundLogo;
+        img.alt = 'Logo Cliente ' + i;
+        img.loading = 'lazy';
+        img.className = 'w-auto object-contain';
+        
+        card.appendChild(img);
+        logosContainer.appendChild(card);
+      } else {
+        break; // Para se não encontrar a próxima logo na sequência
+      }
+    }
   }
+  initLogos();
 })();
 
 // ──────────────────────────────────────────
 //  CAROUSEL (HERO)
+//  Lógica do banner principal rotativo do topo
 // ──────────────────────────────────────────
 (function () {
   const slides = document.querySelectorAll('.carousel-slide');
@@ -102,6 +245,7 @@
   const heroSection = document.getElementById('hero-section');
   if (!heroSection) return;
 
+  // Vai para o slide X com transição suave
   function goTo(idx) {
     const prevSlide = slides[current];
     const prevDot = dots[current];
@@ -136,6 +280,7 @@
     if (timer) { clearInterval(timer); timer = null; }
   }
 
+  // Eventos de clique nas setas e bolinhas
   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
 
@@ -146,11 +291,11 @@
     dot.addEventListener('click', () => { goTo(i); startAutoplay(); });
   });
 
-  // Pause on hover
+  // Pausa o autoplay ao passar o mouse
   heroSection.addEventListener('mouseenter', stopAutoplay);
   heroSection.addEventListener('mouseleave', startAutoplay);
 
-  // Touch/swipe support
+  // Suporte a swipe no Hero
   let touchStartX = 0;
   heroSection.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; stopAutoplay(); }, { passive: true });
   heroSection.addEventListener('touchend', e => {
@@ -164,6 +309,7 @@
 
 // ──────────────────────────────────────────
 //  NAV SCROLL & PROGRESS BAR
+//  Controla a transparência do menu e a barra de leitura
 // ──────────────────────────────────────────
 const nav = document.getElementById('main-nav');
 const progressBar = document.getElementById('progress-bar');
@@ -171,10 +317,11 @@ const progressBar = document.getElementById('progress-bar');
 if (nav) {
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
+    // Muda o estilo da nav ao rolar
     nav.classList.toggle('scrolled', scrollY > 40);
     updateActiveLink();
     
-    // Progress Bar
+    // Calcula progresso da leitura da página
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
@@ -182,28 +329,43 @@ if (nav) {
   }, { passive: true });
 }
 
+/**
+ * Destaca o link do menu correspondente à seção visível na tela.
+ * Detecta se estamos na Home ou na página Sobre.
+ */
 function updateActiveLink() {
-  const sections = ['servicos', 'o-que-faz', 'clientes', 'sobre', 'contato'];
+  const isSobre = window.location.pathname.includes('sobre.html');
+  const sections = isSobre 
+    ? ['historia', 'proposito', 'diferenciais', 'equipamentos']
+    : ['servicos', 'o-que-faz', 'clientes', 'contato', 'sobre'];
+    
   const links = document.querySelectorAll('#nav-links a');
   let current = '';
+  
   sections.forEach(id => {
     const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    if (el && window.scrollY >= el.offsetTop - 120) current = id;
   });
+  
   links.forEach(a => {
-    const href = a.getAttribute('href').replace('#', '');
-    a.classList.toggle('active', href === current);
+    const href = a.getAttribute('href');
+    if (href.includes('#')) {
+      const id = href.split('#')[1];
+      a.classList.toggle('active', id === current);
+    }
   });
 }
 
 // ──────────────────────────────────────────
 //  FAQ ACCORDION
+//  Lógica de abrir/fechar as perguntas frequentes
 // ──────────────────────────────────────────
 window.toggleFaq = function (btn) {
   const item = btn.closest('.faq-item');
   const answer = item.querySelector('.faq-answer');
   const isOpen = item.classList.contains('open');
   
+  // Fecha todos os outros antes de abrir o novo
   document.querySelectorAll('.faq-item').forEach(i => {
     i.classList.remove('open');
     i.querySelector('.faq-answer').classList.remove('open');
@@ -219,6 +381,7 @@ window.toggleFaq = function (btn) {
 
 // ──────────────────────────────────────────
 //  COUNTER ANIMATION
+//  Anima os números (stats) de 0 até o valor final
 // ──────────────────────────────────────────
 function animateCounters() {
   document.querySelectorAll('.stat-num[data-target]').forEach(el => {
@@ -237,7 +400,8 @@ function animateCounters() {
 }
 
 // ──────────────────────────────────────────
-//  INTERSECTION OBSERVER (Fade-in & Counters)
+//  INTERSECTION OBSERVER
+//  Gerencia animações de fade-in quando os elementos entram na tela
 // ──────────────────────────────────────────
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
@@ -245,12 +409,12 @@ const io = new IntersectionObserver((entries) => {
       e.target.classList.add('in-view');
       e.target.style.opacity = '1';
       e.target.style.transform = 'translateY(0)';
-      // Add slight delay for staggered feel if elements are near
       io.unobserve(e.target);
     }
   });
 }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
 
+// Registra todos os elementos com classe .observe para serem animados
 document.querySelectorAll('.observe').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
@@ -258,7 +422,7 @@ document.querySelectorAll('.observe').forEach(el => {
   io.observe(el);
 });
 
-// Counter trigger
+// Gatilho para iniciar contadores apenas quando visíveis
 const statsEl = document.querySelector('.stats-grid');
 if (statsEl) {
   const counterIO = new IntersectionObserver((entries) => {
@@ -272,6 +436,7 @@ if (statsEl) {
 
 // ──────────────────────────────────────────
 //  SMOOTH SCROLL
+//  Suaviza a rolagem para âncoras internas
 // ──────────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
@@ -287,6 +452,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 // ──────────────────────────────────────────
 //  MOBILE MENU TOGGLE
+//  Abre e fecha o menu hamburguer no mobile
 // ──────────────────────────────────────────
 window.toggleMobileMenu = function() {
     const menu = document.getElementById('mobile-menu');
