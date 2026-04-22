@@ -31,18 +31,24 @@
 
   /**
    * Varre a pasta IMAGENS/CLIENTES procurando por arquivos cliente-1, cliente-2...
-   * Testa múltiplas extensões para garantir compatibilidade.
+   * Usa requestIdleCallback para não bloquear a renderização inicial.
    */
-  async function initClients() {
+  function initClients() {
     if (!slider) return;
-    console.log("VoltchZ: Iniciando carregamento de clientes...");
+    
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => loadClientImages());
+    } else {
+      setTimeout(loadClientImages, 200);
+    }
+  }
 
-    // Tenta encontrar até 30 imagens na sequência
-    for (let i = 1; i <= 30; i++) {
+  async function loadClientImages() {
+    // Tenta encontrar até 20 imagens na sequência (reduzido de 30 para performance)
+    for (let i = 1; i <= 20; i++) {
       let foundSrc = null;
       for (const ext of possibleExtensions) {
         const testSrc = `IMAGENS/CLIENTES/cliente-${i}.${ext}`;
-        
         const exists = await new Promise((resolve) => {
           const img = new Image();
           img.onload = () => resolve(true);
@@ -52,7 +58,6 @@
 
         if (exists) {
           foundSrc = testSrc;
-          console.log(`VoltchZ: Cliente ${i} encontrado: ${testSrc}`);
           break;
         }
       }
@@ -61,7 +66,6 @@
         const idx = clientImages.length;
         clientImages.push(foundSrc);
         
-        // Cria o elemento do Slide
         const slide = document.createElement('div');
         slide.className = 'client-slide' + (idx === 0 ? ' active' : '');
         slide.style.backgroundImage = `url('${foundSrc}')`;
@@ -71,29 +75,21 @@
         slide.onclick = () => openLightbox(foundSrc);
         slider.appendChild(slide);
 
-        // Cria a bolinha (dot) de navegação correspondente
         if (dotsContainer) {
           const dot = document.createElement('button');
           dot.className = 'w-2.5 h-2.5 rounded-full bg-black/20 border border-black/10 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green' + (idx === 0 ? ' bg-brand-green !w-6' : '');
           dot.setAttribute('aria-label', `Ir para slide ${idx + 1}`);
-          dot.onclick = (e) => {
-            e.stopPropagation();
-            goToSlide(idx);
-          };
+          dot.onclick = (e) => { e.stopPropagation(); goToSlide(idx); };
           dotsContainer.appendChild(dot);
         }
       } else {
-        console.log(`VoltchZ: Fim da sequência de clientes no índice ${i}.`);
         break;
       }
     }
 
     if (clientImages.length > 0) {
-      console.log(`VoltchZ: Total de ${clientImages.length} clientes carregados.`);
       startTimer();
       setupControls();
-    } else {
-      console.warn("VoltchZ: Nenhuma imagem de cliente encontrada em IMAGENS/CLIENTES/");
     }
   }
 
@@ -185,14 +181,21 @@
   //  LOGOS AUTO-INJECTION
   //  Insere as logos dos clientes de forma organizada e dinâmica
   // ──────────────────────────────────────────
-  async function initLogos() {
+  function initLogos() {
     const logosContainer = document.getElementById('logos-container');
     if (!logosContainer) return;
 
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => loadLogos(logosContainer));
+    } else {
+      setTimeout(() => loadLogos(logosContainer), 300);
+    }
+  }
+
+  async function loadLogos(container) {
     const possibleLogoExtensions = ['svg', 'png', 'webp', 'jpg'];
-    
-    // Tenta carregar até 20 logos
-    for (let i = 1; i <= 20; i++) {
+    // Tenta carregar até 15 logos (reduzido para performance)
+    for (let i = 1; i <= 15; i++) {
       let foundLogo = null;
       for (const ext of possibleLogoExtensions) {
         const testPath = `IMAGENS/LOGOS-CLIENTES/logo-${i}.${ext}`;
@@ -211,17 +214,16 @@
       if (foundLogo) {
         const card = document.createElement('div');
         card.className = 'logo-card';
-        
         const img = document.createElement('img');
         img.src = foundLogo;
         img.alt = 'Logo Cliente ' + i;
         img.loading = 'lazy';
+        img.decoding = 'async'; 
         img.className = 'w-auto object-contain';
-        
         card.appendChild(img);
-        logosContainer.appendChild(card);
+        container.appendChild(card);
       } else {
-        break; // Para se não encontrar a próxima logo na sequência
+        break;
       }
     }
   }
