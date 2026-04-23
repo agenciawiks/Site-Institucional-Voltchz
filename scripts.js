@@ -20,7 +20,7 @@
 // ──────────────────────────────────────────
 (function() {
   const clientImages = [];
-  const possibleExtensions = ['jpeg', 'jpg', 'png', 'webp'];
+  const possibleExtensions = ['avif', 'webp', 'jpeg', 'jpg', 'png'];
   
   const slider = document.getElementById('clients-slider');
   const dotsContainer = document.getElementById('client-dots');
@@ -44,15 +44,20 @@
   }
 
   async function loadClientImages() {
-    // Tenta encontrar até 20 imagens na sequência (reduzido de 30 para performance)
+    if (!slider) return;
+    
     for (let i = 1; i <= 20; i++) {
       let foundSrc = null;
       for (const ext of possibleExtensions) {
         const testSrc = `IMAGENS/CLIENTES/cliente-${i}.${ext}`;
         const exists = await new Promise((resolve) => {
           const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
+          const timeout = setTimeout(() => {
+            img.src = ''; 
+            resolve(false);
+          }, 3000);
+          img.onload = () => { clearTimeout(timeout); resolve(true); };
+          img.onerror = () => { clearTimeout(timeout); resolve(false); };
           img.src = testSrc;
         });
 
@@ -71,7 +76,13 @@
         slide.style.backgroundImage = `url('${foundSrc}')`;
         slide.setAttribute('role', 'group');
         slide.setAttribute('aria-roledescription', 'slide');
-        slide.setAttribute('aria-label', `Cliente ${i}`);
+        slide.setAttribute('aria-label', `Instalação ${i}`);
+        
+        const content = document.createElement('div');
+        content.className = 'client-slide-content';
+        content.innerHTML = `<span class="inline-block bg-brand-green/90 text-brand-bg text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-2">Projeto Realizado</span>`;
+        slide.appendChild(content);
+        
         slide.onclick = () => openLightbox(foundSrc);
         slider.appendChild(slide);
 
@@ -82,8 +93,6 @@
           dot.onclick = (e) => { e.stopPropagation(); goToSlide(idx); };
           dotsContainer.appendChild(dot);
         }
-      } else {
-        break;
       }
     }
 
@@ -193,7 +202,7 @@
   }
 
   async function loadLogos(container) {
-    const possibleLogoExtensions = ['svg', 'png', 'webp', 'jpg'];
+    const possibleLogoExtensions = ['svg', 'png', 'webp', 'jpg', 'avif'];
     // Tenta carregar até 15 logos (reduzido para performance)
     for (let i = 1; i <= 15; i++) {
       let foundLogo = null;
@@ -317,10 +326,20 @@ const nav = document.getElementById('main-nav');
 const progressBar = document.getElementById('progress-bar');
 
 if (nav) {
+  const logo = nav.querySelector('img');
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
-    // Muda o estilo da nav ao rolar
-    nav.classList.toggle('scrolled', scrollY > 40);
+    
+    if (scrollY > 50) {
+      nav.classList.add('scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl');
+      nav.classList.remove('py-6', 'bg-transparent');
+      if (logo) logo.style.height = '24px';
+    } else {
+      nav.classList.remove('scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl');
+      nav.classList.add('py-6', 'bg-transparent');
+      if (logo) logo.style.height = '32px';
+    }
+
     updateActiveLink();
     
     // Calcula progresso da leitura da página
@@ -329,6 +348,32 @@ if (nav) {
     const scrolled = (winScroll / height) * 100;
     if (progressBar) progressBar.style.width = scrolled + "%";
   }, { passive: true });
+}
+
+// Lógica de Newsletter (Mockup de Sucesso)
+window.handleNewsletter = function(event) {
+  event.preventDefault();
+  const form = event.target;
+  const input = form.querySelector('input');
+  const button = form.querySelector('button');
+  const originalText = button.textContent;
+  
+  button.disabled = true;
+  button.innerHTML = '<svg class="animate-spin h-5 w-5 text-brand-bg mx-auto" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+  
+  setTimeout(() => {
+    button.classList.remove('bg-brand-green');
+    button.classList.add('bg-white', 'text-brand-green');
+    button.innerHTML = '✓ Inscrito!';
+    input.value = '';
+    
+    setTimeout(() => {
+      button.disabled = false;
+      button.classList.remove('bg-white', 'text-brand-green');
+      button.classList.add('bg-brand-green', 'text-brand-bg');
+      button.textContent = originalText;
+    }, 3000);
+  }, 1200);
 }
 
 /**

@@ -4,16 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VoltchZ Brasil — Infraestrutura de Recarga para Veículos Elétricos</title>
-  <meta name="description"
-    content="Instalação de carregadores para veículos elétricos em São José dos Campos e Vale do Paraíba. Projeto técnico, execução segura e suporte contínuo.">
-  <meta property="og:title" content="VoltchZ Brasil — Infraestrutura de Recarga para VEs">
-  <meta property="og:description"
-    content="Instalação de carregadores com engenharia certificada em São José dos Campos e região.">
+  <!-- Primary Meta Tags -->
+  <title>VoltchZ Brasil | Engenharia para Mobilidade Elétrica</title>
+  <meta name="title" content="VoltchZ Brasil | Engenharia para Mobilidade Elétrica">
+  <meta name="description" content="Infraestrutura de engenharia certificada (ITA/INATEL) para carregamento de veículos elétricos. Projetos, laudos e instalação com segurança absoluta em SJC e Vale do Paraíba.">
+  <meta name="theme-color" content="#050508">
+
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://voltchz.com.br/IMAGENS/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#0a0a0f">
+  <meta property="og:url" content="https://voltchz.com.br/">
+  <meta property="og:title" content="VoltchZ Brasil | Engenharia para Mobilidade Elétrica">
+  <meta property="og:description" content="Infraestrutura certificada para mobilidade elétrica. Segurança e inovação em cada recarga.">
+  <meta property="og:image" content="IMAGENS/banner-social.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://voltchz.com.br/">
+  <meta property="twitter:title" content="VoltchZ Brasil | Engenharia para Mobilidade Elétrica">
+  <meta property="twitter:description" content="Infraestrutura certificada para mobilidade elétrica. Segurança e inovação em cada recarga.">
+  <meta property="twitter:image" content="IMAGENS/banner-social.png">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
+  <link rel="icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
 
   <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,8 +144,11 @@
     <div class="carousel-wrapper relative w-full h-full min-h-[92vh]">
       <!-- Slide 1 -->
       <div class="carousel-slide active" id="slide-0">
-        <div class="carousel-slide-bg" style="background-image:url('IMAGENS/BANNER-ROTATIVO-01.png')"
-          fetchpriority="high" loading="eager"></div>
+        <picture class="carousel-slide-bg">
+          <source srcset="IMAGENS/BANNER-ROTATIVO-01.avif" type="image/avif">
+          <source srcset="IMAGENS/BANNER-ROTATIVO-01.webp" type="image/webp">
+          <img src="IMAGENS/BANNER-ROTATIVO-01.png" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
+        </picture>
         <div class="absolute inset-0 bg-brand-bg/40"></div>
         <div class="orb w-[420px] h-[420px] -top-20 -right-20 bg-brand-green/20"></div>
         <div class="relative z-10 max-w-[900px] mx-auto px-6 py-20 text-center w-full">
@@ -213,7 +229,7 @@
       <!-- Slide 3 -->
       <div class="carousel-slide" id="slide-2">
         <div class="carousel-slide-bg"
-          style="background-image:url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=675&fit=crop')">
+          style="background-image:url('IMAGENS/BANNER-ROTATIVO-03.avif')">
         </div>
         <div class="absolute inset-0 bg-brand-bg/30"></div>
         <div class="relative z-10 max-w-[900px] mx-auto px-6 py-20 text-center w-full">
@@ -222,11 +238,11 @@
             Engenharia Legal
           </span>
           <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8">
-            Projetos, Laudos e<br>
-            <span class="text-brand-green">Certificação ART</span>
+            Segurança começa com<br>
+            <span class="text-brand-green">um Projeto bem feito.</span>
           </h1>
           <p class="text-[clamp(16px,2vw,19px)] text-white/70 max-w-[620px] mx-auto mb-10 leading-relaxed">
-            Estamos prontos para atender todas as normas da NBR 5410 com segurança jurídica.
+            Nossas instalações seguem todas as normas técnicas (NBR 5410, 17019 e IEC 61851-1), para você carregar seu veículo com total confiança.
           </p>
           <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
             class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
@@ -277,6 +293,20 @@
         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       NBR 5410 certificado
+    </div>
+    <div
+      class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+      <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+      NBR 17019
+    </div>
+    <div
+      class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+      <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      IEC 61851-1
     </div>
     <div
       class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
@@ -338,11 +368,11 @@
             </svg>
           </div>
           <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Produtos</span>
-          <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Venda de Carregadores</h3>
+          <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Venda de Carregadores e Acessórios</h3>
           <p class="text-slate-500 leading-relaxed text-[14.5px]">Curadoria de excelência <span
               class="font-bold text-brand-green">Intelbras</span>, <span
               class="font-bold text-brand-green">E-Wolf</span> e <span
-              class="font-bold text-brand-green">Incharging</span>.</p>
+              class="font-bold text-brand-green">Incharge</span>.</p>
           <a href="https://wa.me/5512981039845"
             class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">
             Falar com Especialista
@@ -475,7 +505,7 @@
           rigor em engenharia.</p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 observe">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 observe">
         <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-all group">
           <div class="mb-5 text-brand-green group-hover:scale-110 transition-transform">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -511,13 +541,29 @@
         <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-all group">
           <div class="mb-5 text-brand-green group-hover:scale-110 transition-transform">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
             </svg>
           </div>
           <h4 class="text-lg font-bold mb-2">NBR 5410</h4>
-          <p class="text-brand-muted text-[14px]"><span class="font-bold text-white">Conformidade absoluta</span> com as
-            normas brasileiras.</p>
+          <p class="text-brand-muted text-[14px]"><span class="font-bold text-white">Instalações seguras</span> em baixa tensão com rigoroso controle normativo.</p>
+        </div>
+        <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-all group">
+          <div class="mb-5 text-brand-green group-hover:scale-110 transition-transform">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <h4 class="text-lg font-bold mb-2">NBR 17019</h4>
+          <p class="text-brand-muted text-[14px]"><span class="font-bold text-white">Infraestrutura dedicada</span> para a alimentação de veículos elétricos (VE).</p>
+        </div>
+        <div class="p-8 bg-white/5 border border-white/10 rounded-[32px] hover:bg-white/10 transition-all group">
+          <div class="mb-5 text-brand-green group-hover:scale-110 transition-transform">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h4 class="text-lg font-bold mb-2">NBR IEC 61851-1</h4>
+          <p class="text-brand-muted text-[14px]"><span class="font-bold text-white">Segurança de recarga</span> condutiva e interoperabilidade global.</p>
         </div>
       </div>
     </div>
@@ -577,8 +623,7 @@
           <div
             class="absolute -bottom-6 -right-2 lg:-bottom-8 lg:-right-8 bg-brand-bg p-6 lg:p-8 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-xl max-w-[240px] lg:max-w-[280px]">
             <h4 class="text-brand-green font-extrabold text-xl mb-1">Bruno, CEO</h4>
-            <p class="text-[12px] text-brand-muted mb-4 font-mono font-semibold uppercase tracking-widest">Eng.
-              Eletricista ITA/Inatel</p>
+            <p class="text-[12px] text-brand-muted mb-4 font-mono font-semibold uppercase tracking-widest">ITA / INATEL / UNIFESP</p>
             <div class="flex gap-2 flex-wrap text-brand-text">
               <span
                 class="text-[10px] font-bold px-3 py-1 bg-brand-green/10 border border-brand-green/20 rounded-full">MESTRE
@@ -595,9 +640,8 @@
           <h2 class="text-4xl sm:text-5xl font-extrabold mb-8 leading-[1.1] tracking-tight">Fusão entre Ciência e <span
               class="text-brand-green">Mobilidade</span></h2>
           <p class="text-brand-muted text-lg mb-8 leading-relaxed">
-            A VoltchZ nasceu da visão estratégica do Bruno, <span class="font-bold text-white">mestre em inovação</span>
-            e <span class="font-bold text-white">doutorando pelo ITA</span>. Trazemos o <span
-              class="font-bold text-brand-green">rigor técnico</span> da academia para a execução prática no mundo real.
+            A VoltchZ nasceu da visão estratégica do Bruno, <span class="font-bold text-white">Engenheiro (ITA/INATEL)</span>, <span class="font-bold text-white">Mestre (UNIFESP)</span> e <span class="font-bold text-white">Doutorando pelo ITA</span>. Trazemos o <span
+              class="font-bold text-brand-green">rigor técnico</span> de instituições de elite para a execução prática no mercado de mobilidade.
           </p>
           <div class="space-y-6 text-brand-muted leading-relaxed text-base mb-10">
             <p>Atendemos desde projetos domésticos premium até complexas redes de <span class="font-bold">frotas
@@ -646,50 +690,124 @@
           <span
             class="text-brand-green font-mono font-bold text-[12px] mb-4 uppercase tracking-[0.2em] block">Dúvidas</span>
           <h2 class="text-4xl font-extrabold text-white mb-10 tracking-tight">Perguntas Frequentes</h2>
-          <div class="space-y-4">
-            <div
-              class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+          <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
               <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">É seguro carregar um carro em casa?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
+                <span class="font-bold text-lg text-white">1. Qual a potência ideal de carregador para uso residencial?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                Sim, desde que a instalação utilize proteções <span class="font-bold text-white">DR e DPS</span>
-                certificadas pela <span class="font-bold text-brand-green">NBR 5410</span>, isolando qualquer risco de
-                incêndio ou sobrecarga na rede residencial.
+                A maioria dos usuários utiliza carregadores a partir de <span class="font-bold text-white">7 kW</span>, que já oferecem boa velocidade. Em alguns casos, é possível usar <span class="font-bold text-white">11 kW ou 22 kW</span>, dependendo do veículo e da estrutura elétrica disponível.
               </div>
             </div>
-            <div
-              class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
               <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">Preciso de autorização do condomínio?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
+                <span class="font-bold text-lg text-white">2. Qual o impacto do carregador na conta de energia?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                A legislação brasileira já protege o direito de instalação. Fornecemos todo o <span
-                  class="font-bold text-white">dossiê técnico</span> e a <span class="font-bold text-brand-green">ART
-                  assinada</span> pelo engenheiro para facilitar a sua aprovação.
+                O impacto depende da potência do carregador e da frequência de uso. Em condomínios, é possível fazer <span class="font-bold text-white">medição individualizada</span> para que cada usuário pague apenas o que consome de forma justa.
               </div>
             </div>
-            <div
-              class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
               <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">Quais regiões são atendidas?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
+                <span class="font-bold text-lg text-white">3. Posso usar a tomada comum da garagem para carregar?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                Foco total no <span class="font-bold text-white">Vale do Paraíba</span> (SJC e região) e litoral norte,
-                podendo atuar na <span class="font-bold text-brand-green">capital paulista</span> sob consulta técnica
-                prévia.
+                Até é possível, mas <span class="font-bold text-white">não é recomendado</span>. Tomadas comuns não suportam uso contínuo de alta carga, o que pode causar aquecimento e riscos. O ideal é um <span class="font-bold text-brand-green">carregador dedicado (Wallbox)</span>.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">4. Quais normas técnicas preciso atender na instalação?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                As principais são: <span class="font-bold text-white">NBR 17019, NBR 5410, NBR IEC 61851-1</span> e normas de segurança contra incêndio do Corpo de Bombeiros. Segui-las garante uma instalação segura e adequada.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">5. Qual a diferença entre carregador portátil e fixo?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                O portátil é indicado para emergências ou uso ocasional, com menor potência. Já o <span class="font-bold text-white">Wallbox</span> é fixo, mais seguro e oferece maior desempenho para o carregamento diário.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">6. O que acontece se eu não seguir as normas técnicas?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                Pode gerar riscos como <span class="font-bold text-white">choques elétricos, incêndios</span> e até perda de garantia do veículo ou equipamento. Seguir as normas é essencial para a <span class="font-bold text-brand-green">segurança e durabilidade</span>.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">7. Preciso de autorização para instalar no condomínio?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                <span class="font-bold text-white">Sim</span>. Normalmente é necessário comunicar o síndico e, em alguns casos, aprovação em assembleia, além de um <span class="font-bold text-brand-green">estudo da capacidade elétrica</span> do local.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">8. Posso instalar um carregador rápido DC no condomínio?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                Sim, mas exige <span class="font-bold text-white">infraestrutura elétrica robusta</span> (geralmente 380V trifásico), além de um projeto técnico específico de engenharia.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">9. O carregador pode ser compartilhado no condomínio?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                <span class="font-bold text-white">Sim</span>. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.
+              </div>
+            </div>
+
+            <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
+              <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
+                <span class="font-bold text-lg text-white">10. Preciso contratar apenas empresas da montadora?</span>
+                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
+                <span class="font-bold text-white">Não</span>. O mais importante é que a instalação siga as <span class="font-bold text-brand-green">normas técnicas</span>. Isso garante segurança, independentemente da empresa ou marca do carregador.
               </div>
             </div>
           </div>
@@ -744,19 +862,96 @@
   <!-- ──────────────────────────────────────────
        FOOTER (RODAPÉ)
   ────────────────────────────────────────── -->
-  <footer class="bg-brand-bg py-16 px-6 border-t border-white/10">
-    <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-      <div class="flex flex-col items-center md:items-start gap-4">
-        <img src="IMAGENS/logo.png" alt="VoltchZ Brasil"
-          class="h-7 opacity-50 grayscale hover:grayscale-0 transition-all" loading="lazy" width="140" height="28">
-        <a href="politica-de-privacidade.html" class="text-[10px] text-brand-muted hover:text-white transition-colors font-bold uppercase tracking-widest">Política de Privacidade</a>
+  <footer class="bg-brand-bg py-20 px-6 border-t border-white/10 relative overflow-hidden">
+    <div class="max-w-[1200px] mx-auto relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <!-- Brand -->
+        <div class="flex flex-col gap-6">
+          <img src="IMAGENS/logo.png" alt="VoltchZ Brasil" class="h-8 w-auto self-start" loading="lazy">
+          <p class="text-brand-muted text-sm leading-relaxed max-w-[240px]">
+            Infraestrutura de engenharia certificada para mobilidade elétrica. Segurança e inovação em cada recarga.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="https://wa.me/5512981039845" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/voltchz" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/voltchz/" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="LinkedIn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="flex flex-col gap-6">
+          <h4 class="text-white font-bold text-sm uppercase tracking-widest">Contato</h4>
+          <div class="space-y-4">
+            <a href="mailto:contato@voltchz.com.br" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              contato@voltchz.com.br
+            </a>
+            <a href="https://wa.me/5512981039845" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              (12) 98103-9845
+            </a>
+            <div class="flex items-start gap-3 text-brand-muted text-sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-0.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span>Rua João Teixeira Netto, 72<br>Jardim Aquarius, SJC - SP</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div class="flex flex-col gap-6">
+          <h4 class="text-white font-bold text-sm uppercase tracking-widest">Horário</h4>
+          <div class="space-y-4 text-sm text-brand-muted">
+            <div class="flex flex-col gap-1">
+              <span class="text-white font-semibold">Segunda - Sexta</span>
+              <span>09:00 - 17:00</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="text-white font-semibold">Sábado, Domingo e Feriados</span>
+              <span>Fechado</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="flex flex-col gap-6">
+          <h4 class="text-white font-bold text-sm uppercase tracking-widest">Newsletter</h4>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            Receba novidades sobre mobilidade e tecnologia.
+          </p>
+          <form class="flex flex-col gap-3" onsubmit="handleNewsletter(event)">
+            <div class="relative">
+              <input type="email" placeholder="Seu melhor e-mail" required
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-brand-green/50 transition-all">
+            </div>
+            <button type="submit"
+              class="bg-brand-green text-brand-bg font-bold py-3 px-6 rounded-xl hover:brightness-110 active:scale-95 transition-all text-sm flex items-center justify-center gap-2">
+              Inscrever-se
+            </button>
+          </form>
+        </div>
       </div>
-      <div
-        class="flex flex-col items-center md:items-end gap-2 text-brand-muted text-[11px] font-bold tracking-widest uppercase">
-        <span>© 2025 VoltchZ Brasil · Todos os direitos reservados</span>
-        <span>São José dos Campos, SP.</span>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-6 text-[11px] font-bold text-brand-muted tracking-widest uppercase">
+          <span>© 2025 VoltchZ Brasil</span>
+          <a href="politica-de-privacidade.html" class="hover:text-white transition-colors">Privacidade</a>
+        </div>
+        <div class="flex items-center gap-2 text-[11px] font-bold text-brand-muted tracking-widest uppercase">
+          <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span>
+          Engenharia Certificada ITA
+        </div>
       </div>
     </div>
+    
+    <!-- Background Decoration -->
+    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-brand-green/5 rounded-full blur-3xl"></div>
   </footer>
 
   <script src="scripts.js" defer></script>
