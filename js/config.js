@@ -31,11 +31,6 @@ export const CONFIG = {
     AUTOPLAY_CLIENTS: 5000,
     COUNTER_DURATION: 1800
   },
-  MAP: {
-    DEFAULT_COORD: [-23.19, -45.89],
-    RADIUS: 50000, // 50km
-    OVERPASS_URL: 'https://overpass-api.de/api/interpreter'
-  },
   CONTACT: {
     WHATSAPP: '5512981039845',
     EMAIL: 'contato@voltchz.com.br'

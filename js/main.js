@@ -9,7 +9,7 @@ import { initHeroCarousel, initClientsCarousel } from './ui/carousel.js';
 import { initLightbox } from './ui/lightbox.js';
 import { initNavigation } from './ui/navigation.js';
 import { initFaq, initIntersections } from './ui/animations.js';
-import { initMap } from './ui/map.js';
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Logo Auto-loader (Garante consistência)
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   initFaq();
   initIntersections();
-  initMap();
+
 
   // 3. Form Handlers (Centralizado)
   const contactForm = $('#contact-form');

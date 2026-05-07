@@ -15,10 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <link rel="stylesheet" href="styles.css">
+
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
@@ -141,33 +140,27 @@
     <div class="max-w-[900px] mx-auto">
       <section
         class="bg-white/[0.03] border border-white/10 rounded-[32px] p-6 md:p-8 backdrop-blur-xl shadow-2xl shadow-brand-green/5 observe">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
           <div>
             <h3 class="text-xl font-bold mb-2">Mapa de Eletropostos</h3>
             <p class="text-brand-muted text-sm md:text-base max-w-md">
-              Visualize os pontos de recarga próximos de você. Dados fornecidos por OpenStreetMap.
+              Visualize os pontos de recarga próximos de você através da plataforma PlugShare.
             </p>
           </div>
-          <button id="find-charger-btn" type="button"
-            class="inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-bold py-3 px-6 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 whitespace-nowrap">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            Minha Localização
-          </button>
         </div>
 
-        <div class="relative w-full aspect-video md:h-[600px] rounded-2xl overflow-hidden border border-white/10 bg-brand-bg3 shadow-inner">
-          <div id="map-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-bg3 z-20 transition-opacity duration-500">
-            <div class="w-10 h-10 border-4 border-brand-green/30 border-t-brand-green rounded-full animate-spin mb-4"></div>
-            <p class="text-brand-muted text-sm font-mono uppercase tracking-widest">Iniciando Mapa...</p>
-          </div>
-          <div id="map" class="w-full h-full opacity-0 transition-opacity duration-1000"></div>
+        <div class="relative w-full aspect-video md:h-[650px] rounded-2xl overflow-hidden border border-white/10 bg-brand-bg3 shadow-2xl">
+          <iframe 
+            src="https://www.plugshare.com/widget2.html?plugs=1,2,3,4,5,6,42,13,7,8,9,10,11,12,14,15,16,17" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allow="geolocation"
+            title="Mapa PlugShare">
+          </iframe>
         </div>
 
-        <div id="charger-status" class="mt-4 text-xs text-brand-muted font-mono uppercase tracking-wider text-center">
-          Pronto para localizar eletropostos na sua região.
+        <div id="charger-status" class="mt-4 text-[10px] text-brand-muted font-mono uppercase tracking-[0.2em] text-center">
+          Mapa interativo alimentado por PlugShare™
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
