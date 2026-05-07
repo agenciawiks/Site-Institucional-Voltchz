@@ -84,7 +84,7 @@
            class="hidden sm:flex items-center gap-2 bg-brand-green text-brand-bg text-[13.5px] font-bold px-[18px] py-2 rounded-[9px] hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/10">
           Solicitar Orçamento
         </a>
-        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-brand-text hover:bg-white/5 rounded-lg" aria-label="Abrir Menu">
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-brand-text hover:bg-white/5 rounded-lg" aria-label="Abrir Menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -217,20 +217,6 @@
   </section>
 
   <!-- ──────────────────────────────────────────
-       LOGOS CLIENTES (PROVA SOCIAL)
-  ────────────────────────────────────────── -->
-  <section class="bg-brand-bg py-20 border-y border-white/5 overflow-hidden">
-    <div class="max-w-[1200px] mx-auto px-6">
-      <p class="text-center text-[11px] font-mono font-bold uppercase tracking-[0.3em] text-brand-muted mb-10 opacity-60 observe">Empresas que confiam em nossa engenharia</p>
-      <div id="logos-wrapper" class="relative group observe">
-        <div id="logos-container" class="flex flex-wrap justify-center items-center gap-12 md:gap-24 transition-all duration-700">
-          <!-- Logos serão injetadas via scripts.js -->
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ──────────────────────────────────────────
        EQUIPAMENTOS SECTION (HARDWARE)
   ────────────────────────────────────────── -->
   <section id="equipamentos" class="bg-brand-bg2 py-24 px-6 relative overflow-hidden">
@@ -292,7 +278,6 @@
   </footer>
 
   <!-- Scripts de Interatividade -->
-  <script src="scripts.js"></script>
-
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

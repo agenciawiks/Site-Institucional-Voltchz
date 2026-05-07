@@ -1,509 +1,224 @@
-/**
- * VoltchZ Brasil - Scripts de Interatividade
- * Este arquivo gerencia todas as animações, carrosséis, carregamento dinâmico
- * e lógica de navegação do site.
- */
-
-// ──────────────────────────────────────────
-//  LOGO AUTO-LOADER
-//  Garante que a logo correta seja carregada em todos os elementos de imagem
-// ──────────────────────────────────────────
-(function () {
-  const logoSrc = 'IMAGENS/logo.png';
-  document.querySelectorAll('img[alt="VoltchZ Brasil"]').forEach(img => img.src = logoSrc);
-})();
-
-// ──────────────────────────────────────────
-//  CLIENTS SLIDER & LIGHTBOX
-//  Gerencia o carrossel de fotos de instalações (clientes)
-//  e a visualização ampliada (lightbox).
-// ──────────────────────────────────────────
-(function() {
-  const clientImages = [];
-  const possibleExtensions = ['avif', 'webp', 'jpeg', 'jpg', 'png'];
-  
-  const slider = document.getElementById('clients-slider');
-  const dotsContainer = document.getElementById('client-dots');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  let currentIdx = 0;
-  let timer = null;
-
-  /**
-   * Varre a pasta IMAGENS/CLIENTES procurando por arquivos cliente-1, cliente-2...
-   * Usa requestIdleCallback para não bloquear a renderização inicial.
-   */
-  function initClients() {
-    if (!slider) return;
-    
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => loadClientImages());
-    } else {
-      setTimeout(loadClientImages, 200);
-    }
-  }
-
-  async function loadClientImages() {
-    if (!slider) return;
-    
-    for (let i = 1; i <= 20; i++) {
-      let foundSrc = null;
-      for (const ext of possibleExtensions) {
-        const testSrc = `IMAGENS/CLIENTES/cliente-${i}.${ext}`;
-        const exists = await new Promise((resolve) => {
-          const img = new Image();
-          const timeout = setTimeout(() => {
-            img.src = ''; 
-            resolve(false);
-          }, 3000);
-          img.onload = () => { clearTimeout(timeout); resolve(true); };
-          img.onerror = () => { clearTimeout(timeout); resolve(false); };
-          img.src = testSrc;
-        });
-
-        if (exists) {
-          foundSrc = testSrc;
-          break;
-        }
-      }
-
-      if (foundSrc) {
-        const idx = clientImages.length;
-        clientImages.push(foundSrc);
-        
-        const slide = document.createElement('div');
-        slide.className = 'client-slide' + (idx === 0 ? ' active' : '');
-        slide.style.backgroundImage = `url('${foundSrc}')`;
-        slide.setAttribute('role', 'group');
-        slide.setAttribute('aria-roledescription', 'slide');
-        slide.setAttribute('aria-label', `Instalação ${i}`);
-        
-        const content = document.createElement('div');
-        content.className = 'client-slide-content';
-        content.innerHTML = `<span class="inline-block bg-brand-green/90 text-brand-bg text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-2">Projeto Realizado</span>`;
-        slide.appendChild(content);
-        
-        slide.onclick = () => openLightbox(foundSrc);
-        slider.appendChild(slide);
-
-        if (dotsContainer) {
-          const dot = document.createElement('button');
-          dot.className = 'w-2.5 h-2.5 rounded-full bg-black/20 border border-black/10 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green' + (idx === 0 ? ' bg-brand-green !w-6' : '');
-          dot.setAttribute('aria-label', `Ir para slide ${idx + 1}`);
-          dot.onclick = (e) => { e.stopPropagation(); goToSlide(idx); };
-          dotsContainer.appendChild(dot);
-        }
-      }
-    }
-
-    if (clientImages.length > 0) {
-      startTimer();
-      setupControls();
-    }
-  }
-
-  // Configura cliques nas setas e gestos de toque
-  function setupControls() {
-    const prev = document.getElementById('client-prev');
-    const next = document.getElementById('client-next');
-    if (prev) prev.onclick = (e) => { e.stopPropagation(); goToSlide(currentIdx - 1); };
-    if (next) next.onclick = (e) => { e.stopPropagation(); goToSlide(currentIdx + 1); };
-
-    // Suporte a deslize (swipe) em dispositivos móveis
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    slider.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-      stopTimer();
-    }, { passive: true });
-
-    slider.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-      startTimer();
-    }, { passive: true });
-
-    function handleSwipe() {
-      const threshold = 50;
-      if (touchEndX < touchStartX - threshold) goToSlide(currentIdx + 1);
-      if (touchEndX > touchStartX + threshold) goToSlide(currentIdx - 1);
-    }
-  }
-
-  // Muda para um slide específico e atualiza as bolinhas
-  function goToSlide(idx) {
-    const slides = slider.querySelectorAll('.client-slide');
-    const dots = dotsContainer ? dotsContainer.querySelectorAll('button') : [];
-    if (slides.length === 0) return;
-
-    slides[currentIdx].classList.remove('active');
-    if (dots[currentIdx]) {
-      dots[currentIdx].classList.remove('bg-brand-green', '!w-6');
-      dots[currentIdx].classList.add('bg-black/20');
-    }
-
-    currentIdx = (idx + slides.length) % slides.length;
-
-    slides[currentIdx].classList.add('active');
-    if (dots[currentIdx]) {
-      dots[currentIdx].classList.add('bg-brand-green', '!w-6');
-      dots[currentIdx].classList.remove('bg-black/20');
-    }
-    
-    startTimer();
-  }
-
-  // Inicialização e Lightbox
-  if (slider) {
-    initClients();
-
-    function nextSlide() {
-      goToSlide(currentIdx + 1);
-    }
-
-    function startTimer() {
-      stopTimer();
-      timer = setInterval(nextSlide, 5000);
-    }
-
-    function stopTimer() {
-      if (timer) clearInterval(timer);
-    }
-
-    // Funções globais para abrir/fechar o lightbox
-    window.openLightbox = (src) => {
-      stopTimer();
-      lightboxImg.src = src;
-      lightbox.classList.remove('hidden');
-      lightbox.classList.add('flex');
-    };
-
-    window.closeLightbox = () => {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
-      startTimer();
-    };
-  }
-
-  // ──────────────────────────────────────────
-  //  LOGOS AUTO-INJECTION
-  //  Insere as logos dos clientes de forma organizada e dinâmica
-  // ──────────────────────────────────────────
-  function initLogos() {
-    const logosContainer = document.getElementById('logos-container');
-    if (!logosContainer) return;
-
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => loadLogos(logosContainer));
-    } else {
-      setTimeout(() => loadLogos(logosContainer), 300);
-    }
-  }
-
-  async function loadLogos(container) {
-    const possibleLogoExtensions = ['svg', 'png', 'webp', 'jpg', 'avif'];
-    // Tenta carregar até 15 logos (reduzido para performance)
-    for (let i = 1; i <= 15; i++) {
-      let foundLogo = null;
-      for (const ext of possibleLogoExtensions) {
-        const testPath = `IMAGENS/LOGOS-CLIENTES/logo-${i}.${ext}`;
-        const exists = await new Promise(r => {
-          const img = new Image();
-          img.onload = () => r(true);
-          img.onerror = () => r(false);
-          img.src = testPath;
-        });
-        if (exists) {
-          foundLogo = testPath;
-          break;
-        }
-      }
-
-      if (foundLogo) {
-        const card = document.createElement('div');
-        card.className = 'logo-card';
-        const img = document.createElement('img');
-        img.src = foundLogo;
-        img.alt = 'Logo Cliente ' + i;
-        img.loading = 'lazy';
-        img.decoding = 'async'; 
-        img.className = 'w-auto object-contain';
-        card.appendChild(img);
-        container.appendChild(card);
-      } else {
-        break;
-      }
-    }
-  }
-  initLogos();
-})();
-
-// ──────────────────────────────────────────
-//  CAROUSEL (HERO)
-//  Lógica do banner principal rotativo do topo
-// ──────────────────────────────────────────
-(function () {
-  const slides = document.querySelectorAll('.carousel-slide');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const TOTAL = slides.length;
-  if (TOTAL === 0) return;
-
-  let current = 0;
-  let timer = null;
-  const AUTOPLAY_DELAY = 6000;
-
-  const heroSection = document.getElementById('hero-section');
-  if (!heroSection) return;
-
-  // Vai para o slide X com transição suave
-  function goTo(idx) {
-    const prevSlide = slides[current];
-    const prevDot = dots[current];
-    
-    if (prevSlide) prevSlide.classList.remove('active');
-    if (prevDot) {
-      prevDot.classList.remove('active');
-      prevDot.classList.remove('bg-white');
-      prevDot.classList.add('bg-white/40');
-      prevDot.setAttribute('aria-selected', 'false');
-    }
-
-    current = (idx + TOTAL) % TOTAL;
-
-    const nextSlide = slides[current];
-    const nextDot = dots[current];
-
-    if (nextSlide) nextSlide.classList.add('active');
-    if (nextDot) {
-      nextDot.classList.add('active');
-      nextDot.classList.add('bg-white');
-      nextDot.classList.remove('bg-white/40');
-      nextDot.setAttribute('aria-selected', 'true');
-    }
-  }
-
-  function startAutoplay() {
-    stopAutoplay();
-    timer = setInterval(() => goTo(current + 1), AUTOPLAY_DELAY);
-  }
-  function stopAutoplay() {
-    if (timer) { clearInterval(timer); timer = null; }
-  }
-
-  // Eventos de clique nas setas e bolinhas
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
-
-  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); startAutoplay(); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); startAutoplay(); });
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => { goTo(i); startAutoplay(); });
-  });
-
-  // Pausa o autoplay ao passar o mouse
-  heroSection.addEventListener('mouseenter', stopAutoplay);
-  heroSection.addEventListener('mouseleave', startAutoplay);
-
-  // Suporte a swipe no Hero
-  let touchStartX = 0;
-  heroSection.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; stopAutoplay(); }, { passive: true });
-  heroSection.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) { goTo(dx < 0 ? current + 1 : current - 1); }
-    startAutoplay();
-  }, { passive: true });
-
-  startAutoplay();
-})();
-
-// ──────────────────────────────────────────
-//  NAV SCROLL & PROGRESS BAR
-//  Controla a transparência do menu e a barra de leitura
-// ──────────────────────────────────────────
-const nav = document.getElementById('main-nav');
-const progressBar = document.getElementById('progress-bar');
-
-if (nav) {
-  const logo = nav.querySelector('img');
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    
-    if (scrollY > 50) {
-      nav.classList.add('scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl');
-      nav.classList.remove('py-6', 'bg-transparent');
-      if (logo) logo.style.height = '24px';
-    } else {
-      nav.classList.remove('scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl');
-      nav.classList.add('py-6', 'bg-transparent');
-      if (logo) logo.style.height = '32px';
-    }
-
-    updateActiveLink();
-    
-    // Calcula progresso da leitura da página
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    if (progressBar) progressBar.style.width = scrolled + "%";
-  }, { passive: true });
-}
-
-// Lógica de Newsletter (Mockup de Sucesso)
-window.handleNewsletter = function(event) {
-  event.preventDefault();
-  const form = event.target;
-  const input = form.querySelector('input');
-  const button = form.querySelector('button');
-  const originalText = button.textContent;
-  
-  button.disabled = true;
-  button.innerHTML = '<svg class="animate-spin h-5 w-5 text-brand-bg mx-auto" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-  
-  setTimeout(() => {
-    button.classList.remove('bg-brand-green');
-    button.classList.add('bg-white', 'text-brand-green');
-    button.innerHTML = '✓ Inscrito!';
-    input.value = '';
-    
-    setTimeout(() => {
-      button.disabled = false;
-      button.classList.remove('bg-white', 'text-brand-green');
-      button.classList.add('bg-brand-green', 'text-brand-bg');
-      button.textContent = originalText;
-    }, 3000);
-  }, 1200);
-}
-
-/**
- * Destaca o link do menu correspondente à seção visível na tela.
- * Detecta se estamos na Home ou na página Sobre.
- */
-function updateActiveLink() {
-  const isSobre = window.location.pathname.includes('sobre.html');
-  const sections = isSobre 
-    ? ['historia', 'proposito', 'diferenciais', 'equipamentos']
-    : ['servicos', 'o-que-faz', 'clientes', 'contato', 'sobre'];
-    
-  const links = document.querySelectorAll('#nav-links a');
-  let current = '';
-  
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 120) current = id;
-  });
-  
-  links.forEach(a => {
-    const href = a.getAttribute('href');
-    if (href.includes('#')) {
-      const id = href.split('#')[1];
-      a.classList.toggle('active', id === current);
-    }
-  });
-}
-
-// ──────────────────────────────────────────
-//  FAQ ACCORDION
-//  Lógica de abrir/fechar as perguntas frequentes
-// ──────────────────────────────────────────
-window.toggleFaq = function (btn) {
-  const item = btn.closest('.faq-item');
-  const answer = item.querySelector('.faq-answer');
-  const isOpen = item.classList.contains('open');
-  
-  // Fecha todos os outros antes de abrir o novo
-  document.querySelectorAll('.faq-item').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.faq-answer').classList.remove('open');
-    i.querySelector('button').setAttribute('aria-expanded', 'false');
-  });
-
-  if (!isOpen) {
-    item.classList.add('open');
-    answer.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
+// --- CONFIGURAÇÕES ---
+const CONFIG = {
+  AUTOPLAY_HERO: 7000,
+  AUTOPLAY_CLIENTS: 5000,
+  SCROLL_THRESHOLD: 50,
+  CLIENTS: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], // IDs existentes
+  LOGOS: [
+    { id: 1, ext: 'svg' },
+    { id: 2, ext: 'png' },
+    { id: 3, ext: 'png' }
+  ]
 };
 
-// ──────────────────────────────────────────
-//  COUNTER ANIMATION
-//  Anima os números (stats) de 0 até o valor final
-// ──────────────────────────────────────────
-function animateCounters() {
-  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    const prefix = el.dataset.prefix || '';
-    const start = performance.now();
-    const dur = 1800;
-    function tick(now) {
-      const p = Math.min((now - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = prefix + Math.floor(eased * target);
-      if (p < 1) requestAnimationFrame(tick);
+// --- ESTADO GLOBAL ---
+const STATE = {
+  isMenuOpen: false,
+  currentHeroSlide: 0,
+  currentClientSlide: 0
+};
+
+// --- UTILS ---
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+// --- NAVBAR & SCROLL ---
+function initNavbar() {
+  const nav = $('#main-nav');
+  const progressBar = $('#progress-bar');
+  if (!nav) return;
+
+  const updateNav = () => {
+    const scrollY = window.scrollY;
+    const isScrolled = scrollY > CONFIG.SCROLL_THRESHOLD;
+
+    nav.classList.toggle('scrolled', isScrolled);
+
+    // Update Active Links
+    const sections = $$('section[id]');
+    let currentSection = '';
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 120;
+      if (scrollY >= top) currentSection = sec.id;
+    });
+
+    $$('#nav-links a').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href.includes('#')) {
+        const id = href.split('#')[1];
+        link.classList.toggle('active', id === currentSection);
+      }
+    });
+
+    // Progress Bar
+    if (progressBar) {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
     }
-    requestAnimationFrame(tick);
+  };
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+}
+
+// --- MOBILE MENU ---
+function initMobileMenu() {
+  const btn = $('#mobile-menu-btn');
+  const overlay = $('#mobile-menu-overlay');
+  if (!btn || !overlay) return;
+
+  const toggle = () => {
+    STATE.isMenuOpen = !STATE.isMenuOpen;
+    overlay.classList.toggle('active', STATE.isMenuOpen);
+    document.body.classList.toggle('menu-open', STATE.isMenuOpen);
+  };
+
+  btn.addEventListener('click', toggle);
+  overlay.querySelectorAll('a').forEach(link => link.addEventListener('click', toggle));
+}
+
+// --- HERO CAROUSEL ---
+function initHero() {
+  const slides = $$('.carousel-slide');
+  const dots = $$('.carousel-dot');
+  if (slides.length === 0) return;
+
+  const goTo = (idx) => {
+    slides[STATE.currentHeroSlide].classList.remove('active');
+    dots[STATE.currentHeroSlide]?.classList.remove('active');
+    STATE.currentHeroSlide = (idx + slides.length) % slides.length;
+    slides[STATE.currentHeroSlide].classList.add('active');
+    dots[STATE.currentHeroSlide]?.classList.add('active');
+  };
+
+  setInterval(() => goTo(STATE.currentHeroSlide + 1), CONFIG.AUTOPLAY_HERO);
+  $('#carousel-prev')?.addEventListener('click', () => goTo(STATE.currentHeroSlide - 1));
+  $('#carousel-next')?.addEventListener('click', () => goTo(STATE.currentHeroSlide + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+}
+
+// --- CLIENT SLIDER (DYNAMIC INJECTION) ---
+function initClients() {
+  const slider = $('#clients-slider');
+  const dotsContainer = $('#client-dots');
+  if (!slider) return;
+
+  CONFIG.CLIENTS.forEach((id, idx) => {
+    const slide = document.createElement('div');
+    slide.className = `client-slide ${idx === 0 ? 'active' : ''}`;
+    slide.style.backgroundImage = `url('IMAGENS/CLIENTES/cliente-${id}.avif')`;
+    slide.innerHTML = `
+        <div class="client-slide-content">
+          <span class="text-[10px] font-bold uppercase tracking-widest bg-brand-green/90 text-brand-bg px-3 py-1 rounded-full mb-2 inline-block">Instalação Realizada</span>
+          <p class="text-xs text-white/60">Sistema VoltchZ Elite • 2024</p>
+        </div>
+      `;
+    slide.addEventListener('click', () => openLightbox(`IMAGENS/CLIENTES/cliente-${id}.avif`));
+    slider.appendChild(slide);
+
+    if (dotsContainer) {
+      const dot = document.createElement('button');
+      dot.className = `w-2.5 h-2.5 rounded-full bg-white/20 transition-all ${idx === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToClient(idx));
+      dotsContainer.appendChild(dot);
+    }
+  });
+
+  const goToClient = (idx) => {
+    const slides = $$('.client-slide');
+    const dots = dotsContainer?.querySelectorAll('button');
+    if (slides.length === 0) return;
+
+    slides[STATE.currentClientSlide].classList.remove('active');
+    dots?.[STATE.currentClientSlide].classList.remove('active');
+
+    STATE.currentClientSlide = (idx + slides.length) % slides.length;
+
+    slides[STATE.currentClientSlide].classList.add('active');
+    dots?.[STATE.currentClientSlide].classList.add('active');
+  };
+
+  setInterval(() => goToClient(STATE.currentClientSlide + 1), CONFIG.AUTOPLAY_CLIENTS);
+}
+
+// --- LOGOS SLIDER ---
+function initLogos() {
+  const container = $('#logos-container');
+  if (!container) return;
+
+  CONFIG.LOGOS.forEach(logo => {
+    const card = document.createElement('div');
+    card.className = 'logo-card group';
+    card.innerHTML = `<img src="IMAGENS/LOGOS-CLIENTES/logo-${logo.id}.${logo.ext}" alt="Parceiro ${logo.id}" class="h-10 w-auto opacity-50 group-hover:opacity-100 transition-all grayscale group-hover:grayscale-0">`;
+    container.appendChild(card);
   });
 }
 
-// ──────────────────────────────────────────
-//  INTERSECTION OBSERVER
-//  Gerencia animações de fade-in quando os elementos entram na tela
-// ──────────────────────────────────────────
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in-view');
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
+// --- LIGHTBOX ---
+function openLightbox(src) {
+  let lb = $('#lightbox');
+  if (!lb) {
+    lb = document.createElement('div');
+    lb.id = 'lightbox';
+    lb.className = 'fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl hidden items-center justify-center p-10 cursor-zoom-out';
+    lb.innerHTML = `<img id="lightbox-img" src="" class="max-w-full max-h-full rounded-2xl shadow-2xl scale-95 transition-transform duration-500"><button class="absolute top-10 right-10 text-white hover:text-brand-green transition-colors"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>`;
+    document.body.appendChild(lb);
+    lb.addEventListener('click', () => lb.classList.replace('flex', 'hidden'));
+  }
+  const img = $('#lightbox-img');
+  img.src = src;
+  lb.classList.replace('hidden', 'flex');
+  setTimeout(() => img.classList.replace('scale-95', 'scale-100'), 10);
+}
 
-// Registra todos os elementos com classe .observe para serem animados
-document.querySelectorAll('.observe').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-  io.observe(el);
+// --- FORM HANDLING ---
+async function handleForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="flex items-center justify-center gap-2">Processando... <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>`;
+
+  await new Promise(r => setTimeout(r, 1800));
+
+  const modal = $('#success-modal');
+  if (modal) {
+    modal.classList.add('active');
+    form.reset();
+  } else {
+    alert('Mensagem enviada com sucesso!');
+    form.reset();
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = originalText;
+}
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initMobileMenu();
+  initHero();
+  initClients();
+  initLogos();
+
+  $('#contact-form')?.addEventListener('submit', handleForm);
+  $('#quick-lead-form')?.addEventListener('submit', handleForm);
+
+  $('.close-modal')?.addEventListener('click', () => $('#success-modal')?.classList.remove('active'));
+
+  // Animation Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  $$('.observe').forEach(el => observer.observe(el));
 });
-
-// Gatilho para iniciar contadores apenas quando visíveis
-const statsEl = document.querySelector('.stats-grid');
-if (statsEl) {
-  const counterIO = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) { 
-      animateCounters(); 
-      counterIO.disconnect(); 
-    }
-  }, { threshold: .3 });
-  counterIO.observe(statsEl);
-}
-
-// ──────────────────────────────────────────
-//  SMOOTH SCROLL
-//  Suaviza a rolagem para âncoras internas
-// ──────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if (href === '#') return;
-    const target = document.querySelector(href);
-    if (target) { 
-      e.preventDefault(); 
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
-    }
-  });
-});
-
-// ──────────────────────────────────────────
-//  MOBILE MENU TOGGLE
-//  Abre e fecha o menu hamburguer no mobile
-// ──────────────────────────────────────────
-window.toggleMobileMenu = function() {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.toggle('hidden');
-    }
-}

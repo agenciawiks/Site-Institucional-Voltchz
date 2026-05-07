@@ -1,13 +1,38 @@
-# Ignore everything
-*
+# VoltchZ Brasil - .gitignore
 
-# Allow specific files/folders
-!index.html
-!IMAGENS/
-!IMAGENS/**
-!.gitignore
-!scripts.js
-!styles.css
-!sobre.html
-!politica-de-privacidade.html
-!README.md
+# ── SISTEMA ──
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── BACKUPS E COMPACTADOS ──
+*.rar
+*.zip
+*.7z
+*.tar
+*.gz
+*.bak
+*.tmp
+*.log
+
+# ── IDE & EDITORES ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.antigravity/
+
+# ── NODE (Se houver futuramente) ──
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# ── ESPECÍFICOS DO PROJETO ──
+# Adicione aqui arquivos que não devem ser versionados mas que são específicos deste repo

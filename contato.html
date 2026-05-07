@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato — VoltchZ Brasil</title>
+  <meta name="description" content="Envie um lead completo para a equipe VoltchZ e receba orientação técnica para seu projeto de mobilidade elétrica.">
+  <meta name="theme-color" content="#0a0a0f">
+
+  <link rel="shortcut icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
+  <link rel="icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            brand: {
+              green: '#22c55e',
+              bg: '#0a0a0f',
+              bg2: '#0d0d14',
+              bg3: '#111118',
+              text: '#f0f0f4',
+              muted: 'rgba(240, 240, 244, 0.60)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="h-full font-outfit bg-brand-bg text-brand-text overflow-x-hidden">
+  <div class="grain-overlay"></div>
+
+  <nav id="main-nav"
+    class="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-[18px] border-b border-white/5 transition-all duration-300">
+    <div class="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
+      <a href="index.html" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
+        <img src="IMAGENS/logo.png" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
+      </a>
+      <div id="nav-links" class="hidden md:flex items-center gap-1.5">
+        <a href="index.html#servicos" class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Serviços</a>
+        <a href="index.html#o-que-faz" class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Diferenciais</a>
+        <a href="index.html#clientes" class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Clientes</a>
+        <a href="contato.html" class="text-[13.5px] font-medium text-brand-text bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Contato</a>
+        <a href="sobre.html" class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Sobre Nós</a>
+        <div class="relative group" id="tools-dropdown">
+          <button id="tools-dropdown-btn" type="button"
+            class="inline-flex items-center gap-1 text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200"
+            aria-expanded="false" aria-controls="tools-dropdown-menu">
+            Ferramentas
+            <svg class="w-4 h-4 transition-transform duration-200" id="tools-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div id="tools-dropdown-menu"
+            class="hidden group-hover:block group-focus-within:block absolute right-0 mt-2 min-w-[250px] bg-brand-bg2/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-30">
+            <a href="ferramentas.html" class="block px-4 py-3 text-[13px] text-brand-muted hover:text-brand-text hover:bg-white/5 transition-colors">
+              Encontre um carregador
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
+          class="hidden sm:flex items-center gap-2 bg-brand-green text-brand-bg text-[13.5px] font-bold px-[18px] py-2 rounded-[9px] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap shadow-lg shadow-brand-green/10">
+          Conversar com atendente
+        </a>
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-brand-text hover:bg-white/5 rounded-lg" aria-label="Abrir Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 border-t border-white/5 bg-brand-bg shadow-2xl">
+      <a href="index.html#servicos" class="block py-3 text-brand-muted hover:text-brand-text border-b border-white/5">Serviços</a>
+      <a href="index.html#o-que-faz" class="block py-3 text-brand-muted hover:text-brand-text border-b border-white/5">Diferenciais</a>
+      <a href="index.html#clientes" class="block py-3 text-brand-muted hover:text-brand-text border-b border-white/5">Clientes</a>
+      <a href="contato.html" class="block py-3 text-brand-text border-b border-white/5">Contato</a>
+      <a href="sobre.html" class="block py-3 text-brand-muted hover:text-brand-text border-b border-white/5">Sobre Nós</a>
+      <button type="button" id="mobile-tools-toggle"
+        class="w-full flex items-center justify-between py-3 text-brand-muted hover:text-brand-text border-b border-white/5 transition-colors"
+        aria-expanded="false" aria-controls="mobile-tools-menu">
+        <span>Ferramentas</span>
+        <svg class="w-4 h-4 transition-transform duration-200" id="mobile-tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div id="mobile-tools-menu" class="hidden border-b border-white/5 pb-2">
+        <a href="ferramentas.html" class="block py-3 pl-4 text-brand-muted hover:text-brand-text transition-colors">Encontre um carregador</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="pt-32 pb-14 px-6 bg-brand-bg2 border-b border-white/5">
+    <div class="max-w-[1200px] mx-auto text-center observe">
+      <p class="text-[12px] font-mono font-bold uppercase tracking-[0.2em] text-brand-green mb-4">Contato</p>
+      <h1 class="text-[clamp(34px,7vw,62px)] font-extrabold tracking-tight mb-6">Lead completo para a equipe VoltchZ</h1>
+      <p class="text-brand-muted max-w-3xl mx-auto text-lg leading-relaxed">
+        Compartilhe os dados do seu projeto e envie uma mensagem detalhada para nosso time técnico-comercial.
+      </p>
+    </div>
+  </header>
+
+  <main class="py-20 px-6 bg-brand-bg">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <section class="bg-white/[0.03] border border-white/10 rounded-[32px] p-8 md:p-10 backdrop-blur-xl shadow-2xl shadow-brand-green/5 observe">
+        <h2 class="text-2xl font-extrabold text-white mb-3">Formulário completo</h2>
+        <p class="text-brand-muted mb-8">Preencha os campos para que a equipe receba seu contexto completo e prossiga com a análise técnica.</p>
+        <form id="contact-form" class="grid grid-cols-1 gap-4">
+          <input type="text" name="nome" placeholder="Nome completo" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
+          <input type="email" name="email" placeholder="E-mail" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
+          <input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
+          <input type="text" name="empresa" placeholder="Empresa / Condomínio (opcional)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
+          <input type="text" name="cidade" placeholder="Cidade / UF (opcional)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
+          <select name="tipo" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-green/50 transition-all">
+            <option value="" class="text-black">Tipo de projeto</option>
+            <option value="Residencial" class="text-black">Residencial</option>
+            <option value="Comercial" class="text-black">Comercial</option>
+            <option value="Condomínio" class="text-black">Condomínio</option>
+            <option value="Frota" class="text-black">Frota</option>
+          </select>
+          <select name="prazo" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-green/50 transition-all">
+            <option value="" class="text-black">Prazo desejado</option>
+            <option value="Imediato" class="text-black">Imediato</option>
+            <option value="30 dias" class="text-black">Até 30 dias</option>
+            <option value="60 a 90 dias" class="text-black">60 a 90 dias</option>
+            <option value="Em estudo" class="text-black">Em estudo</option>
+          </select>
+          <textarea name="mensagem" rows="5" placeholder="Descreva o cenário, quantidade de vagas/pontos, potência esperada e objetivos do projeto." required
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all resize-y"></textarea>
+          <button type="submit"
+            class="bg-brand-green text-brand-bg font-extrabold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20 text-base">
+            Enviar mensagem para a equipe
+          </button>
+        </form>
+      </section>
+
+      <aside class="space-y-6 observe">
+        <div class="bg-white/[0.03] border border-white/10 rounded-[28px] p-7">
+          <h3 class="text-white font-bold text-lg mb-3">Atendimento online</h3>
+          <p class="text-brand-muted">Segunda a sexta, 09:00 às 17:00</p>
+          <p class="text-brand-muted">Sábado, domingo e feriados: fechado</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-[28px] p-7">
+          <h3 class="text-white font-bold text-lg mb-3">Canais institucionais</h3>
+          <p><a href="mailto:contato@voltchz.com.br" class="text-brand-muted hover:text-brand-green transition-colors">contato@voltchz.com.br</a></p>
+          <p><a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="text-brand-muted hover:text-brand-green transition-colors">(12) 98103-9845</a></p>
+          <p class="text-brand-muted mt-3">Rua João Teixeira Netto, 72<br>Jardim Aquarius, SJC - SP</p>
+        </div>
+        <div class="bg-white/[0.03] border border-white/10 rounded-[28px] p-7">
+          <h3 class="text-white font-bold text-lg mb-3">Redes sociais</h3>
+          <div class="flex items-center gap-4">
+            <a href="https://www.instagram.com/voltchz" target="_blank" rel="noopener noreferrer" class="text-brand-muted hover:text-brand-green transition-colors">Instagram</a>
+            <a href="https://www.linkedin.com/company/voltchz/" target="_blank" rel="noopener noreferrer" class="text-brand-muted hover:text-brand-green transition-colors">LinkedIn</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="bg-brand-bg py-16 px-6 border-t border-white/10">
+    <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="flex flex-col items-center md:items-start gap-4">
+        <img src="IMAGENS/logo.png" alt="VoltchZ Brasil" class="h-7 opacity-50 grayscale hover:grayscale-0 transition-all" loading="lazy" width="140" height="28">
+        <a href="politica-de-privacidade.html" class="text-[10px] text-brand-muted hover:text-white transition-colors font-bold uppercase tracking-widest">Política de Privacidade</a>
+      </div>
+      <div class="flex flex-col items-center md:items-end gap-2 text-brand-muted text-[11px] font-bold tracking-widest uppercase">
+        <span>© 2025 VoltchZ Brasil · Todos os direitos reservados</span>
+        <span>Atendimento online · Segunda a sexta, 09:00 às 17:00</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
