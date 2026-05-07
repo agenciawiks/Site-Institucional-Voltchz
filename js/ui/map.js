@@ -67,81 +67,91 @@ export const initMap = () => {
     popupAnchor: [0, -24]
   });
 
+  let lastSearchPos = null;
+  let lastZoom = null;
+  const seenCoords = new Set();
+
+  const renderMarkers = (data, source) => {
+    const isOCM = source === 'ocm';
+    const elements = Array.isArray(data) ? data : (data.elements || []);
+    
+    elements.forEach(poi => {
+      const lat = isOCM ? poi.AddressInfo?.Latitude : (poi.lat || poi.center?.lat);
+      const lon = isOCM ? poi.AddressInfo?.Longitude : (poi.lon || poi.center?.lon);
+      
+      if (!lat || !lon) return;
+
+      const coordKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
+      if (seenCoords.has(coordKey)) return;
+      seenCoords.add(coordKey);
+
+      const title = isOCM ? (poi.AddressInfo.Title || 'Eletroposto') : (poi.tags?.name || 'Posto de Recarga');
+      const operator = isOCM ? (poi.OperatorInfo?.Title || 'Rede Local') : (poi.tags?.operator || 'OSM');
+      const info = isOCM ? (poi.Connections?.map(c => c.ConnectionType?.Title).join(', ') || '') : (poi.tags?.capacity ? `${poi.tags.capacity} vagas` : '');
+
+      L.marker([lat, lon], { icon: chargerIcon })
+        .addTo(markerGroup)
+        .bindPopup(`
+          <div class="font-outfit p-1 min-w-[160px]">
+            <strong class="text-brand-bg block border-b border-slate-100 pb-1 mb-1">${title}</strong>
+            <span class="text-[10px] text-brand-green font-bold uppercase block mb-1">${operator}</span>
+            ${info ? `<span class="text-[9px] text-slate-500 block mb-2">${info}</span>` : ''}
+            <a href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}" target="_blank" class="block mt-2 text-center bg-blue-50 py-1.5 rounded-lg text-[9px] font-bold text-blue-600 uppercase hover:bg-blue-100 transition-colors">Como Chegar</a>
+          </div>
+        `);
+    });
+  };
+
   const searchChargers = async () => {
     const zoom = map.getZoom();
+    const center = map.getCenter();
     
-    // Permitir busca em níveis mais baixos para ver estados (zoom 6+)
+    if (lastZoom !== null && Math.abs(lastZoom - zoom) > 1) {
+      markerGroup.clearLayers();
+      seenCoords.clear();
+    }
+    lastZoom = zoom;
+
+    if (lastSearchPos && center.distanceTo(lastSearchPos) < 2000 && zoom === lastZoom) return;
+    lastSearchPos = center;
+
     if (zoom < 6) {
-      if (status) status.textContent = 'Aproxime um pouco mais para carregar os pontos.';
+      if (status) status.textContent = 'Aproxime para buscar.';
       return;
     }
 
-    if (status) status.textContent = 'Buscando eletropostos na região...';
-    
-    try {
-      const bounds = map.getBounds();
-      const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`;
-      
-      // Query otimizada (apenas nodes em zoom muito baixo para evitar lentidão)
-      let query;
-      if (zoom < 8) {
-        query = `[out:json][timeout:30];node["amenity"="charging_station"](${bbox});out;`;
-      } else {
-        query = `[out:json][timeout:30];(node["amenity"="charging_station"](${bbox});way["amenity"="charging_station"](${bbox});relation["amenity"="charging_station"](${bbox}););out center;`;
-      }
-      
-      const response = await fetch(`${CONFIG.MAP.OVERPASS_URL}?data=${encodeURIComponent(query)}`);
-      if (!response.ok) throw new Error(`Erro: ${response.status}`);
-      
-      const data = await response.json();
-      
-      markerGroup.clearLayers();
-      
-      if (!data.elements || data.elements.length === 0) {
-        if (status) status.textContent = 'Nenhum eletroposto encontrado nesta área.';
-        return;
-      }
+    if (status) status.textContent = 'Buscando novos pontos...';
 
-      if (status) status.textContent = `${data.elements.length} eletropostos localizados.`;
-      
-      data.elements.forEach(point => {
-        const pLat = point.lat || (point.center && point.center.lat);
-        const pLon = point.lon || (point.center && point.center.lon);
-        if (!pLat || !pLon) return;
+    const bounds = map.getBounds();
+    const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`;
+    const sw = bounds.getSouthWest();
+    const ne = bounds.getNorthEast();
 
-        const tags = point.tags || {};
-        const marker = L.marker([pLat, pLon], { icon: chargerIcon }).addTo(markerGroup);
-        
-        const name = tags.name || tags.operator || 'Ponto de Recarga';
-        const operator = tags.operator && tags.operator !== tags.name ? tags.operator : '';
-        const capacity = tags.capacity || tags['socket:count'] || '';
+    const osmQuery = zoom < 10 
+      ? `[out:json][timeout:15];node["amenity"="charging_station"](${bbox});out qt;`
+      : `[out:json][timeout:25];(node["amenity"~"charging_station|fuel"]["fuel:electricity"~"yes|"](${bbox});node["socket:type2"](${bbox});node["socket:ccs2"](${bbox}););out center;`;
 
-        marker.bindPopup(`
-          <div class="font-outfit p-1 min-w-[150px]">
-            <strong class="text-brand-bg block border-b border-slate-100 pb-1 mb-1">${name}</strong>
-            ${operator ? `<br><span class="text-xs text-slate-500">${operator}</span>` : ''}
-            ${capacity ? `<br><span class="text-[10px] uppercase font-bold text-green-600">${capacity} conectores</span>` : ''}
-            <a href="https://www.google.com/maps/search/?api=1&query=${pLat},${pLon}" target="_blank" class="block mt-2 text-[10px] font-bold text-blue-600 uppercase hover:underline">Abrir no Google Maps</a>
-          </div>
-        `);
-      });
-    } catch (err) {
-      console.error('VoltchZ Map Error:', err);
-      if (status) status.textContent = 'Erro ao buscar dados. Tente novamente em instantes.';
-    }
+    const ocmUrl = `https://api.openchargemap.io/v3/poi/?output=json&maxresults=100&compact=true&boundingbox=(${sw.lat},${sw.lng}),(${ne.lat},${ne.lng})&key=1e204c3c-8e3d-4c3e-8c3e-8c3e8c3e8c3e`;
+
+    fetch(ocmUrl).then(res => res.json()).then(data => {
+      renderMarkers(data, 'ocm');
+      if (status) status.textContent = 'Mapa atualizado.';
+    }).catch(() => {});
+
+    fetch(`${CONFIG.MAP.OVERPASS_URL}?data=${encodeURIComponent(osmQuery)}`).then(res => res.json()).then(data => {
+      renderMarkers(data, 'osm');
+      if (status) status.textContent = 'Busca concluída.';
+    }).catch(() => {});
   };
 
   const debouncedSearch = debounce(searchChargers, 1000);
 
-  // Eventos do Mapa
   map.on('moveend', debouncedSearch);
 
-  // Busca inicial
   map.whenReady(() => {
-    setTimeout(searchChargers, 600);
+    setTimeout(searchChargers, 800);
   });
 
-  // GPS
   if (findBtn) {
     findBtn.onclick = () => {
       if (!navigator.geolocation) {
@@ -158,7 +168,7 @@ export const initMap = () => {
           map.flyTo([latitude, longitude], 14, { animate: true, duration: 1.5 });
           findBtn.disabled = false;
         },
-        (error) => {
+        () => {
           if (status) status.textContent = 'Permissão negada ou sinal indisponível.';
           findBtn.disabled = false;
         },
@@ -167,4 +177,3 @@ export const initMap = () => {
     };
   }
 };
-
