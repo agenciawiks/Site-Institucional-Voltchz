@@ -71,12 +71,28 @@ function initMobileMenu() {
 
   const toggle = () => {
     STATE.isMenuOpen = !STATE.isMenuOpen;
-    overlay.classList.toggle('active', STATE.isMenuOpen);
+    overlay.classList.toggle('hidden', !STATE.isMenuOpen);
     document.body.classList.toggle('menu-open', STATE.isMenuOpen);
+    
+    // Accessibility
+    btn.setAttribute('aria-expanded', STATE.isMenuOpen);
   };
 
-  btn.addEventListener('click', toggle);
-  overlay.querySelectorAll('a').forEach(link => link.addEventListener('click', toggle));
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggle();
+  });
+
+  overlay.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (STATE.isMenuOpen) toggle();
+    });
+  });
+
+  // Close on escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && STATE.isMenuOpen) toggle();
+  });
 }
 
 // --- HERO CAROUSEL ---
@@ -120,7 +136,7 @@ function initClients() {
 
     if (dotsContainer) {
       const dot = document.createElement('button');
-      dot.className = `w-2.5 h-2.5 rounded-full bg-white/20 transition-all ${idx === 0 ? 'active' : ''}`;
+      dot.className = `client-dot w-2.5 h-2.5 rounded-full bg-white/20 transition-all ${idx === 0 ? 'active' : ''}`;
       dot.addEventListener('click', () => goToClient(idx));
       dotsContainer.appendChild(dot);
     }
@@ -139,6 +155,9 @@ function initClients() {
     slides[STATE.currentClientSlide].classList.add('active');
     dots?.[STATE.currentClientSlide].classList.add('active');
   };
+
+  $('#client-prev')?.addEventListener('click', () => goToClient(STATE.currentClientSlide - 1));
+  $('#client-next')?.addEventListener('click', () => goToClient(STATE.currentClientSlide + 1));
 
   setInterval(() => goToClient(STATE.currentClientSlide + 1), CONFIG.AUTOPLAY_CLIENTS);
 }

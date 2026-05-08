@@ -20,40 +20,73 @@
   --white-secondary: #f5f5f7;
   --text: #f0f0f4;
   --text-dark: #1a1a1f;
-  --muted: rgba(240, 240, 244, 0.65);
-  --muted2: rgba(240, 240, 244, 0.45);
+  --muted: rgba(240, 240, 244, 0.85);
+  --muted2: rgba(240, 240, 244, 0.65);
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(0, 0, 0, 0.08);
   --glass: rgba(10, 10, 15, 0.7);
 }
 
 /* ── CONFIGURAÇÕES GERAIS ── */
+/* ── CONFIGURAÇÕES GERAIS ── */
 html, body {
   height: 100%;
   margin: 0;
-  scroll-behavior: smooth; /* Rolagem suave nativa */
+  scroll-behavior: smooth;
   background: var(--bg);
   color: var(--text);
   font-family: 'Outfit', sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* ── GRAIN OVERLAY ── 
-   Adiciona uma textura de ruído sutil sobre o site para um visual mais premium 
-*/
+/* ── BARRA DE ROLAGEM MINIMALISTA ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 2px solid var(--bg);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--green);
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) var(--bg);
+}
+
+/* ── TIPOGRAFIA RESPONSIVA ── */
+h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+/* ── ESPAÇAMENTO DE SEÇÕES ── */
+section {
+  padding-top: clamp(4rem, 10vw, 8rem);
+  padding-bottom: clamp(4rem, 10vw, 8rem);
+}
+
+/* ── GRAIN OVERLAY ── */
 .grain-overlay {
   position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
+  inset: -50%;
   width: 200%;
   height: 200vh;
   background: transparent url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
-  background-repeat: repeat;
   animation: bg-animation .2s infinite;
-  opacity: .05;
-  visibility: visible;
+  opacity: .04;
   pointer-events: none;
   z-index: 1000;
 }
@@ -72,49 +105,47 @@ html, body {
     100% { transform: translate(5%,0) }
 }
 
-/* ── ESTADOS DE FOCO (ACESSIBILIDADE) ── */
-:focus-visible {
-  outline: 2px solid var(--green);
-  outline-offset: 4px;
+/* ── NAVBAR SCROLLED STATE ── */
+#main-nav.scrolled {
+  height: 60px;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(24px);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
-/* ── BARRA DE ROLAGEM CUSTOMIZADA ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  border: 2px solid var(--bg);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--green);
+/* ── MOBILE MENU OVERLAY ── */
+#mobile-menu-overlay {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.custom-scrollbar::-webkit-scrollbar { width: 3px; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--green-border); }
-
-/* ── ANIMAÇÕES DE ORBES (GLOW EFFECTS) ── */
-@keyframes orbFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(28px, -18px) scale(1.08); }
-  100% { transform: translate(-18px, 28px) scale(.94); }
+#mobile-menu-overlay:not(.hidden) {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ── ORBS (GLOW EFFECTS) ── */
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: .13;
+  opacity: .15;
   animation: orbFloat 14s ease-in-out infinite alternate;
   pointer-events: none;
+  z-index: 1;
 }
 
-/* ── COMPONENTES DE DESIGN ── */
-.voltage-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--green), transparent);
-  opacity: 0.2;
-  width: 100%;
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.1); }
+  100% { transform: translate(-20px, 30px) scale(.95); }
 }
 
 /* ── CARROSSEL (HERO) ── */
@@ -127,11 +158,24 @@ html, body {
   opacity: 0;
   transition: opacity .8s cubic-bezier(.4, 0, .2, 1);
   pointer-events: none;
+  text-align: center;
 }
 
 .carousel-slide.active {
   opacity: 1;
   pointer-events: all;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .carousel-dot.active {
@@ -149,61 +193,48 @@ html, body {
 }
 
 .carousel-slide.active .carousel-slide-bg {
-  transform: scale(1.04);
-}
-
-/* ── FAQ ACCORDION ── */
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .38s cubic-bezier(.4, 0, .2, 1), opacity .3s;
-  opacity: 0;
-}
-
-.faq-answer.open {
-  max-height: 400px;
-  opacity: 1;
+  transform: scale(1.05);
 }
 
 /* ── CARROSSEL DE CLIENTES ── */
 .client-slide {
   position: absolute;
   inset: 0;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: #050508;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transform: translateY(40px) scale(0.95);
+  transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1), transform 1s cubic-bezier(0.23, 1, 0.32, 1);
   display: flex;
   align-items: flex-end;
-  padding: 40px;
-  border-radius: inherit; /* Garante que respeite o arredondamento do pai */
+  padding: clamp(20px, 5vw, 40px);
+  border-radius: inherit;
 }
 
-/* Fix para flickering de border-radius em elementos absolutos com transição */
 #clients-slider {
   isolation: isolate;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  background: #0a0a0f;
+  transform: translateZ(0);
 }
 
 .client-slide.active {
   opacity: 1;
+  transform: translateY(0) scale(1);
   z-index: 10;
 }
 
 .client-slide:hover {
-  transform: scale(1.01);
-  transition: transform 0.5s ease;
+  transform: scale(1.02);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Gradiente escuro sobre as fotos dos clientes para legibilidade */
 .client-slide::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 40%);
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
   pointer-events: none;
 }
 
@@ -213,12 +244,13 @@ html, body {
   color: white;
   transform: translateY(20px);
   opacity: 0;
-  transition: all 0.6s ease-out 0.3s;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.3s;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  padding: 20px 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .client-slide.active .client-slide-content {
@@ -226,50 +258,71 @@ html, body {
   opacity: 1;
 }
 
+.client-dot {
+  transition: all 0.3s ease;
+}
+
+.client-dot.active {
+  background: var(--green) !important;
+  width: 28px !important;
+  border-radius: 6px !important;
+}
+
 /* ── SEÇÃO DE LOGOS ── */
 #logos-container img {
   filter: brightness(0) invert(1);
-  opacity: 0.5;
+  opacity: 0.4;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 160px;
-  max-height: 50px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+  max-width: 140px;
+  max-height: 40px;
 }
 
-/* Cartões individuais para as logos dos clientes */
 #logos-container .logo-card {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 24px 32px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.4s ease;
+  padding: 20px 28px;
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #logos-container .logo-card:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border-color: var(--green-border);
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -10px rgba(34, 197, 94, 0.1);
 }
 
 #logos-container .logo-card:hover img {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 /* ── ANIMATIONS (INTERSECTION OBSERVER) ── */
 .observe {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1), transform 1s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: opacity, transform;
 }
 
 .observe.in-view {
   opacity: 1 !important;
   transform: translateY(0) !important;
+}
+
+/* ── RESPONSIVIDADE ADICIONAL ── */
+@media (max-width: 768px) {
+  section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .client-slide {
+    padding: 20px;
+  }
+  
+  .client-slide-content {
+    padding: 16px;
+    border-radius: 20px;
+  }
 }
