@@ -1,0 +1,13 @@
+{
+  "name": "site-institucional-voltchz",
+  "version": "1.0.0",
+  "description": "Site Institucional VoltchZ Brasil",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'Static site, no build needed'"
+  },
+  "keywords": [],
+  "author": "VoltchZ",
+  "license": "ISC"
+}

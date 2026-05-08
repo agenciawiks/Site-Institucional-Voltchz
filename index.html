@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
   <!-- Preload LCP Image -->
-  <link rel="preload" as="image" href="IMAGENS/BANNER-ROTATIVO-01.png" fetchpriority="high">
+  <link rel="preload" as="image" href="IMAGENS/BANNER-ROTATIVO-01.avif" fetchpriority="high">
   
   <!-- CSS & Tailwind -->
   <link rel="stylesheet" href="styles.css">
@@ -182,8 +182,7 @@
       <div class="carousel-slide active" id="slide-0">
         <picture class="carousel-slide-bg">
           <source srcset="IMAGENS/BANNER-ROTATIVO-01.avif" type="image/avif">
-          <source srcset="IMAGENS/BANNER-ROTATIVO-01.webp" type="image/webp">
-          <img src="IMAGENS/BANNER-ROTATIVO-01.png" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
+          <img src="IMAGENS/BANNER-ROTATIVO-01.avif" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
         </picture>
         <div class="absolute inset-0 bg-brand-bg/40"></div>
         <div class="orb w-[420px] h-[420px] -top-20 -right-20 bg-brand-green/20"></div>
@@ -289,9 +288,10 @@
 
       <!-- Slide 4 -->
       <div class="carousel-slide" id="slide-3">
-        <div class="carousel-slide-bg"
-          style="background-image:url('IMAGENS/BANNER-ROTATIVO-04.webp')">
-        </div>
+        <picture class="carousel-slide-bg">
+          <source srcset="IMAGENS/BANNER-ROTATIVO-04.webp" type="image/webp">
+          <img src="IMAGENS/BANNER-ROTATIVO-04.webp" alt="Estações Comerciais" class="w-full h-full object-cover">
+        </picture>
         <div class="absolute inset-0 bg-brand-bg/35"></div>
         <div class="relative z-10 max-w-[900px] mx-auto px-6 py-20 text-center w-full">
           <span
