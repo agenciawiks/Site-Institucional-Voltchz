@@ -7,7 +7,7 @@ export const initNavigation = () => {
   const nav = $('#main-nav');
   const progressBar = $('#progress-bar');
   const logo = nav?.querySelector('img');
-  
+
   if (!nav) return;
 
   /**
@@ -16,12 +16,12 @@ export const initNavigation = () => {
   const handleScroll = throttle(() => {
     // 1. Header Styles
     handleScrollClasses(
-      nav, 
-      50, 
-      ['scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl'], 
+      nav,
+      50,
+      ['scrolled', 'backdrop-blur-xl', 'bg-brand-bg/80', 'py-3', 'shadow-2xl'],
       ['py-6', 'bg-transparent']
     );
-    
+
     if (logo) {
       logo.style.height = window.scrollY > 50 ? '24px' : '32px';
     }
@@ -43,7 +43,7 @@ export const initNavigation = () => {
    */
   const mobileMenuBtn = $('#mobile-menu-btn');
   const mobileMenu = $('#mobile-menu');
-  
+
   if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.onclick = () => {
       const isOpen = !mobileMenu.classList.contains('hidden');
@@ -53,7 +53,7 @@ export const initNavigation = () => {
   }
 
   /**
-   * Ferramentas Dropdown
+   * Encontre um Eletroposto Dropdown
    */
   const setupDropdown = (btnId, menuId, iconId, wrapperId) => {
     const btn = $(`#${btnId}`);
@@ -105,16 +105,16 @@ export const initNavigation = () => {
 
 function updateActiveLink() {
   const isSobre = window.location.pathname.includes('sobre.html');
-  const sections = isSobre 
+  const sections = isSobre
     ? ['historia', 'proposito', 'diferenciais', 'equipamentos']
     : ['servicos', 'o-que-faz', 'clientes', 'sobre'];
-    
+
   let current = '';
   sections.forEach(id => {
     const el = $(`#${id}`);
     if (el && window.scrollY >= el.offsetTop - 120) current = id;
   });
-  
+
   $$('#nav-links a').forEach(a => {
     const href = a.getAttribute('href');
     if (href?.includes('#')) {

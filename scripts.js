@@ -73,7 +73,7 @@ function initMobileMenu() {
     STATE.isMenuOpen = !STATE.isMenuOpen;
     overlay.classList.toggle('hidden', !STATE.isMenuOpen);
     document.body.classList.toggle('menu-open', STATE.isMenuOpen);
-    
+
     // Accessibility
     btn.setAttribute('aria-expanded', STATE.isMenuOpen);
   };
@@ -170,7 +170,7 @@ function initLogos() {
   CONFIG.LOGOS.forEach(logo => {
     const card = document.createElement('div');
     card.className = 'logo-card group';
-    card.innerHTML = `<img src="IMAGENS/LOGOS-CLIENTES/logo-${logo.id}.${logo.ext}" alt="Parceiro ${logo.id}" class="h-10 w-auto opacity-50 group-hover:opacity-100 transition-all grayscale group-hover:grayscale-0">`;
+    card.innerHTML = `<img src="IMAGENS/LOGOS-CLIENTES/logo-${logo.id}.${logo.ext}" alt="Parceiro ${logo.id}" class="h-10 w-auto opacity-50 group-hover:opacity-100 transition-all   group-hover: -0">`;
     container.appendChild(card);
   });
 }
