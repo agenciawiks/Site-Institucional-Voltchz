@@ -24,7 +24,7 @@ export const CONFIG = {
       'IMAGENS/LOGOS-CLIENTES/logo-2.png',
       'IMAGENS/LOGOS-CLIENTES/logo-3.png',
     ],
-    DEFAULT_LOGO: 'IMAGENS/logo.png'
+    DEFAULT_LOGO: 'IMAGENS/logo.webp'
   },
   ANIMATIONS: {
     AUTOPLAY_HERO: 6000,

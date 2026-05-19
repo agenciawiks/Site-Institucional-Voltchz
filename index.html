@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
   <!-- Preload LCP Image -->
-  <link rel="preload" as="image" href="IMAGENS/BANNER-ROTATIVO-01.avif" fetchpriority="high">
+  <link rel="preload" as="image" href="IMAGENS/banner-rotativo-01webp.webp" fetchpriority="high">
 
   <!-- CSS & Tailwind -->
   <link rel="stylesheet" href="styles.css">
@@ -90,7 +90,7 @@
     class="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-[18px] border-b border-white/5 transition-all duration-300">
     <div class="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
       <a href="#" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
-        <img src="IMAGENS/logo.png" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
+        <img src="IMAGENS/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
       </a>
 
       <div id="nav-links" class="hidden md:flex items-center gap-1.5">
@@ -159,8 +159,8 @@
       <!-- Slide 1 -->
       <div class="carousel-slide active" id="slide-0">
         <picture class="carousel-slide-bg">
-          <source srcset="IMAGENS/BANNER-ROTATIVO-01.avif" type="image/avif">
-          <img src="IMAGENS/BANNER-ROTATIVO-01.avif" alt="Carregamento de Veículo Elétrico"
+          <source srcset="IMAGENS/banner-rotativo-01webp.webp" type="image/avif">
+          <img src="IMAGENS/banner-rotativo-01webp.webp" alt="Carregamento de Veículo Elétrico"
             class="w-full h-full object-cover">
         </picture>
         <div class="absolute inset-0 bg-brand-bg/40"></div>
@@ -380,12 +380,36 @@
       </svg>
       Resposta em 24h
     </div>
-    <div class="flex items-center gap-2.5 px-7 py-4 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+    <div
+      class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
       <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
         <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
       Vale do Paraíba
+    </div>
+    <div
+      class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+      <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      Litoral Norte de São Paulo
+    </div>
+    <div
+      class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+      <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      Sul de Minas Gerais
+    </div>
+    <div class="flex items-center gap-2.5 px-7 py-4 text-[12px] font-semibold text-brand-muted whitespace-nowrap">
+      <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      Estado de São Paulo
     </div>
   </div>
 
@@ -465,7 +489,7 @@
           <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Laudos e Relatórios</h3>
           <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Conformidade técnica</span>
             detalhada para <span class="font-bold text-brand-green">uso seguro</span>.</p>
-          <a href="https://wa.me/5512981039845"
+          <a href="/viabilidade.html"
             class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Ver
             Mais</a>
         </div>
@@ -746,6 +770,131 @@
   </section>
 
   <!-- ──────────────────────────────────────────
+       VIABILIDADE ELÉTRICA (TEASER)
+  ────────────────────────────────────────── -->
+  <section id="viabilidade-eletrica" class="relative bg-brand-bg2 py-20 px-6 overflow-hidden border-y border-white/5">
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+    <div class="max-w-[1200px] mx-auto relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center observe">
+
+        <!-- Left: Chart preview -->
+        <div class="relative p-5 sm:p-6 bg-white/[0.04] border border-white/10 rounded-[28px] overflow-hidden">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <p class="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-brand-green mb-0.5">Monitoramento Ativo</p>
+              <h4 class="text-white font-bold text-base">Curva de Carga — Demanda kW/dia</h4>
+            </div>
+            <div class="flex items-center gap-1.5 px-3 py-1.5 bg-brand-green/10 border border-brand-green/20 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse"></span>
+              <span class="text-[10px] font-bold font-mono text-brand-green uppercase tracking-wider">LIVE</span>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-x-5 gap-y-1.5 mb-4">
+            <div class="flex items-center gap-1.5 text-[11px] text-brand-muted font-medium"><div class="w-5 h-0.5 bg-brand-green rounded-full"></div>Demanda Atual</div>
+            <div class="flex items-center gap-1.5 text-[11px] text-brand-muted font-medium"><div class="w-5 h-0.5 bg-blue-400 rounded-full"></div>Pico Projetado</div>
+            <div class="flex items-center gap-1.5 text-[11px] text-brand-muted font-medium"><div class="w-5 h-0.5 bg-orange-400/70 rounded-full"></div>Limite Contratado</div>
+          </div>
+          <div class="w-full overflow-hidden rounded-xl bg-brand-bg/60 border border-white/5">
+            <svg viewBox="0 0 560 180" class="w-full h-auto" style="max-height:180px" role="img" aria-label="Gráfico de curva de carga">
+              <defs>
+                <linearGradient id="gF2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0"/></linearGradient>
+                <linearGradient id="bF2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#60a5fa" stop-opacity="0.15"/><stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/></linearGradient>
+                <clipPath id="cc2"><rect x="40" y="5" width="510" height="148"/></clipPath>
+              </defs>
+              <g stroke="rgba(255,255,255,0.05)" stroke-width="1"><line x1="40" y1="10" x2="550" y2="10"/><line x1="40" y1="45" x2="550" y2="45"/><line x1="40" y1="80" x2="550" y2="80"/><line x1="40" y1="115" x2="550" y2="115"/><line x1="40" y1="152" x2="550" y2="152"/></g>
+              <text x="35" y="14" text-anchor="end" font-size="9" fill="rgba(240,240,244,0.35)" font-family="monospace">120</text>
+              <text x="35" y="49" text-anchor="end" font-size="9" fill="rgba(240,240,244,0.35)" font-family="monospace">90</text>
+              <text x="35" y="84" text-anchor="end" font-size="9" fill="rgba(240,240,244,0.35)" font-family="monospace">60</text>
+              <text x="35" y="119" text-anchor="end" font-size="9" fill="rgba(240,240,244,0.35)" font-family="monospace">30</text>
+              <text x="40" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Seg</text>
+              <text x="125" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Ter</text>
+              <text x="210" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Qua</text>
+              <text x="295" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Qui</text>
+              <text x="380" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Sex</text>
+              <text x="465" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Sáb</text>
+              <text x="550" y="168" text-anchor="middle" font-size="8.5" fill="rgba(240,240,244,0.35)" font-family="monospace">Dom</text>
+              <g clip-path="url(#cc2)">
+                <path d="M40,90 C70,85 90,52 125,48 C160,44 175,68 210,62 C245,56 265,30 295,28 C325,26 345,50 380,46 C415,42 435,70 465,78 C495,86 520,100 550,95 L550,152 L40,152 Z" fill="url(#gF2)"/>
+                <path d="M40,90 C70,85 90,52 125,48 C160,44 175,68 210,62 C245,56 265,30 295,28 C325,26 345,50 380,46 C415,42 435,70 465,78 C495,86 520,100 550,95" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M40,102 C70,98 90,65 125,60 C160,55 175,78 210,74 C245,70 265,45 295,40 C325,35 345,60 380,57 C415,54 435,80 465,88 C495,96 520,108 550,105 L550,152 L40,152 Z" fill="url(#bF2)"/>
+                <path d="M40,102 C70,98 90,65 125,60 C160,55 175,78 210,74 C245,70 265,45 295,40 C325,35 345,60 380,57 C415,54 435,80 465,88 C495,96 520,108 550,105" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="40" y1="35" x2="550" y2="35" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+              </g>
+            </svg>
+          </div>
+          <div class="grid grid-cols-3 gap-3 mt-4">
+            <div class="text-center p-2.5 rounded-xl bg-brand-green/10 border border-brand-green/20">
+              <div class="text-brand-green font-black font-mono text-lg">87<span class="text-[11px]">kW</span></div>
+              <div class="text-[10px] text-brand-muted font-medium mt-0.5">Pico Medido</div>
+            </div>
+            <div class="text-center p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-white font-black font-mono text-lg">54<span class="text-[11px]">kW</span></div>
+              <div class="text-[10px] text-brand-muted font-medium mt-0.5">Média Semanal</div>
+            </div>
+            <div class="text-center p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
+              <div class="text-orange-400 font-black font-mono text-lg">100<span class="text-[11px]">kW</span></div>
+              <div class="text-[10px] text-brand-muted font-medium mt-0.5">Limite Contrato</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Text content -->
+        <div>
+          <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+            <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span>
+            Engenharia de Dados Elétricos
+          </span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+            Estudo de Viabilidade<br>
+            <span class="text-brand-green">e Curva de Carga</span>
+          </h2>
+          <p class="text-brand-muted text-lg leading-relaxed mb-8">
+            Antes de qualquer projeto corporativo ou industrial, realizamos análise técnica completa da infraestrutura existente — com medições certificadas pelo <span class="font-bold text-white">ICC</span> e relatórios de engenharia.
+          </p>
+          <ul class="space-y-3 mb-10">
+            <li class="flex items-center gap-3 text-brand-muted text-[15px]">
+              <div class="w-5 h-5 rounded-full bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3 h-3 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Estudo de viabilidade elétrica completo
+            </li>
+            <li class="flex items-center gap-3 text-brand-muted text-[15px]">
+              <div class="w-5 h-5 rounded-full bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3 h-3 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Análise detalhada de demanda e consumo
+            </li>
+            <li class="flex items-center gap-3 text-brand-muted text-[15px]">
+              <div class="w-5 h-5 rounded-full bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3 h-3 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Monitoramento contínuo de curva de carga
+            </li>
+            <li class="flex items-center gap-3 text-brand-muted text-[15px]">
+              <div class="w-5 h-5 rounded-full bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-3 h-3 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Medições com equipamentos certificados — ICC
+            </li>
+          </ul>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="viabilidade.html" class="inline-flex items-center justify-center gap-2.5 bg-brand-green text-brand-bg font-bold py-3.5 px-7 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 text-[14px]">
+              Ver Estudo Completo
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 border border-white/15 bg-white/5 text-brand-text font-bold py-3.5 px-7 rounded-2xl hover:bg-white/10 transition-all text-[14px]">
+              Solicitar Orçamento
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="voltage-line"></div>
+
+  <!-- ──────────────────────────────────────────
        CLIENTS SLIDER (PORTFÓLIO DE INSTALAÇÕES)
   ────────────────────────────────────────── -->
   <section id="clientes" class="bg-brand-bg py-24 sm:py-32 px-6 relative overflow-hidden text-white">
@@ -879,7 +1028,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center observe">
         <div class="relative group mb-20 lg:mb-0">
           <div class="rounded-[48px] overflow-hidden shadow-2xl shadow-brand-green/20">
-            <img src="IMAGENS/bruno.png" alt="Bruno, Fundador da VoltchZ"
+            <img src="IMAGENS/bruno.webp" alt="Bruno, Fundador da VoltchZ"
               class="w-full transform group-hover:scale-105 transition-transform duration-700" loading="lazy"
               width="600" height="800">
           </div>
@@ -1181,7 +1330,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         <!-- Brand -->
         <div class="flex flex-col gap-6">
-          <img src="IMAGENS/logo.png" alt="VoltchZ Brasil" class="h-8 w-auto self-start" loading="lazy">
+          <img src="IMAGENS/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto self-start" loading="lazy">
           <p class="text-brand-muted text-sm leading-relaxed max-w-[240px]">
             Infraestrutura de engenharia certificada para mobilidade elétrica. Segurança e inovação em cada recarga.
           </p>
