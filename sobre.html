@@ -20,9 +20,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://unpkg.com">
 
   <!-- CSS Base e Tailwind CDN -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
   <!-- Fontes do Google (Outfit e JetBrains Mono) -->
@@ -236,6 +238,38 @@
   </section>
 
   <!-- ──────────────────────────────────────────
+       NOSSA PRESENÇA (CIDADES + MAPA)
+  ────────────────────────────────────────── -->
+  <section id="presenca" class="py-24 px-6 bg-white text-slate-900">
+    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="observe">
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-6 tracking-tight">Nossa presença</h2>
+        <p class="text-slate-600 text-lg leading-relaxed mb-8">
+          A VoltchZ está presente em diversas regiões de São Paulo e Minas Gerais, com instalações nas
+          principais cidades do <span class="font-bold">Vale do Paraíba</span>, <span class="font-bold">Litoral
+            Norte</span> e <span class="font-bold">sul mineiro</span>, garantindo cobertura regional confiável.
+        </p>
+        <h3 class="text-xl font-bold mb-3">Mapa das cidades principais atendidas</h3>
+        <p class="text-sm text-slate-500 font-mono uppercase tracking-wider mb-4">Brasil — cidades principais</p>
+        <p class="text-slate-600 leading-relaxed">
+          <span class="font-semibold text-slate-800">Cidades principais atendidas:</span>
+          Arujá (SP), Atibaia (SP), Bragança Paulista (SP), Cachoeira Paulista (SP), Caçapava (SP),
+          Caraguatatuba (SP), Cerquilho (SP), Guararema (SP), Guarulhos (SP), Itajubá (MG), Jambeiro (SP),
+          Jacareí (SP), Mogi das Cruzes (SP), Pindamonhangaba (SP), Pouso Alegre (MG), Santa Rita do Sapucaí (MG),
+          Santo Antônio do Pinhal (SP), São Bento do Sapucaí (SP), São Francisco Xavier (SP), São José dos Campos (SP),
+          Taubaté (SP), Ubatuba (SP).
+        </p>
+      </div>
+      <div class="observe lg:sticky lg:top-24">
+        <div
+          class="rounded-[24px] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/60 min-h-[360px] lg:min-h-[480px]">
+          <div id="map-presenca" role="img" aria-label="Mapa das cidades onde a VoltchZ já atuou"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
        DIFERENCIAIS TABLE (COMPARATIVO)
   ────────────────────────────────────────── -->
   <section id="diferenciais" class="py-24 px-6 bg-slate-50">
@@ -357,14 +391,16 @@
       </div>
       <div
         class="flex flex-col items-center md:items-end gap-2 text-brand-muted text-[11px] font-bold tracking-widest uppercase">
-        <span>© 2025 VoltchZ Brasil · Todos os direitos reservados</span>
+        <span>© 2026 VoltchZ Brasil · Todos os direitos reservados</span>
         <span>São José dos Campos, SP.</span>
       </div>
     </div>
   </footer>
 
   <!-- Scripts de Interatividade -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/pages/sobre.js"></script>
 </body>
 
 </html>
