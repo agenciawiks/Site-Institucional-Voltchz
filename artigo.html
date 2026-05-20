@@ -70,6 +70,8 @@
           class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Sobre Nós</a>
         <a href="produtos.html"
           class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Produtos</a>
+        <a href="app.html"
+          class="text-[13.5px] font-medium text-brand-muted hover:text-brand-text hover:bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">App VoltchZ</a>
         <a href="blog.html"
           class="text-[13.5px] font-medium text-brand-text bg-white/5 px-3 py-1.5 rounded-lg transition-all duration-200">Blog</a>
         <a href="ferramentas.html"
@@ -102,6 +104,8 @@
       <a href="sobre.html" class="block py-4 text-brand-muted hover:text-brand-text border-b border-white/5 text-lg font-bold">Sobre Nós</a>
       <a href="produtos.html"
         class="block py-4 text-brand-muted hover:text-brand-text border-b border-white/5 text-lg font-bold">Produtos</a>
+      <a href="app.html"
+        class="block py-4 text-brand-muted hover:text-brand-text border-b border-white/5 text-lg font-bold">App VoltchZ</a>
       <a href="blog.html"
         class="block py-4 text-white border-b border-white/5 text-lg font-bold">Blog</a>
       <a href="ferramentas.html"
@@ -121,7 +125,7 @@
   <!-- ──────────────────────────────────────────
        CORPO DO LEITOR DE ARTIGO
   ────────────────────────────────────────── -->
-  <main class="pt-28 pb-20 px-6 bg-brand-bg relative min-h-[85vh] z-10">
+  <main class="pt-28 pb-20 px-6 bg-brand-bg relative z-10">
     <div class="max-w-[1200px] mx-auto">
 
       <!-- Breadcrumbs -->
@@ -152,56 +156,60 @@
       </nav>
 
       <!-- Chassis do Leitor -->
-      <article id="article-reader-chassis" class="hidden max-w-3xl mx-auto">
+      <article id="article-reader-chassis" class="hidden max-w-[800px] mx-auto">
         <!-- Cabeçalho do Artigo -->
-        <header class="mb-10 text-center sm:text-left border-b border-white/5 pb-8">
-          <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mb-4 text-xs font-mono text-brand-muted/70">
-            <span id="article-category-tag" class="px-3 py-1 rounded bg-brand-green/10 text-brand-green font-bold uppercase tracking-widest">
+        <header class="mb-10 border-b border-white/5 pb-8">
+          <div class="flex flex-wrap items-center gap-3 mb-5 text-xs font-mono text-brand-muted/70">
+            <span id="article-category-tag" class="px-3 py-1.5 rounded-lg bg-brand-green/10 text-brand-green font-bold uppercase tracking-widest border border-brand-green/20">
               Tema
             </span>
+            <span class="text-brand-muted/40">•</span>
             <span id="article-date">10 Fev, 2026</span>
-            <span>•</span>
-            <span id="article-read-time">5 min de leitura</span>
+            <span class="text-brand-muted/40">•</span>
+            <span id="article-read-time" class="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              5 min de leitura
+            </span>
           </div>
 
-          <h1 id="article-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight text-white mb-6">
+          <h1 id="article-title" class="text-2xl sm:text-3xl lg:text-[2.2rem] font-extrabold leading-tight tracking-tight text-white mb-8">
             Título do Artigo Técnico
           </h1>
 
           <!-- Perfil do Autor -->
-          <div class="flex items-center justify-center sm:justify-start gap-4 mt-6">
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center font-bold text-base text-brand-green">
-              BR
-            </div>
+          <div class="flex items-center gap-4">
+            <img src="IMAGENS/bruno.webp" alt="Bruno Riêra" loading="lazy"
+              class="w-12 h-12 rounded-full object-cover border-2 border-brand-green/30 flex-shrink-0">
             <div>
-              <p id="article-author" class="text-sm font-bold text-white">Autor</p>
-              <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/50 uppercase tracking-widest">Cargo do Autor</p>
+              <p id="article-author" class="text-sm font-bold text-white leading-tight">Bruno Riêra</p>
+              <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/60 uppercase tracking-widest mt-0.5">Diretor de Engenharia da VoltchZ Brasil</p>
             </div>
           </div>
         </header>
 
         <!-- Capa Técnica -->
-        <div class="relative w-full aspect-[21/9] rounded-[24px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl p-6 flex items-center justify-center mb-12">
-          <div id="article-media-container" class="w-full h-full max-w-md flex items-center justify-center">
+        <div class="relative w-full aspect-[16/5] rounded-[20px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl flex items-center justify-center mb-12">
+          <div id="article-media-container" class="w-full h-full flex items-center justify-center">
             <!-- SVG do Artigo -->
           </div>
+          <!-- Gradient overlay bottom -->
+          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-bg2 to-transparent pointer-events-none"></div>
         </div>
 
         <!-- Corpo Editorial Reativo -->
-        <div id="article-body-content" class="text-brand-text/90 text-sm sm:text-base leading-relaxed space-y-6">
+        <div id="article-body-content" class="text-brand-text/90 leading-relaxed min-h-0" style="min-height:auto;">
           <!-- Parágrafos, headers e blockquotes dinâmicos injetados por JS -->
         </div>
 
         <!-- Seção: Biografia do Autor no Fim da Leitura -->
-        <div class="mt-16 p-6 rounded-3xl bg-white/[0.01] border border-white/5 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-2xl observe">
-          <div class="w-16 h-16 rounded-full border border-brand-green/30 bg-brand-green/10 flex items-center justify-center font-bold text-xl text-brand-green flex-shrink-0">
-            BR
-          </div>
+        <div class="mt-16 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/8 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-2xl observe">
+          <img src="IMAGENS/bruno.webp" alt="Bruno Riêra" loading="lazy"
+            class="w-20 h-20 rounded-full object-cover border-2 border-brand-green/30 flex-shrink-0">
           <div class="text-center sm:text-left">
-            <h4 class="text-sm font-bold text-white mb-1">Bruno Riêra</h4>
-            <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Diretor de Engenharia & Especialista ITA</p>
-            <p class="text-xs text-brand-muted leading-relaxed">
-              Formado em Engenharia Eletrotécnica pelo ITA, Bruno lidera a equipe de dimensionamento de segurança elétrica da VoltchZ Brasil, desenvolvendo soluções exclusivas de proteção climática e balanceamento inteligente OCPP para frotas.
+            <h4 class="text-base font-bold text-white mb-1">Bruno Riêra</h4>
+            <p class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Diretor de Engenharia & Especialista ITA — VoltchZ Brasil</p>
+            <p class="text-sm text-brand-muted leading-relaxed">
+              Engenheiro Eletrotécnico formado pelo ITA (Instituto Tecnológico de Aeronáutica), Bruno lidera a equipe de dimensionamento e segurança elétrica da VoltchZ Brasil. Especialista em proteção ativa de circuitos, balanceamento de carga inteligente via OCPP e adequação de instalações às normas NBR 5410 e NBR 17019.
             </p>
           </div>
         </div>

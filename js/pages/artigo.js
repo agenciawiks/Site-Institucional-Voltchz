@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       switch (item.type) {
         case 'heading':
           blockHtml = `
-            <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-10 mb-4 pl-4 border-l-4 border-brand-green leading-tight observe">
+            <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-12 mb-5 pl-4 border-l-4 border-brand-green leading-tight observe">
               ${item.text}
             </h2>
           `;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         case 'paragraph':
           blockHtml = `
-            <p class="leading-relaxed text-brand-muted/90 text-sm sm:text-base mb-6 text-justify sm:text-left observe">
+            <p class="leading-[1.85] text-brand-muted/90 text-sm sm:text-base mb-7 text-justify sm:text-left observe">
               ${item.text}
             </p>
           `;

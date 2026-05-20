@@ -545,6 +545,24 @@ export const PRODUTOS = [
 
 // --- ARTIGOS EDITORIAIS DO BLOG ---
 
+/**
+ * Calcula tempo de leitura com base na contagem real de palavras do conteúdo.
+ * Média editorial: ~200 palavras por minuto.
+ */
+export const calcTempoLeitura = (conteudo) => {
+  const words = conteudo.reduce((total, block) => {
+    if (block.text) {
+      return total + block.text.trim().split(/\s+/).filter(Boolean).length;
+    }
+    if (block.items) {
+      return total + block.items.join(' ').trim().split(/\s+/).filter(Boolean).length;
+    }
+    return total;
+  }, 0);
+  const mins = Math.max(1, Math.ceil(words / 200));
+  return `${mins} min`;
+};
+
 export const ARTIGOS = [
   {
     id: 1,
@@ -555,7 +573,7 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '15 Abr, 2026',
-    tempoLeitura: '7 min',
+    tempoLeitura: '9 min',
     imagem: generateTechnicalSVG('estacoes', 'Lei nº 18.403', 'Legislação'),
     conteudo: [
       { type: 'heading', text: 'O Marco Legal dos Condomínios e a Mobilidade Elétrica' },
@@ -564,15 +582,22 @@ export const ARTIGOS = [
       { type: 'heading', text: 'Principais Mudanças e Direitos Assegurados pela Lei' },
       { type: 'paragraph', text: 'O ponto de partida mais importante da Lei nº 18.403 é que o proprietário de vaga privativa demarcada em garagem coletiva tem o direito legítimo de instalar um carregador individual de veículo elétrico. O condomínio não pode proibir a instalação de forma arbitrária, desde que o condômino arque com todos os custos do ramal individual e atenda aos requisitos técnicos exigidos pelo síndico.' },
       { type: 'list', items: [
-        'Direito de instalação individual em vagas privativas autônomas ou vinculadas.',
-        'Proibição de barramento injustificado por parte da administração do condomínio.',
-        'Obrigatoriedade de medição individualizada da energia gasta pelo carregador.',
-        'Necessidade de apresentação prévia de projeto técnico assinado por engenheiro habilitado.'
+        'Direito de instalação individual em vagas privativas autônomas ou vinculadas ao apartamento.',
+        'Proibição de barramento injustificado por parte da administração do condomínio sem embasamento técnico.',
+        'Obrigatoriedade de medição individualizada da energia gasta pelo carregador via medidor próprio.',
+        'Necessidade de apresentação prévia de projeto técnico assinado por engenheiro habilitado com ART registrada.',
+        'O custeio da obra de infraestrutura é integralmente de responsabilidade do condômino solicitante.',
+        'A administração tem até 60 dias para analisar e responder formalmente ao pedido de instalação.'
       ] },
       { type: 'blockquote', text: 'A segurança da infraestrutura do condomínio é prioritária. O direito à instalação existe, mas está condicionado à comprovação física de viabilidade técnica através de uma Anotação de Responsabilidade Técnica (ART).', author: 'Bruno Riêra' },
       { type: 'heading', text: 'Exigências Técnicas Obrigatórias e o Papel do Estudo de Viabilidade' },
-      { type: 'paragraph', text: 'Para exercer o direito de instalação, o morador ou a empresa contratada deve fornecer à administração do condomínio um dossiê técnico detalhado. Esse documento deve conter um Estudo de Viabilidade Elétrica completo, comprovando que o ramal individual não causará um desequilíbrio de fases e que o transformador geral suportará a nova demanda.' },
-      { type: 'paragraph', text: 'Na VoltchZ Brasil, realizamos este estudo in loco utilizando analisadores de curva de carga certificados pelo ICC (Intel Competence Center). Mapeamos a real capacidade do condomínio e fornecemos a documentação exata de engenharia com a respectiva ART, blindando legalmente o síndico e o morador contra quaisquer questionamentos jurídicos ou riscos operacionais.' }
+      { type: 'paragraph', text: 'Para exercer o direito de instalação, o morador ou a empresa contratada deve fornecer à administração do condomínio um dossiê técnico detalhado. Esse documento deve conter um Estudo de Viabilidade Elétrica completo, comprovando que o ramal individual não causará um desequilíbrio de fases e que o transformador geral suportará a nova demanda permanente.' },
+      { type: 'paragraph', text: 'Na VoltchZ Brasil, realizamos este estudo in loco utilizando analisadores de curva de carga certificados. Mapeamos a real capacidade do condomínio, analisamos o histórico de consumo de no mínimo 12 meses e fornecemos a documentação exata de engenharia com a respectiva ART, blindando legalmente o síndico e o morador contra quaisquer questionamentos jurídicos ou riscos operacionais.' },
+      { type: 'heading', text: 'Responsabilidade do Síndico e Penalidades pelo Descumprimento' },
+      { type: 'paragraph', text: 'A lei também é clara quanto às obrigações dos síndicos. Negar arbitrariamente, sem embasamento técnico devidamente documentado, o pedido de instalação de carregador por parte de condômino proprietário de vaga demarcada pode configurar abuso de poder administrativo e sujeitar o condomínio a responder judicialmente por danos materiais e morais ao morador.' },
+      { type: 'paragraph', text: 'Por outro lado, autorizar a instalação sem exigir a documentação técnica obrigatória — especialmente o projeto elétrico assinado e a ART — pode responsabilizar diretamente o síndico em caso de acidentes ou danos à infraestrutura predial comum. O equilíbrio está na conformidade técnica rigorosa, que protege todas as partes envolvidas.' },
+      { type: 'heading', text: 'Como a VoltchZ Atua no Processo de Conformidade Legal' },
+      { type: 'paragraph', text: 'Nossa equipe de engenharia atua em todas as etapas do processo de conformidade com a Lei nº 18.403: desde o levantamento técnico inicial da rede elétrica do condomínio, passando pelo dimensionamento do ramal dedicado e seleção dos dispositivos de proteção obrigatórios (DR Classe A ou B, DPS, disjuntor de Curva C), até a emissão da ART e entrega do relatório final para arquivo junto à administração condominial.' }
     ]
   },
   {
@@ -584,22 +609,26 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '08 Mar, 2026',
-    tempoLeitura: '8 min',
+    tempoLeitura: '10 min',
     imagem: generateTechnicalSVG('protecao', 'DR Tipo A vs B', 'Segurança'),
     conteudo: [
       { type: 'heading', text: 'O que é um Dispositivo DR e por que ele é crucial?' },
-      { type: 'paragraph', text: 'O Dispositivo Diferencial Residual (DR) é um item de segurança obrigatório em qualquer instalação elétrica de baixa tensão pela NBR 5410. Sua função primordial é monitorar a corrente que entra e sai de um circuito. Se houver qualquer fuga de corrente (como uma pessoa encostando em um fio desencapado ou uma falha de isolação no carregador), o DR detecta a anomalia em milissegundos e desarma o circuito instantaneamente, salvando vidas.' },
-      { type: 'paragraph', text: 'No entanto, a recarga de veículos elétricos introduz desafios muito específicos que a maioria dos eletricistas tradicionais ignora, gerando instalações clandestinas e de alto risco utilizando dispositivos DR inadequados.' },
+      { type: 'paragraph', text: 'O Dispositivo Diferencial Residual (DR) é um item de segurança obrigatório em qualquer instalação elétrica de baixa tensão pela NBR 5410. Sua função primordial é monitorar, em tempo real e de forma contínua, a corrente que entra e a que retorna de um circuito. Toda corrente que entra deve sair pelo mesmo caminho — se isso não acontecer, significa que houve fuga para terra, possivelmente passando pelo corpo de uma pessoa ou causando risco de incêndio.' },
+      { type: 'paragraph', text: 'Se houver qualquer fuga de corrente, o DR detecta a anomalia em milissegundos e desarma o circuito instantaneamente, salvando vidas. No entanto, a recarga de veículos elétricos introduz desafios muito específicos que a maioria dos eletricistas tradicionais simplesmente ignora, gerando instalações clandestinas e de altíssimo risco com dispositivos DR completamente inadequados para esta aplicação.' },
       { type: 'heading', text: 'Classificações dos Dispositivos DR: AC, A e B' },
-      { type: 'paragraph', text: 'Existem diferentes classes de DR, categorizados conforme o comportamento de onda de fuga que são capazes de identificar e interromper:' },
+      { type: 'paragraph', text: 'Existem diferentes classes de DR, categorizados conforme o tipo de onda de corrente de fuga que são capazes de identificar e interromper com segurança:' },
       { type: 'list', items: [
-        'DR Classe AC: O mais comum do mercado nacional. Detecta apenas correntes de fuga alternadas puras (senoidais). É absolutamente ineficaz para o carregamento de carros elétricos, pois o carregador do carro converte energia AC em DC e gera ruídos e fugas em corrente contínua pulsante que "cegam" o DR Classe AC, impedindo-o de desarmar em caso de acidente.',
-        'DR Classe A: Detecta correntes de fuga senoidais alternadas e também correntes de fuga contínuas pulsantes (comuns em inversores de frequência e fontes de veículos elétricos). É a classe recomendada e obrigatória de entrada para proteção de Wallboxes residenciais.',
-        'DR Classe B: O mais completo e caro do mercado. Detecta todos os tipos de fugas (alternadas senoidais, contínuas pulsantes e contínuas lisas puras em DC). É mandatório em redes trifásicas industriais de alta potência, carregadores comerciais OCPP rápidos e hubs públicos.'
+        'DR Classe AC: O mais comum e barato do mercado nacional. Detecta apenas correntes de fuga alternadas puras (senoidais). É absolutamente ineficaz para o carregamento de carros elétricos, pois o carregador do veículo converte a energia AC da tomada em DC para a bateria e gera fugas em corrente contínua pulsante que "cegam" completamente o DR Classe AC, impedindo-o de desarmar mesmo diante de um acidente grave.',
+        'DR Classe A: Detecta correntes de fuga senoidais alternadas e também correntes de fuga contínuas pulsantes (padrão em inversores e fontes chaveadas de veículos elétricos). É a classe recomendada e tecnicamente obrigatória como ponto de entrada mínimo para proteção de Wallboxes residenciais e comerciais monofásicos de até 7,4 kW.',
+        'DR Classe B: O mais completo e preciso do mercado. Detecta todos os tipos de fuga — alternadas senoidais, contínuas pulsantes e contínuas lisas puras (corrente DC limpa). É mandatório em redes trifásicas industriais de alta potência, carregadores comerciais OCPP rápidos (22 kW a 150 kW), hubs públicos e frota corporativa.'
       ] },
-      { type: 'blockquote', text: 'Utilizar um DR Classe AC em um carregador de veículo elétrico é o equivalente a não possuir nenhuma proteção. O DR sofrerá saturação magnética e não funcionará quando houver um choque.', author: 'Bruno Riêra' },
-      { type: 'heading', text: 'Qual escolher para o seu projeto?' },
-      { type: 'paragraph', text: 'Para instalações residenciais monofásicas de até 7,4 kW, os quadros de proteção da linha E-Wolf da VoltchZ saem de fábrica obrigatoriamente com DR Bipolar de Classe A (30mA). Para estações de 22 kW trifásicas ou pátios de recarga corporativos rápidos, integramos DR Classe A de alta sensibilidade ou DR Classe B, cumprindo à risca as rígidas normas internacionais IEC 61851-1 e IEC 62955.' }
+      { type: 'blockquote', text: 'Utilizar um DR Classe AC em um carregador de veículo elétrico é o equivalente a não possuir nenhuma proteção. O DR sofrerá saturação magnética e simplesmente não funcionará no momento mais crítico — quando houver um choque elétrico real.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'O Risco Real da Saturação DC no DR Tipo AC' },
+      { type: 'paragraph', text: 'O fenômeno técnico que explica a falha do DR Classe AC em instalações de EV se chama saturação magnética por componente DC. Qualquer corrente contínua mínima, mesmo que inferior a 6mA, que flua pelo núcleo toroidal do DR Classe AC satura permanentemente o núcleo magnético do dispositivo. Uma vez saturado, o transformador diferencial interno deixa de detectar qualquer variação de corrente — inclusive o choque elétrico fatal de uma pessoa.' },
+      { type: 'paragraph', text: 'Esse risco é real, documentado por laboratórios de certificação europeus como o PTB alemão e o KEMA holandês, e é exatamente por isso que a norma IEC 62955 (adotada internacionalmente para proteção de EVSEs) tornou obrigatório o DR Classe A como mínimo absoluto em qualquer ponto de recarga de veículo elétrico.' },
+      { type: 'heading', text: 'Como a VoltchZ Seleciona e Certifica os DRs dos seus Projetos' },
+      { type: 'paragraph', text: 'Para instalações residenciais monofásicas de até 7,4 kW, os quadros de proteção da linha E-Wolf da VoltchZ saem de fábrica obrigatoriamente equipados com DR Bipolar de Classe A com sensibilidade de 30mA, fabricados pela Schneider Electric ou ABB, marcas homologadas pelo INMETRO.' },
+      { type: 'paragraph', text: 'Para estações de 22 kW trifásicas em condomínios e pátios comerciais, integramos DR Tetrapolar Classe A de alta sensibilidade (10mA ou 30mA). Para pátios de recarga corporativos rápidos acima de 40 kW ou com múltiplos carregadores em paralelo, o projeto pode exigir DR Classe B para garantia total de proteção contra qualquer tipo de fuga — cumprindo integralmente as rigorosas normas IEC 61851-1 e IEC 62955.' }
     ]
   },
   {
@@ -611,21 +640,25 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '22 Fev, 2026',
-    tempoLeitura: '5 min',
+    tempoLeitura: '8 min',
     imagem: generateTechnicalSVG('protecao', 'Disjuntor Curvas C', 'Disjuntores'),
     conteudo: [
-      { type: 'heading', text: 'Dimensionamento para Cargas Contínuas' },
-      { type: 'paragraph', text: 'Diferente de um chuveiro elétrico ou de um forno de micro-ondas, que funcionam por poucos minutos de cada vez, o carregador de um carro elétrico é considerado uma carga contínua prolongada de altíssima exigência. Ele drenará a corrente nominal máxima (por exemplo, 32A de forma constante) por 4, 6 ou até 10 horas seguidas durante a madrugada.' },
-      { type: 'paragraph', text: 'Sob esse regime térmico e magnético rigoroso, qualquer erro de especificação no disjuntor de proteção geral gerará disparos térmicos indesejados devido ao calor acumulado nos bornes, além de risco crítico de derretimento do próprio painel.' },
-      { type: 'heading', text: 'Entendendo as Curvas de Disparo: B e C' },
-      { type: 'paragraph', text: 'Os disjuntores termomagnéticos residenciais se dividem fundamentalmente por curvas de atuação, que delimitam o tempo de atuação térmica (sobrecarga lenta) e magnética (curto-circuito instantâneo):' },
+      { type: 'heading', text: 'Por que a Recarga de EV Exige um Disjuntor Especial?' },
+      { type: 'paragraph', text: 'Diferente de um chuveiro elétrico ou de um forno de micro-ondas, que funcionam por poucos minutos de cada vez, o carregador de um carro elétrico é uma carga contínua prolongada de altíssima exigência. Ele drenará a corrente nominal máxima do circuito — por exemplo, 32A de forma absolutamente constante — por 4, 6 ou até 10 horas seguidas durante a madrugada, enquanto o proprietário dorme.' },
+      { type: 'paragraph', text: 'Sob esse regime térmico e magnético rigoroso e ininterrupto, qualquer erro de especificação no disjuntor de proteção geral gerará disparos térmicos indesejados devido ao calor acumulado nos bornes e na bimetálica interna do disjuntor. No pior cenário, um disjuntor subdimensionado ou de curva errada pode não disparar a tempo em situação de sobrecarga e permitir o aquecimento e derretimento do próprio cabeamento de alimentação.' },
+      { type: 'heading', text: 'Entendendo as Curvas de Disparo: B, C e D' },
+      { type: 'paragraph', text: 'Os disjuntores termomagnéticos residenciais e comerciais se dividem fundamentalmente por curvas de atuação, que delimitam o tempo de atuação térmica (proteção contra sobrecarga gradual) e magnética (proteção contra curto-circuito instantâneo):' },
       { type: 'list', items: [
-        'Curva B: Indicado para circuitos puramente resistivos (aquecedores, lâmpadas comuns, chuveiros). Dispara de 3 a 5 vezes a corrente nominal em curto-circuito.',
-        'Curva C: Indicado para cargas com motores indutivos e fontes chaveadas com pico de partida médio (ar-condicionado, bombas, carregadores elétricos potentes). Dispara entre 5 e 10 vezes a corrente nominal.',
-        'Curva D: Indicado para motores de pátios industriais pesados e transformadores de grande porte com altos picos de partida instantâneos.'
+        'Curva B: Indicado para circuitos puramente resistivos (aquecedores a resistência, lâmpadas incandescentes, chuveiros). Dispara de 3 a 5 vezes a corrente nominal em situação de curto-circuito. Totalmente inadequado para recargas de EV, pois a corrente de partida de um EVSE pode causar falsas viagens.',
+        'Curva C: Indicado para cargas com componentes indutivos e fontes chaveadas com pico de partida moderado (ar-condicionado, motores pequenos, carregadores EVSE potentes). Dispara entre 5 e 10 vezes a corrente nominal. É a curva correta e obrigatória para disjuntores de circuito dedicado de carregadores de EV.',
+        'Curva D: Indicado para motores industriais pesados e transformadores de grande porte com altíssimos picos de partida instantâneos (7 a 10 vezes). Desnecessário e contraindicado para instalações EVSE residenciais e comerciais padrão.'
       ] },
-      { type: 'paragraph', text: 'Para a proteção de Wallboxes, o disjuntor adequado é o de Curva C. No entanto, o detalhe mais importante não é apenas a curva, mas a capacidade de ruptura em curto-circuito (medida em kA) e o fator de correção de agrupamento.' },
-      { type: 'blockquote', text: 'Ao projetar o painel E-Wolf, aplicamos um fator de sobredimensionamento térmico de 25% na carcaça e fixação dos disjuntores gerais de Curva C de alta capacidade de ruptura (6kA/10kA), prevenindo disparos falsos causados por calor e protegendo a fiação interna contra envelhecimento precoce.', author: 'Bruno Riêra' }
+      { type: 'blockquote', text: 'Ao projetar o painel E-Wolf, aplicamos um fator de sobredimensionamento térmico de 25% na carcaça e nos bornes de fixação dos disjuntores gerais de Curva C de alta capacidade de ruptura (6kA ou 10kA), prevenindo disparos falsos causados por acúmulo de calor e protegendo a fiação interna contra envelhecimento prematuro do isolamento.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'Capacidade de Ruptura: O Parâmetro que Ninguém Vê na Etiqueta' },
+      { type: 'paragraph', text: 'Além da curva de disparo e da corrente nominal, existe um terceiro parâmetro crítico e frequentemente ignorado pelos instaladores amadores: a capacidade de ruptura em curto-circuito (Icu), medida em kA. Esse valor representa a máxima corrente de defeito que o disjuntor consegue interromper com segurança sem explodir internamente.' },
+      { type: 'paragraph', text: 'Em condomínios e edifícios comerciais com transformadores de maior potência, as correntes prospectivas de curto-circuito podem alcançar 10kA ou 15kA nos pontos de distribuição mais próximos do trafo. Instalar um disjuntor com Icu de apenas 3kA nesse cenário representa risco de explosão do dispositivo em caso de falha grave.' },
+      { type: 'heading', text: 'Fator de Agrupamento e Temperatura Ambiente' },
+      { type: 'paragraph', text: 'Outro ponto negligenciado é o fator de correção de agrupamento e temperatura. Quando múltiplos disjuntores são instalados lado a lado em um quadro fechado, o calor acumulado de todos eles juntos eleva a temperatura interna do painel. Isso reduz efetivamente a corrente que cada disjuntor consegue conduzir sem disparar por temperatura. Um disjuntor de 32A em um painel com 6 disjuntores agrupados em temperatura ambiente de 35°C precisa ser recalculado para garantir que não haja disparo falso.' }
     ]
   },
   {
@@ -637,21 +670,24 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '10 Fev, 2026',
-    tempoLeitura: '6 min',
+    tempoLeitura: '8 min',
     imagem: generateTechnicalSVG('suportes', 'Seção de Cabos', 'Cabo Elétrico'),
     conteudo: [
-      { type: 'heading', text: 'Por que o cálculo padrão do eletricista pode queimar seu carro?' },
-      { type: 'paragraph', text: 'Um dos erros mais graves que encontramos em pátios de condomínio e garagens privativas é o subdimensionamento da fiação de cobre alimentadora do carregador. Muitos instaladores amadores utilizam cabos de 4 mm² ou 6 mm² para distâncias de 30 ou 40 metros sob corrente constante de 32A, baseando-se apenas em tabelas genéricas de condução de corrente de curta duração.' },
-      { type: 'paragraph', text: 'Em circuitos longos operando como cargas contínuas prolongadas, um fator crítico entra em cena: a queda de tensão. A resistência do cobre gera perdas na forma de calor, reduzindo a tensão que chega ao carregador de 220V para 195V ou menos. Isso gera perda de eficiência de recarga, aquecimento extremo do eletroduto e falhas frequentes de comunicação interna do carro.' },
-      { type: 'heading', text: 'Calculando a seção nominal correta dos condutores' },
-      { type: 'paragraph', text: 'Conforme preceitos da engenharia elétrica e a norma NBR 5410, a queda de tensão máxima admissível em ramais de força é de 4%. Para um carregador de 32A operando a mais de 25 metros do quadro geral, a seção nominal mínima do cabo deve ser recalculada de 6 mm² para 10 mm² ou 16 mm², dependendo estritamente do trajeto e método de instalação.' },
+      { type: 'heading', text: 'Por que o cálculo padrão do eletricista pode comprometer sua instalação?' },
+      { type: 'paragraph', text: 'Um dos erros mais graves e frequentes que encontramos em pátios de condomínio, garagens de casas e instalações comerciais é o subdimensionamento da fiação de cobre alimentadora do carregador. Muitos instaladores sem formação técnica específica utilizam cabos de 4 mm² ou 6 mm² para distâncias de 30 ou 40 metros sob corrente constante de 32A, baseando-se apenas em tabelas genéricas de condução de corrente de curta duração.' },
+      { type: 'paragraph', text: 'Em circuitos longos operando como cargas contínuas prolongadas, um fator crítico entra em cena e invalida completamente esse cálculo simplificado: a queda de tensão ao longo do condutor. A resistência ôhmica do cobre gera perdas que se manifestam como aquecimento do cabo e redução da tensão que efetivamente chega ao carregador.' },
+      { type: 'heading', text: 'O Impacto Real da Queda de Tensão no Desempenho do Carregador' },
+      { type: 'paragraph', text: 'Se a tensão cair de 220V para 190V no terminal do EVSE, as consequências são múltiplas e sérias: a potência de carga efetiva cai proporcionalmente ao quadrado da tensão (lei de Joule), aumentando dramaticamente o tempo de recarga completa da bateria. O sistema de comunicação de baixa tensão (piloto CP e PP) do protocolo IEC 61851 pode apresentar erros de comunicação ou simplesmente não reconhecer o carregador como compatível, encerrando a sessão forçosamente.' },
       { type: 'list', items: [
-        'Abaixo de 15 metros: Cabo de cobre de 6 mm² (regime de 32A em eletroduto exclusivo).',
-        'De 15 a 35 metros: Cabo de cobre de 10 mm² (fator de segurança contra perdas magnéticas).',
-        'Acima de 35 metros: Cabo de cobre de 16 mm² ou superior (reduz perdas e previne quedas de tensão).'
+        'Abaixo de 15 metros e 32A: Cabo de cobre de 6 mm² em eletroduto exclusivo e ventilado.',
+        'De 15 a 30 metros e 32A: Cabo de cobre de 10 mm² (reduz drasticamente queda de tensão).',
+        'De 30 a 50 metros e 32A: Cabo de cobre de 16 mm² (garante quedas abaixo de 3%, conforme NBR 5410).',
+        'Acima de 50 metros e 32A: Cabo de cobre de 25 mm² ou instalação de segundo quadro de distribuição intermediário.'
       ] },
-      { type: 'blockquote', text: 'Bitola de cabo não se escolhe por palpite; calcula-se combinando limite de corrente, temperatura do ambiente e queda de tensão percentual ao longo da linha.', author: 'Bruno Riêra' },
-      { type: 'paragraph', text: 'Na VoltchZ Brasil, todo projeto técnico passa por uma simulação de engenharia no computador para prever exatamente as perdas térmicas e dimensionar com precisão cirúrgica a seção de cabos apropriada. Isso garante uma operação silenciosa, segura e sem dissipação de calor inútil em sua conta de luz.' }
+      { type: 'blockquote', text: 'Bitola de cabo não se escolhe por palpite nem por tabela genérica; ela se calcula combinando a corrente nominal contínua do circuito, a temperatura máxima do ambiente, o método de instalação (eletroduto, cabo livre, enterrado) e a queda de tensão percentual máxima admissível ao longo do percurso.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'Método de Instalação: Eletroduto, Calha ou Enterrado' },
+      { type: 'paragraph', text: 'O método de instalação do cabo afeta diretamente sua capacidade de condução de corrente. Cabos em eletroduto fechado têm menor dissipação térmica e menor capacidade de corrente comparados ao mesmo cabo instalado ao ar livre. Cabos enterrados em solo têm capacidade de corrente intermediária, mas exigem proteção mecânica adequada (eletroduto rígido de PVC ou PEAD) e respeito às profundidades mínimas estabelecidas pela NBR 5410.' },
+      { type: 'paragraph', text: 'Na VoltchZ Brasil, todo projeto técnico passa por uma simulação computacional de engenharia para prever com precisão as perdas ôhmicas, o perfil de temperatura do cabo sob carga máxima e a queda de tensão percentual no ponto mais desfavorável do circuito. Isso garante uma operação silenciosa, eficiente e em plena conformidade com as normas brasileiras vigentes.' }
     ]
   },
   {
@@ -663,20 +699,24 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '28 Jan, 2026',
-    tempoLeitura: '6 min',
+    tempoLeitura: '8 min',
     imagem: generateTechnicalSVG('estacoes', 'Gestão de Frotas', 'OCPP Cloud'),
     conteudo: [
-      { type: 'heading', text: 'O Desafio da Recarga de Frotas Simultânea' },
-      { type: 'paragraph', text: 'Quando uma empresa resolve substituir 10 ou 15 veículos de combustão por modelos elétricos de entrega ou transporte corporativo, a primeira pergunta que surge é: como carregar todos esses carros juntos ao final do expediente sem derrubar a energia da sede corporativa e sem pagar multas astronômicas de pico de demanda para a concessionária?' },
-      { type: 'paragraph', text: 'Instalar simplesmente 15 carregadores independentes de 22 kW pode resultar em uma demanda instantânea teórica de 330 kW — o suficiente para exigir a contratação de uma nova cabine primária e altos investimentos em transformadores dedicados. A solução inteligente passa por segurança e controle via software.' },
-      { type: 'heading', text: 'Equilíbrio Dinâmico de Carga (Smart Charging) e OCPP' },
-      { type: 'paragraph', text: 'Através do protocolo de comunicação universal OCPP 1.6J, as estações E-Wolf da VoltchZ se comunicam com plataformas na nuvem, permitindo que a empresa controle em tempo real as recargas de forma centralizada:' },
+      { type: 'heading', text: 'O Desafio da Recarga Simultânea de Frotas Corporativas' },
+      { type: 'paragraph', text: 'Quando uma empresa decide substituir 10 ou 15 veículos de combustão por modelos elétricos de entrega ou transporte corporativo, a primeira pergunta que surge no departamento de operações é inevitável: como carregar todos esses carros juntos ao final do expediente sem derrubar a energia da sede corporativa e sem pagar multas astronômicas de pico de demanda para a concessionária distribuidora de energia?' },
+      { type: 'paragraph', text: 'Instalar simplesmente 15 carregadores independentes de 22 kW pode resultar em uma demanda instantânea teórica de 330 kW — o suficiente para exigir a contratação emergencial de uma nova cabine primária de alta tensão, com investimentos em transformadores dedicados na casa dos R$ 800 mil a R$ 1,2 milhão. A solução tecnicamente correta e economicamente viável passa obrigatoriamente por segurança ativa e controle inteligente de carga via software.' },
+      { type: 'heading', text: 'Equilíbrio Dinâmico de Carga (Smart Charging) e Protocolo OCPP' },
+      { type: 'paragraph', text: 'Através do protocolo de comunicação universal OCPP 1.6J (Open Charge Point Protocol), as estações de carregamento da linha E-Wolf da VoltchZ se comunicam em tempo real com plataformas de gestão na nuvem, permitindo que o gestor da frota controle de forma centralizada todas as recargas simultâneas:' },
       { type: 'list', items: [
-        'Balanceamento Dinâmico de Carga: Distribui a potência disponível na fábrica entre os carros conectados de forma equitativa. Se há apenas 1 carro, ele consome a potência máxima (22 kW). Se conectam 10 carros, o sistema divide a potência de acordo com o limite de demanda seguro pré-configurado.',
-        'Priorização por Rota: O administrador da frota pode selecionar no painel quais carros precisam sair mais cedo no dia seguinte, direcionando maior potência de carga prioritária para as baterias desses veículos.',
-        'Redução do Custo Operacional: Permite programar recargas nas janelas de menor tarifa de energia da indústria.'
+        'Balanceamento Dinâmico de Carga (Smart Load Management): Distribui a potência disponível na fábrica ou sede corporativa entre os veículos conectados de forma equitativa e automática. Se há apenas 1 carro, ele recebe a potência máxima (22 kW). Se conectam 10 carros, o sistema distribui a potência de acordo com o limite de demanda seguro pré-configurado pelo gestor.',
+        'Priorização Inteligente por Rota: O administrador da frota pode indicar no painel de controle web quais veículos precisam sair mais cedo no dia seguinte, e o sistema direciona automaticamente maior potência de carga para esses veículos de forma prioritária.',
+        'Programação por Janela Tarifária: Permite configurar o início das recargas para as madrugadas, aproveitando as tarifas de energia mais baixas nos horários fora de pico da concessionária.',
+        'Relatórios de Consumo por Veículo: Controle individualizado do kWh consumido por cada veículo da frota, facilitando o rateio de custos entre departamentos ou projetos específicos.'
       ] },
-      { type: 'blockquote', text: 'A chave para eletrificar frotas eficientemente não é contratar mais energia com a concessionária; é gerenciar a energia disponível com inteligência e controle ativo.', author: 'Bruno Riêra' }
+      { type: 'blockquote', text: 'A chave para eletrificar frotas corporativas com eficiência real não está em contratar mais energia da concessionária. Está em gerenciar a energia disponível com inteligência ativa, automação e controle de dados em tempo real.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'Segurança Operacional: Controle de Acesso e Autenticação' },
+      { type: 'paragraph', text: 'Para frotas corporativas privadas, a segurança operacional é tão importante quanto a eficiência energética. As estações E-Wolf suportam autenticação por RFID (cartão de aproximação único por motorista), QR Code via aplicativo VoltchZ Mobile e PIN individualizado. Isso significa que apenas motoristas autorizados conseguem iniciar sessões de carregamento, eliminando o uso indevido da infraestrutura corporativa por terceiros.' },
+      { type: 'paragraph', text: 'Todos os dados de autenticação, tempo de sessão, energia consumida e custo calculado são registrados na nuvem em tempo real, com exportação de relatórios em CSV ou PDF para integração com sistemas de gestão de frotas (TMS) e softwares de contabilidade corporativa.' }
     ]
   },
   {
@@ -684,20 +724,28 @@ export const ARTIGOS = [
     slug: 'segundo-a-abve-numeros-indicam-transformacao-mercado-veiculos-eletrificados',
     titulo: 'Segundo a ABVE, o mercado de veículos eletrificados vive uma transformação no Brasil',
     categoria: 'Mercado',
-    resumo: 'Análise detalhada do crescimento exponencial das vendas de EVs no mercado nacional e a demanda urgente por engenharia de infraestrutura elétrica.',
+    resumo: 'Análise detalhada do crescimento exponencial das vendas de EVs no mercado nacional e a demanda urgente por engenharia de infraestrutura elétrica qualificada.',
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '15 Jan, 2026',
-    tempoLeitura: '5 min',
+    tempoLeitura: '7 min',
     imagem: generateTechnicalSVG('estacoes', 'Estatísticas ABVE', 'Dados Mercado'),
     conteudo: [
-      { type: 'heading', text: 'Crescimento Histórico e o Boom dos Veículos Híbridos e Elétricos' },
-      { type: 'paragraph', text: 'Os relatórios de dados divulgados pela Associação Brasileira do Veículo Elétrico (ABVE) confirmam o que já se nota visivelmente nas ruas das principais capitais e cidades do país: o mercado brasileiro está atravessando uma transição energética acelerada e sem volta para a mobilidade sustentável.' },
-      { type: 'paragraph', text: 'O crescimento das vendas de carros elétricos (BEV) e híbridos plug-in (PHEV) rompeu todas as previsões conservadoras anteriores. Essa nova realidade mercadológica traz à tona um funil técnico dramático: a velocidade de aquisição de veículos pelos motoristas é muito superior à velocidade de instalação de carregadores confiáveis nas garagens de condomínio e rodovias nacionais.' },
-      { type: 'heading', text: 'O Gargalo da Infraestrutura: De Onde Virá a Energia?' },
-      { type: 'paragraph', text: 'Para cada 10 carros elétricos novos que entram em circulação no mercado, é necessário ao menos 1 ponto de carregamento rápido público e cerca de 9 carregadores residenciais fixos instalados nas vagas de garagens de residências e condomínios.' },
-      { type: 'paragraph', text: 'Se as redes elétricas prediais existentes não forem adequadas profissionalmente com sistemas modernos de segurança ativa e estudos de viabilidade criteriosos, o país poderá vivenciar apagões pontuais de pátios e queima de transformadores comuns.' },
-      { type: 'blockquote', text: 'A mobilidade elétrica no Brasil já é realidade comercial consagrada. Agora, o grande desafio nacional migrou do pátio das concessionárias de veículos para a engenharia civil e elétrica de infraestrutura predial de recarga.', author: 'Bruno Riêra' }
+      { type: 'heading', text: 'Crescimento Histórico e o Boom dos Veículos Elétricos no Brasil' },
+      { type: 'paragraph', text: 'Os relatórios e dados divulgados pela Associação Brasileira do Veículo Elétrico (ABVE) confirmam com números concretos o que já se nota visivelmente nas ruas das principais capitais e rodovias do país: o mercado brasileiro está atravessando uma transição energética acelerada, estrutural e sem volta rumo à mobilidade sustentável de baixo carbono.' },
+      { type: 'paragraph', text: 'O crescimento das vendas de carros totalmente elétricos (BEV) e híbridos plug-in (PHEV) rompeu todas as projeções conservadoras que analistas do setor faziam apenas 4 anos atrás. Essa nova realidade mercadológica coloca em evidência um gargalo técnico dramático e urgente: a velocidade de aquisição de novos veículos pelos motoristas e frotistas está muito à frente da velocidade de instalação de carregadores confiáveis, homologados e seguros nas garagens de condomínios, rodovias e pontos comerciais de todo o país.' },
+      { type: 'heading', text: 'Os Números que Confirmam a Transformação' },
+      { type: 'list', items: [
+        'O Brasil ultrapassou a marca de 100.000 veículos elétricos em circulação, com taxa de crescimento anual superior a 85% em 2023.',
+        'São Paulo concentra mais de 40% da frota nacional de EVs, pressionando a infraestrutura de carregamento da maior cidade do hemisfério sul.',
+        'O mercado de Wallboxes residenciais e comerciais cresceu 220% em volume de instalações em apenas 2 anos.',
+        'A ABVE estima que o Brasil precisará de mais de 500.000 pontos de recarga instalados até 2030 para atender a demanda prevista.',
+        'Apenas 18% dos novos proprietários de EVs no Brasil têm acesso a um carregador instalado tecnicamente de forma correta.'
+      ] },
+      { type: 'blockquote', text: 'A mobilidade elétrica no Brasil já é realidade comercial consolidada e irreversível. Agora, o grande desafio nacional migrou do pátio das concessionárias de veículos para as garagens, os condomínios e as rodovias — onde a engenharia elétrica de qualidade é absolutamente indispensável.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'O Gargalo Real: Falta de Engenharia Qualificada para Infraestrutura de Recarga' },
+      { type: 'paragraph', text: 'Para cada 10 carros elétricos novos que entram em circulação no mercado nacional, é necessário ao menos 1 ponto de carregamento rápido público e cerca de 9 carregadores residenciais e condominiais fixos instalados nas vagas de garagens. Se as redes elétricas prediais existentes não forem adequadas com sistemas modernos de segurança ativa, proteção DR Classe A ou B e estudos de viabilidade criteriosos, o país poderá vivenciar apagões pontuais e queima de transformadores prediais.' },
+      { type: 'paragraph', text: 'A VoltchZ Brasil nasceu exatamente para preencher esse vácuo de engenharia qualificada e responsabilidade técnica no setor. Nossa missão é que cada veículo elétrico que chegar ao Brasil tenha um ponto de carregamento seguro, eficiente e legal esperando por ele em casa, no trabalho ou na estrada.' }
     ]
   },
   {
@@ -709,21 +757,25 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '03 Jan, 2026',
-    tempoLeitura: '4 min',
+    tempoLeitura: '6 min',
     imagem: generateTechnicalSVG('suportes', 'Eletropostos Comerciais', 'Fidelização'),
     conteudo: [
-      { type: 'heading', text: 'O Novo Critério de Decisão do Consumidor' },
-      { type: 'paragraph', text: 'Imagine que o proprietário de um veículo elétrico premium está planejando uma viagem de final de semana com a família. Ao pesquisar pousadas ou hotéis no local de destino, qual será o seu primeiro critério excludente de escolha?' },
-      { type: 'paragraph', text: 'Se o estabelecimento de hospedagem não dispõe de carregador para veículos elétricos em sua garagem privativa, o cliente simplesmente excluirá o hotel da lista de opções, optando pelo concorrente direto que oferece essa comodidade. Este é o poder do carregamento como conveniência ativa.' },
-      { type: 'heading', text: 'Carregamento como serviço de valor agregado' },
-      { type: 'paragraph', text: 'Oferecer recargas rápidas e seguras no estacionamento atrai clientes altamente qualificados e prolonga o tempo de permanência de consumo em lojas, restaurantes e academias de ginástica.' },
+      { type: 'heading', text: 'O Novo Critério de Decisão do Consumidor de EV' },
+      { type: 'paragraph', text: 'Imagine que o proprietário de um veículo elétrico premium está planejando uma viagem de final de semana com a família para o litoral ou a serra. Ao pesquisar pousadas, hotéis ou resorts no destino escolhido, qual será o seu primeiro critério de exclusão ao comparar as opções disponíveis?' },
+      { type: 'paragraph', text: 'A resposta é simples e direta: se o estabelecimento não dispõe de carregador para veículos elétricos em sua garagem privativa, o cliente simplesmente o elimina da lista de consideração sem pensar duas vezes, optando pelo concorrente que oferece essa comodidade essencial. Este é o poder disruptivo e crescente do carregamento como fator de conveniência ativa na decisão de compra e fidelização de clientes qualificados.' },
+      { type: 'heading', text: 'Carregamento como Serviço de Valor Agregado e Nova Receita' },
+      { type: 'paragraph', text: 'Estabelecimentos que já instalaram pontos de recarga EV em seus estacionamentos relatam efeitos positivos concretos e mensuráveis em suas operações comerciais:' },
       { type: 'list', items: [
-        'Atração e fidelização de um nicho demográfico de alto poder aquisitivo.',
-        'Mapeamento do estabelecimento no mapa dos principais aplicativos de rotas de EVs.',
-        'Possibilidade de monetizar a recarga, criando uma nova linha de faturamento líquido.',
-        'Geração de marketing positivo associado a ESG e sustentabilidade corporativa real.'
+        'Atração e fidelização consistente de um nicho demográfico de alto poder aquisitivo e alta propensão a consumo.',
+        'Aumento médio de 35% a 55% no tempo de permanência de clientes durante a recarga (mais tempo dentro da loja, restaurante ou hotel gerando consumo).',
+        'Cadastro automático do estabelecimento como Eletroposto nos principais aplicativos de rota e navegação para EVs (VoltchZ, ABREVE, Plugshare).',
+        'Possibilidade real de monetizar o serviço de recarga, cobrando um valor por kWh carregado ou por hora de conexão, criando uma nova linha de receita operacional.',
+        'Geração espontânea de marketing positivo associado a ESG, sustentabilidade e inovação tecnológica, sem custo adicional de comunicação.',
+        'Diferenciação competitiva duradoura frente a concorrentes que ainda não investiram em infraestrutura de mobilidade elétrica.'
       ] },
-      { type: 'blockquote', text: 'A recarga de carros elétricos em comércios deixou de ser um diferencial inovador para se consolidar como infraestrutura básica obrigatória de atração.', author: 'Bruno Riêra' }
+      { type: 'blockquote', text: 'A recarga de carros elétricos em estabelecimentos comerciais deixou definitivamente de ser um diferencial de inovação para se consolidar como infraestrutura básica obrigatória de atração e retenção de clientes de alto valor.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'O ROI Real de um Eletroposto Comercial' },
+      { type: 'paragraph', text: 'Com base em projetos instalados pela VoltchZ Brasil em hotéis, restaurantes e redes de varejo, um eletroposto comercial de 22 kW bem posicionado, com cobrança por kWh, apresenta retorno sobre o investimento em um prazo médio de 18 a 30 meses, dependendo do fluxo de veículos elétricos na região e do modelo de monetização escolhido pelo estabelecimento.' }
     ]
   },
   {
@@ -735,21 +787,25 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '18 Dez, 2025',
-    tempoLeitura: '6 min',
+    tempoLeitura: '9 min',
     imagem: generateTechnicalSVG('estacoes', 'TCO e Economia', 'Finanças EV'),
     conteudo: [
-      { type: 'heading', text: 'Custo por quilômetro rodado: Carro elétrico vs Gasolina' },
-      { type: 'paragraph', text: 'Apesar de apresentarem um valor de compra inicial mais alto nas lojas, os carros elétricos trazem benefícios financeiros absurdos na planilha de custos operacionais do usuário ou frotista comercial. O principal pilar de economia é o custo do quilômetro rodado (combustível contra energia).' },
-      { type: 'paragraph', text: 'Enquanto rodar 100 km com um veículo popular a combustão rodando a gasolina consome cerca de R$ 55,00 a R$ 65,00 em média de combustível nas capitais brasileiras, rodar a mesma distância com um veículo elétrico de bateria equivalente custa cerca de R$ 12,00 a R$ 15,00 na tarifa residencial de energia elétrica, proporcionando redução imediata de gastos.' },
-      { type: 'heading', text: 'Total Cost of Ownership (TCO) e Custos de Manutenção Extintos' },
-      { type: 'paragraph', text: 'Outro fator essencial a favor do carro elétrico é a economia de tempo e dinheiro com manutenção periódica preventiva. Em um motor a combustão, existem milhares de partes móveis críticas sob altíssima pressão e temperatura. No motor elétrico de bateria, a complexidade mecânica é ínfima:' },
+      { type: 'heading', text: 'Custo por Quilômetro Rodado: Elétrico versus Gasolina' },
+      { type: 'paragraph', text: 'Apesar de apresentarem um valor de aquisição inicial mais elevado nas concessionárias, os carros elétricos trazem benefícios financeiros expressivos e mensuráveis na planilha de custos operacionais ao longo da vida útil do veículo. O principal e mais imediato pilar de economia é o custo do combustível por quilômetro rodado.' },
+      { type: 'paragraph', text: 'Enquanto percorrer 100 km com um veículo popular a combustão abastecido com gasolina comum consome entre R$ 55,00 e R$ 72,00 nas capitais brasileiras (com gasolina a R$ 6,00/litro e consumo de 10 a 12 km/l), percorrer a mesma distância com um veículo elétrico de eficiência equivalente custa entre R$ 10,00 e R$ 18,00 na tarifa residencial de energia elétrica, representando uma redução de custo de 70% a 85% no item combustível.' },
+      { type: 'heading', text: 'Total Cost of Ownership (TCO) e Manutenção Quase Nula' },
+      { type: 'paragraph', text: 'Além da economia imediata em combustível, o TCO (Custo Total de Propriedade) de um veículo elétrico ao longo de 5 anos é significativamente inferior ao de um equivalente a combustão. O principal componente dessa vantagem é a drástica redução de custos de manutenção preventiva e corretiva.' },
       { type: 'list', items: [
-        'Sem filtros de óleo, óleos lubrificantes, velas, correia dentada, bicos injetores e juntas.',
-        'Extinção do sistema de escape e catalisadores complexos.',
-        'Altíssima durabilidade técnica do sistema de freios devido ao sistema de frenagem regenerativa.',
-        'Isenção ou descontos significativos de IPVA em diversos estados da federação brasileira.'
+        'Eliminação completa de trocas de óleo lubrificante, filtros de óleo, velas de ignição, correias dentadas e de alternador.',
+        'Extinção do sistema de escape, catalisadores e filtros de partículas (itens caros e sujeitos a corrosão e falhas mecânicas).',
+        'Redução de 60% a 80% no desgaste e custo dos freios devido ao sistema de frenagem regenerativa que recupera energia e alivia os discos mecânicos.',
+        'Isenção ou desconto significativo de IPVA em São Paulo (50% de desconto para híbridos e isenção total para elétricos puros em vários estados).',
+        'Redução de gastos com estacionamento e pedágio em cidades como São Paulo e Rio de Janeiro, que oferecem benefícios tarifários para EVs.'
       ] },
-      { type: 'blockquote', text: 'A transição para a mobilidade elétrica faz sentido técnico absoluto e, sobretudo, sentido econômico e de fluxo de caixa para empresas frotistas.', author: 'Bruno Riêra' }
+      { type: 'blockquote', text: 'Quando se considera o TCO real ao longo de 60 meses de propriedade, incluindo combustível, manutenção, seguros e benefícios fiscais, o veículo elétrico apresenta vantagem financeira total sobre o equivalente a combustão a partir do 2º ou 3º ano de uso — muito antes do que a maioria das pessoas imagina.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'Simulação de Payback para Frotistas Corporativos' },
+      { type: 'paragraph', text: 'Para empresas com frotas de 5 ou mais veículos, a vantagem do EV é ainda mais dramática. Uma empresa que substitui 10 utilitários de combustão por modelos elétricos equivalentes pode economizar entre R$ 180.000 e R$ 280.000 anuais apenas em combustível e manutenção, sem contar os benefícios de imagem ESG e as isenções de impostos estaduais.' },
+      { type: 'paragraph', text: 'A infraestrutura de carregamento corporativo para 10 veículos, instalada com qualidade pela VoltchZ Brasil incluindo o sistema Smart Charging via OCPP, custa entre R$ 85.000 e R$ 140.000 dependendo da localização e potência selecionada — representando payback total da infraestrutura em menos de 8 meses de operação.' }
     ]
   },
   {
@@ -761,22 +817,32 @@ export const ARTIGOS = [
     autor: 'Bruno Riêra',
     cargo: 'Diretor de Engenharia da VoltchZ Brasil',
     data: '02 Dez, 2025',
-    tempoLeitura: '7 min',
+    tempoLeitura: '9 min',
     imagem: generateTechnicalSVG('protecao', 'Solar + EV', 'Sustentabilidade'),
     conteudo: [
-      { type: 'heading', text: 'Gerando Combustível Gratuito no Telhado de Casa' },
-      { type: 'paragraph', text: 'A maior promessa de liberdade do veículo elétrico reside na possibilidade de não depender de nenhum tipo de postos de combustível físico ou cartéis comerciais. Ao integrar uma planta de microgeração fotovoltaica no telhado de sua residência ou empresa, o usuário passa a produzir eletricidade limpa a custo marginal zero a partir da radiação solar.' },
-      { type: 'paragraph', text: 'Essa energia solar produzida durante o dia é injetada na rede da concessionária e retorna em créditos de energia que abastecem o carregador à noite, anulando por completo o impacto da mobilidade nas finanças familiares.' },
-      { type: 'heading', text: 'O Futuro V2G (Vehicle-to-Grid) e Carregamento Inteligente' },
-      { type: 'paragraph', text: 'O próximo passo lógico da tecnologia de recarga integrada é o ecossistema inteligente bidirecional, no qual o carro não apenas consome a energia do telhado solar, mas atua como uma grande bateria estacionária móvel de reserva para a residência em caso de blecautes gerais da concessionária local:' },
+      { type: 'heading', text: 'Gerando Combustível Solar Gratuito no Telhado de Casa' },
+      { type: 'paragraph', text: 'A maior e mais revolucionária promessa de liberdade do veículo elétrico reside na possibilidade concreta de eliminar completamente a dependência de postos de combustível, de refinarias e dos preços voláteis do petróleo. Ao integrar uma planta de microgeração fotovoltaica no telhado de sua residência ou empresa, o usuário de EV passa a produzir eletricidade limpa com custo marginal praticamente zero, utilizando a radiação solar abundante que o Brasil recebe.' },
+      { type: 'paragraph', text: 'Essa energia solar produzida durante as horas de sol é injetada na rede da concessionária e gera créditos de energia elétrica (sistema de compensação da ANEEL), que por sua vez abastecem o carregador do carro à noite. O resultado prático é que o "combustível" do veículo elétrico passa a custar próximo de zero, com investimento inicial que se paga em 4 a 6 anos e vida útil dos painéis superior a 25 anos.' },
+      { type: 'heading', text: 'Como Dimensionar a Planta Solar para Incluir o Carregamento do EV' },
+      { type: 'paragraph', text: 'O grande erro que muitos proprietários cometem é instalar uma planta fotovoltaica dimensionada apenas para o consumo histórico da residência, sem contemplar a nova demanda gerada pelo carregamento do veículo elétrico. Um carro elétrico com autonomia de 400 km e consumo típico de 15 kWh/100 km percorrendo 1.500 km por mês adicionará cerca de 225 kWh/mês à conta de energia.' },
       { type: 'list', items: [
-        'V2H (Vehicle-to-Home): Fornecimento da energia da bateria do carro para ligar a residência no pico de tarifas da rede comercial.',
-        'V2G (Vehicle-to-Grid): Venda da energia excedente acumulada na bateria do veículo de volta para a rede pública nos horários de picos do sistema de distribuição.'
+        'Levantamento do consumo residencial histórico (12 meses) e adição da demanda estimada do EV.',
+        'Cálculo da irradiação solar local da cidade e do fator de perdas do sistema (cabeamento, inversores, temperatura).',
+        'Dimensionamento da quantidade de painéis e potência do inversor considerando a nova demanda total.',
+        'Integração do Wallbox com o sistema fotovoltaico via comunicação inteligente para priorizar a carga com energia solar.',
+        'Registro do sistema na concessionária e homologação junto à distribuidora local conforme resolução ANEEL 482.'
       ] },
-      { type: 'blockquote', text: 'A união de geração fotovoltaica com veículos elétricos transforma o consumidor de um simples usuário de carros em um produtor e gestor inteligente de sua própria energia.', author: 'Bruno Riêra' }
+      { type: 'blockquote', text: 'A combinação de geração solar + armazenamento em bateria estacionária + veículo elétrico transforma o consumidor passivo de energia em um prosumidor ativo, produzindo, consumindo e gerenciando sua própria energia com total autonomia e inteligência.', author: 'Bruno Riêra' },
+      { type: 'heading', text: 'V2G e V2H: O Carro como Bateria Estacionária da Casa' },
+      { type: 'paragraph', text: 'O próximo passo evolutivo da integração solar + EV é o ecossistema inteligente bidirecional, no qual o veículo elétrico não apenas consome energia do telhado solar, mas também retorna energia da sua bateria de alta capacidade para alimentar a residência (V2H — Vehicle to Home) nos momentos de blecaute ou de tarifas elevadas pela concessionária.' },
+      { type: 'paragraph', text: 'No nível mais avançado, o conceito V2G (Vehicle to Grid) permite que o proprietário venda de volta à rede pública o excedente de energia armazenado na bateria do veículo nos momentos de pico de demanda do sistema elétrico nacional, gerando uma fonte de renda passiva enquanto o carro está estacionado. Esta tecnologia já é realidade em alguns países europeus e está rapidamente avançando no mercado brasileiro.' }
     ]
   }
 ];
+
+ARTIGOS.forEach(art => {
+  art.tempoLeitura = calcTempoLeitura(art.conteudo);
+});
 
 // --- HELDERS E UTILS ---
 
