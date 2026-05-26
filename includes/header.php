@@ -15,18 +15,18 @@
     <meta property="og:url" content="https://voltchz.com.br/">
     <meta property="og:title" content="<?php echo isset($page_title) ? $page_title : "VoltchZ Brasil | Engenharia para Mobilidade Elétrica"; ?>">
     <meta property="og:description" content="<?php echo isset($page_desc) ? $page_desc : "Infraestrutura certificada para mobilidade elétrica. Segurança e inovação em cada recarga."; ?>">
-    <meta property="og:image" content="IMAGENS/banner-social.png">
+    <meta property="og:image" content="static/banner-social.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://voltchz.com.br/">
     <meta property="twitter:title" content="<?php echo isset($page_title) ? $page_title : "VoltchZ Brasil | Engenharia para Mobilidade Elétrica"; ?>">
     <meta property="twitter:description" content="<?php echo isset($page_desc) ? $page_desc : "Infraestrutura certificada para mobilidade elétrica. Segurança e inovação em cada recarga."; ?>">
-    <meta property="twitter:image" content="IMAGENS/banner-social.png">
+    <meta property="twitter:image" content="static/banner-social.png">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
-    <link rel="icon" href="IMAGENS/logo_ico.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/logo_ico.ico" type="image/x-icon">
+    <link rel="icon" href="static/logo_ico.ico" type="image/x-icon">
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
     <!-- Preload LCP Image -->
-    <link rel="preload" as="image" href="IMAGENS/BANNER-ROTATIVO-01webp.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="static/banner-rotativo-01webp.webp" fetchpriority="high">
 
     <!-- CSS & Tailwind -->
     <link rel="stylesheet" href="styles.css">
@@ -84,7 +84,7 @@
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-[18px] border-b border-white/5 transition-all duration-300">
         <div class="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
             <a href="index.php" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
-                <img src="IMAGENS/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
+                <img src="static/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
             </a>
 
             <?php $active_page = isset($current_page) ? $current_page : ''; ?>

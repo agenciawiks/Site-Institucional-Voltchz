@@ -18,7 +18,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <!-- Brand -->
                 <div class="flex flex-col gap-6">
-                    <img src="IMAGENS/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto self-start" loading="lazy">
+                    <img src="static/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto self-start" loading="lazy">
                     <p class="text-brand-muted text-sm leading-relaxed max-w-[240px]">
                         Infraestrutura de engenharia certificada para mobilidade elétrica. Segurança e inovação em cada recarga.
                     </p>

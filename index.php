@@ -13,8 +13,8 @@ include "includes/header.php";
             <!-- Slide 1 -->
             <div class="carousel-slide active" id="slide-0">
                 <picture class="carousel-slide-bg">
-                    <source srcset="IMAGENS/BANNER-ROTATIVO-01webp.webp" type="image/webp">
-                    <img src="IMAGENS/BANNER-ROTATIVO-01webp.webp" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
+                    <source srcset="static/banner-rotativo-01webp.webp" type="image/webp">
+                    <img src="static/banner-rotativo-01webp.webp" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
                 </picture>
                 <div class="absolute inset-0 bg-brand-bg/40"></div>
                 <div class="orb w-[420px] h-[420px] -top-20 -right-20 bg-brand-green/20"></div>
@@ -62,7 +62,7 @@ include "includes/header.php";
 
             <!-- Slide 2 -->
             <div class="carousel-slide" id="slide-1">
-                <div class="carousel-slide-bg" style="background-image:url('IMAGENS/BANNER-ROTATIVO-02.webp')">
+                <div class="carousel-slide-bg" style="background-image:url('static/banner-rotativo-02.webp')">
                 </div>
                 <div class="absolute inset-0 bg-brand-bg/30"></div>
                 <div class="orb w-[300px] h-[300px] top-1/4 -right-20 bg-brand-green/15"></div>
@@ -85,7 +85,7 @@ include "includes/header.php";
 
             <!-- Slide 3 -->
             <div class="carousel-slide" id="slide-2">
-                <div class="carousel-slide-bg" style="background-image:url('IMAGENS/BANNER-ROTATIVO-03.webp')">
+                <div class="carousel-slide-bg" style="background-image:url('static/banner-rotativo-03.webp')">
                 </div>
                 <div class="absolute inset-0 bg-brand-bg/30"></div>
                 <div class="orb w-[350px] h-[350px] bottom-0 -left-20 bg-brand-green/10"></div>
@@ -109,8 +109,8 @@ include "includes/header.php";
             <!-- Slide 4 -->
             <div class="carousel-slide" id="slide-3">
                 <picture class="carousel-slide-bg">
-                    <source srcset="IMAGENS/BANNER-ROTATIVO-04.webp" type="image/webp">
-                    <img src="IMAGENS/BANNER-ROTATIVO-04.webp" alt="Estações Comerciais" class="w-full h-full object-cover">
+                    <source srcset="static/banner-rotativo-04.webp" type="image/webp">
+                    <img src="static/banner-rotativo-04.webp" alt="Estações Comerciais" class="w-full h-full object-cover">
                 </picture>
                 <div class="absolute inset-0 bg-brand-bg/35"></div>
                 <div class="orb w-[400px] h-[400px] -top-20 right-1/4 bg-brand-green/10"></div>
@@ -496,7 +496,7 @@ include "includes/header.php";
                     <div class="absolute -inset-4 bg-brand-green/10 rounded-[40px] sm:rounded-[56px] blur-2xl group-hover:bg-brand-green/20 transition-all duration-700">
                     </div>
                     <div class="relative bg-slate-200 aspect-square sm:aspect-[4/5] rounded-[32px] sm:rounded-[48px] overflow-hidden shadow-2xl border border-white/50">
-                        <img src="IMAGENS/carregador-predio-estacionamento2.webp" alt="Infraestrutura para Construtoras" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        <img src="static/carregador-predio-estacionamento2.webp" alt="Infraestrutura para Construtoras" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
 
                         <!-- Overlay decorativo -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
@@ -848,7 +848,7 @@ include "includes/header.php";
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center observe">
                 <div class="relative group mb-20 lg:mb-0">
                     <div class="rounded-[48px] overflow-hidden shadow-2xl shadow-brand-green/20">
-                        <img src="IMAGENS/bruno.webp" alt="Bruno, Fundador da VoltchZ" class="w-full transform group-hover:scale-105 transition-transform duration-700" loading="lazy" width="600" height="800">
+                        <img src="static/bruno.webp" alt="Bruno, Fundador da VoltchZ" class="w-full transform group-hover:scale-105 transition-transform duration-700" loading="lazy" width="600" height="800">
                     </div>
                     <div class="absolute -bottom-6 -right-2 lg:-bottom-8 lg:-right-8 bg-slate-50 p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-2xl backdrop-blur-xl max-w-[240px] lg:max-w-[280px]">
                         <h4 class="text-brand-green font-extrabold text-xl mb-1">Bruno, CEO</h4>

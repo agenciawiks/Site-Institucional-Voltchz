@@ -48,7 +48,7 @@ include "includes/header.php";
         </div>
       </div>
       <div class="relative observe mt-12 lg:mt-0 mb-8 lg:mb-0">
-        <img src="IMAGENS/bruno.webp" alt="Bruno, Fundador da VoltchZ"
+        <img src="static/bruno.webp" alt="Bruno, Fundador da VoltchZ"
           class="rounded-[40px] shadow-2xl border border-white/5 w-full" loading="lazy" width="600" height="800">
         <div
           class="absolute -bottom-4 -left-2 lg:-bottom-6 lg:-left-6 bg-brand-green p-4 lg:p-6 rounded-2xl font-bold text-brand-bg shadow-xl">
