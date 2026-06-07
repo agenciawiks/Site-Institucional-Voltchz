@@ -118,7 +118,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-[60px] z-40 bg-brand-bg/95 backdrop-blur-xl px-6 py-8 border-t border-white/5 overflow-y-auto">
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] z-40 bg-brand-bg/95 backdrop-blur-xl px-6 py-8 border-t border-white/5 overflow-y-auto">
             <div class="flex flex-col gap-4">
                 <a href="index.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
                 <a href="sobre.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'sobre' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Sobre Nós</a>
