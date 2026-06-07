@@ -1,0 +1,1286 @@
+<?php
+$page_title = "App VoltchZ — Controle Total da sua Recarga Elétrica";
+$page_desc = "O App VoltchZ para iOS e Android coloca o controle total da sua recarga na palma da mão. Monitore consumo, encontre eletropostos, inicie e encerre sessões com um toque.";
+$current_page = "app";
+$additional_head = '
+  <style>
+    /* ── MOCKUP — flutuação leve ── */
+    @keyframes mockupFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .mockup-float { animation: mockupFloat 5s ease-in-out infinite; }
+
+    /* ── HERO GRID PATTERN ── */
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── STORE BADGE HOVER ── */
+    .store-badge {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .store-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(34, 197, 94, 0.18);
+    }
+
+    /* ── FEATURE CARD ICON ── */
+    .feature-icon-wrap {
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .feature-card:hover .feature-icon-wrap {
+      transform: scale(1.12) rotate(3deg);
+      background: rgba(34, 197, 94, 0.18) !important;
+    }
+
+    /* ── BENEFIT CARD ── */
+    .benefit-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    }
+    .benefit-card:hover {
+      border-color: rgba(34,197,94,0.25);
+      transform: translateY(-4px);
+      background: rgba(34,197,94,0.03);
+    }
+
+    /* ── STEP CIRCLE ── */
+    .step-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.1);
+      border: 2px solid rgba(34,197,94,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: \'Outfit\', sans-serif;
+      font-weight: 700;
+      color: #22c55e;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .step-item:hover .step-circle {
+      background: rgba(34,197,94,0.2);
+      border-color: rgba(34,197,94,0.6);
+    }
+
+    /* ── LIGHT SECTION CARD (dark card on light bg) ── */
+    .light-dark-card {
+      background: #0a0a0f;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .light-dark-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
+      border-color: rgba(34,197,94,0.2);
+    }
+
+    /* ── HIGHLIGHT PILL ── */
+    .highlight-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 100px;
+      font-size: 13px;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    /* ── OBSERVE STAGGER ── */
+    .observe-stagger {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      will-change: opacity, transform;
+    }
+    .observe-stagger.in-view {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* ── MOCKUP IMAGE SLOT ── */
+    #mockup-slot {
+      position: relative;
+      width: min(480px, 90%);
+      max-width: 520px;
+    }
+    #mockup-slot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    #mockup-slot.is-empty img { display: none; }
+    #mockup-slot.is-empty {
+      min-height: 380px;
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 12px;
+    }
+    .mockup-slot-hint {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 2rem;
+      text-align: center;
+      pointer-events: none;
+    }
+    #mockup-slot.is-empty .mockup-slot-hint { display: flex; min-height: 380px; }
+
+    /* ── MAX-WIDTH CONTAINER — wider on ultra-wide ── */
+    .container-wide {
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: clamp(1.5rem, 4vw, 4rem);
+      padding-right: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    /* Wider still at 1920 */
+    @media (min-width: 1920px) {
+      .container-wide {
+        max-width: 1680px;
+      }
+      #mockup-slot {
+        width: min(560px, 90%);
+        max-width: 600px;
+      }
+    }
+
+    /* ── ANALYTICS BAR ── */
+    .analytics-bar {
+      animation: growBar 1.5s ease-out forwards;
+      transform-origin: bottom;
+      transform: scaleY(0);
+    }
+    @keyframes growBar {
+      to { transform: scaleY(1); }
+    }
+  </style>
+';
+include "includes/header.php";
+?>
+
+  <!-- ──────────────────────────────────────────
+       SECTION 1: HERO
+  ────────────────────────────────────────── -->
+  <section id="hero"
+    class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-brand-bg hero-grid"
+    style="padding-top:clamp(6rem,12vw,10rem); padding-bottom:clamp(4rem,8vw,7rem);">
+
+    <!-- Orbs -->
+    <div class="orb w-[700px] h-[700px] -top-48 -left-32 bg-brand-green/20" style="animation-delay:0s;"></div>
+    <div class="orb w-[500px] h-[500px] -bottom-20 -right-24 bg-brand-green/10" style="animation-delay:7s;"></div>
+    <div class="orb w-[300px] h-[300px] top-1/2 right-1/4 bg-brand-green/8" style="animation-delay:3.5s;"></div>
+
+    <!-- Radial gradient center -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(34,197,94,0.04),transparent)] pointer-events-none"></div>
+
+    <div class="container-wide relative z-10 flex flex-col items-center text-center">
+
+      <!-- Label badge -->
+      <div class="observe mb-8">
+        <span
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
+          <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span>
+          Disponível para iOS e Android
+        </span>
+      </div>
+
+      <!-- H1 — raised upper clamp so it reads big on 1920px -->
+      <h1
+        class="observe text-[clamp(36px,5.5vw,88px)] font-extrabold leading-[1.05] tracking-tighter text-white max-w-6xl mb-7"
+        style="transition-delay:0.1s">
+        O App que Coloca o Controle da<br>
+        <span class="text-brand-green">Sua Recarga na Palma da Mão</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="observe text-[clamp(16px,1.5vw,22px)] text-brand-muted max-w-2xl leading-relaxed mb-12"
+        style="transition-delay:0.2s">
+        Monitor, inicie, encerre e analise cada carregamento. VoltchZ Mobile é a central inteligente de mobilidade
+        elétrica projetada para motoristas exigentes.
+      </p>
+
+      <!-- Store Badges -->
+      <div class="observe flex flex-col sm:flex-row items-center gap-4 mb-16" style="transition-delay:0.3s">
+        <!-- Google Play -->
+        <a href="https://play.google.com/store/apps/details?id=br.com.voltchz.app&hl=pt_BR" target="_blank"
+          rel="noopener noreferrer" class="store-badge" aria-label="Baixar no Google Play">
+          <div
+            class="flex items-center gap-3 bg-brand-bg2 border border-white/10 hover:border-brand-green/30 rounded-[14px] px-5 py-3.5 transition-all">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.18 23.76C2.48 23.36 2 22.6 2 21.72V2.28C2 1.4 2.48.64 3.18.24L13.72 12 3.18 23.76z" fill="#4FC3F7"/>
+              <path d="M17.96 15.74l-2.54-2.54L13.72 12l1.7-1.7 2.54-2.54 3.03 1.72c.87.5.87 1.8 0 2.3l-3.03 1.96z" fill="#FFD54F"/>
+              <path d="M3.18.24l10.54 11.76L7.3 7.58 3.18.24z" fill="#81C784"/>
+              <path d="M3.18 23.76l4.12-7.34 6.42-5.42L3.18 23.76z" fill="#F06292"/>
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-brand-muted font-medium leading-none mb-0.5">Baixar no</div>
+              <div class="text-[15px] font-bold text-white leading-tight">Google Play</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- App Store -->
+        <a href="https://apps.apple.com/br/app/voltchz/id6762458423" target="_blank" rel="noopener noreferrer"
+          class="store-badge" aria-label="Baixar na App Store">
+          <div
+            class="flex items-center gap-3 bg-brand-bg2 border border-white/10 hover:border-brand-green/30 rounded-[14px] px-5 py-3.5 transition-all">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-brand-muted font-medium leading-none mb-0.5">Baixar na</div>
+              <div class="text-[15px] font-bold text-white leading-tight">App Store</div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Metric counters -->
+      <div class="observe grid grid-cols-3 gap-6 md:gap-16 border-t border-white/5 pt-12 w-full max-w-3xl"
+        style="transition-delay:0.4s">
+        <div class="text-center">
+          <div class="text-[clamp(28px,3.5vw,48px)] font-extrabold text-white leading-none mb-1 font-mono">
+            <span data-counter="12000" data-suffix="+">12.000+</span>
+          </div>
+          <div class="text-[clamp(10px,0.8vw,13px)] text-brand-muted font-medium uppercase tracking-wider">Usuários Ativos</div>
+        </div>
+        <div class="text-center">
+          <div class="text-[clamp(28px,3.5vw,48px)] font-extrabold text-brand-green leading-none mb-1 font-mono">
+            <span data-counter="98" data-suffix=",4%">98,4%</span>
+          </div>
+          <div class="text-[clamp(10px,0.8vw,13px)] text-brand-muted font-medium uppercase tracking-wider">Uptime Garantido</div>
+        </div>
+        <div class="text-center">
+          <div class="text-[clamp(28px,3.5vw,48px)] font-extrabold text-white leading-none mb-1 font-mono">
+            4.8<span class="text-brand-green text-[clamp(20px,2.5vw,34px)]">★</span>
+          </div>
+          <div class="text-[clamp(10px,0.8vw,13px)] text-brand-muted font-medium uppercase tracking-wider">Nas Stores</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 2: APP OVERVIEW
+  ────────────────────────────────────────── -->
+  <section id="overview"
+    class="relative overflow-hidden bg-brand-bg2"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <!-- Orb -->
+    <div class="orb w-[500px] h-[500px] -top-40 -right-32 bg-brand-green/15" style="animation-delay:2s;"></div>
+
+    <div class="container-wide relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-x-16 gap-y-12 items-center">
+
+        <!-- LEFT: Mockup -->
+        <div class="flex justify-center lg:justify-end order-2 lg:order-1 observe">
+          <div id="mockup-slot" class="mockup-float">
+            <img
+              src="static/mockup-celular.webp"
+              alt="App VoltchZ no Smartphone"
+              loading="lazy"
+              onerror="document.getElementById('mockup-slot')?.classList.add('is-empty')">
+            <div class="mockup-slot-hint">
+              <p class="text-[11px] font-mono text-brand-muted/60 uppercase tracking-widest">mockup-celular.webp</p>
+              <p class="text-xs text-brand-muted/40">static/</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Text Content -->
+        <div class="order-1 lg:order-2 flex flex-col gap-6">
+          <div class="observe">
+            <span
+              class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+              Plataforma Completa
+            </span>
+            <h2 class="text-[clamp(28px,3.2vw,56px)] font-extrabold leading-tight tracking-tight text-white mb-5">
+              Uma Central Inteligente<br>
+              <span class="text-brand-green">para sua Mobilidade</span>
+            </h2>
+            <p class="text-brand-muted text-[clamp(15px,1.1vw,19px)] leading-relaxed">
+              VoltchZ é uma plataforma completa para motoristas de veículos elétricos acompanhar, controlar e
+              gerenciar suas recargas de forma prática e inteligente. Conecte-se a qualquer eletroposto VoltchZ
+              e tenha visibilidade total sobre cada sessão de carga.
+            </p>
+          </div>
+
+          <!-- Highlight pills -->
+          <div class="observe flex flex-wrap gap-3" style="transition-delay:0.1s">
+            <span class="highlight-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Recargas em tempo real
+            </span>
+            <span class="highlight-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Mapa de eletropostos
+            </span>
+            <span class="highlight-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              Histórico e relatórios
+            </span>
+          </div>
+
+          <!-- Feature bullets -->
+          <div class="observe flex flex-col gap-4 mt-2" style="transition-delay:0.2s">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0 mt-0.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="text-white font-semibold mb-0.5">Iniciar e encerrar recargas remotamente</div>
+                <div class="text-brand-muted text-sm">Controle sua sessão de qualquer lugar com apenas um toque</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0 mt-0.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="text-white font-semibold mb-0.5">Monitoramento de consumo em kWh e R$</div>
+                <div class="text-brand-muted text-sm">Acompanhe custo e energia em tempo real durante a recarga</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0 mt-0.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="text-white font-semibold mb-0.5">Indicador ambiental de CO₂ evitado</div>
+                <div class="text-brand-muted text-sm">Veja seu impacto positivo no meio ambiente em cada recarga</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 3: FUNCIONALIDADES (LIGHT)
+  ────────────────────────────────────────── -->
+  <section id="funcionalidades"
+    class="relative overflow-hidden bg-[#f5f5f7]"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="container-wide">
+
+      <!-- Header -->
+      <div class="text-center mb-16 observe">
+        <span
+          class="inline-block px-4 py-1.5 rounded-full border border-brand-green/40 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+          Funcionalidades
+        </span>
+        <h2 class="text-[clamp(28px,3.2vw,52px)] font-extrabold leading-tight tracking-tight text-[#0a0a0f] mb-5">
+          Tudo que Você Precisa,<br>em um Só Lugar
+        </h2>
+        <p class="text-[#374151] text-[clamp(15px,1.1vw,19px)] max-w-xl mx-auto leading-relaxed">
+          Recursos pensados para tornar cada recarga mais simples, segura e inteligente.
+        </p>
+      </div>
+
+      <!-- 9 Features Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1: Estações no Mapa -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Mapa de Eletropostos</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Encontre estações VoltchZ próximas a você em tempo real, com disponibilidade e informações de potência.</p>
+        </div>
+
+        <!-- 2: Start/Stop -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"/><line x1="19" y1="3" x2="19" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Start / Stop Remoto</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Inicie e encerre sessões de carregamento com um toque, sem precisar interagir fisicamente com o equipamento.</p>
+        </div>
+
+        <!-- 3: QR Code -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+              <rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/>
+              <rect x="14" y="18" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Leitor de QR Code</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Escaneie o QR Code do eletroposto para identificar a estação instantaneamente e iniciar a recarga.</p>
+        </div>
+
+        <!-- 4: Energia RT -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Energia em Tempo Real</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Acompanhe kWh transferidos, potência atual e velocidade de carregamento segundo a segundo.</p>
+        </div>
+
+        <!-- 5: Custo -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Custo da Recarga</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Visualize o custo em reais de cada sessão em tempo real. Sem surpresas na fatura ao final do mês.</p>
+        </div>
+
+        <!-- 6: Histórico -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Histórico Completo</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Acesse o registro detalhado de todas as suas sessões passadas, com data, local, kWh e custo.</p>
+        </div>
+
+        <!-- 7: Gráficos -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+              <line x1="2" y1="20" x2="22" y2="20"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Gráficos e Estatísticas</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Análise visual do seu consumo por dia, semana ou mês. Tendências e comparativos interativos.</p>
+        </div>
+
+        <!-- 8: Ambiental -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12"/><path d="M12 2C6.48 2 2 6.48 2 12"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Indicador Ambiental</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Veja a quantidade de CO₂ que você deixou de emitir em cada recarga e no acumulado do mês.</p>
+        </div>
+
+        <!-- 9: Notificações -->
+        <div class="feature-card light-dark-card p-7 observe-stagger">
+          <div class="feature-icon-wrap w-12 h-12 bg-brand-green/10 rounded-xl flex items-center justify-center mb-5 text-brand-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Notificações Inteligentes</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Receba alertas automáticos ao atingir a carga desejada, ao encerrar sessões ou em caso de falhas.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 4: CONTROLES INTELIGENTES (DARK)
+  ────────────────────────────────────────── -->
+  <section id="controles"
+    class="relative overflow-hidden bg-brand-bg3"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="orb w-[400px] h-[400px] -bottom-20 -left-24 bg-brand-green/12" style="animation-delay:5s;"></div>
+
+    <div class="container-wide relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12 items-center">
+
+        <!-- LEFT: Text -->
+        <div class="flex flex-col gap-8">
+          <div class="observe">
+            <span
+              class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+              Controles Avançados
+            </span>
+            <h2 class="text-[clamp(28px,3.2vw,52px)] font-extrabold leading-tight tracking-tight text-white mb-5">
+              Gestão Inteligente<br>
+              <span class="text-brand-green">no Seu Ritmo</span>
+            </h2>
+            <p class="text-brand-muted text-[clamp(15px,1.1vw,19px)] leading-relaxed">
+              Mais do que ligar e desligar: o App VoltchZ oferece controles sofisticados que transformam a
+              maneira como você interage com sua infraestrutura de carga.
+            </p>
+          </div>
+
+          <!-- Feature bullets -->
+          <div class="observe flex flex-col gap-5" style="transition-delay:0.1s">
+
+            <div class="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-green/20 transition-all">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-1">Agendamento de Recargas</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">Programme o início e término da recarga para aproveitar tarifas off-peak e acordar com o carro sempre pronto.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-green/20 transition-all">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-1">Controle de Consumo por Limite</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">Defina um valor máximo de kWh ou R$ e o app encerra automaticamente a sessão ao atingir o limite configurado.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-green/20 transition-all">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-1">Gestão Centralizada Multi-veículo</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">Gerencie múltiplos veículos numa única conta. Ideal para famílias ou frotas com eletropostos privados.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-brand-green/20 transition-all">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold mb-1">Cobrança e Pagamento Integrado</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">Recarga com cobrança automática por kWh ou por tempo. Pagamento digital sem fricção, sem dinheiro físico.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT: Visual Element -->
+        <div class="observe" style="transition-delay:0.15s">
+          <div class="relative bg-white/[0.02] border border-white/5 rounded-[32px] p-8 overflow-hidden">
+            <div class="absolute top-0 right-0 w-48 h-48 rounded-full bg-brand-green/5 blur-3xl pointer-events-none"></div>
+
+            <div class="text-[11px] font-mono text-brand-green tracking-widest uppercase mb-6">Painel de Controle</div>
+
+            <div class="space-y-4 mb-8">
+              <div class="flex items-center justify-between p-4 bg-brand-green/5 border border-brand-green/15 rounded-xl">
+                <div>
+                  <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Recarga Agendada</div>
+                  <div class="text-white font-bold">Segunda · 23:00 → 06:00</div>
+                </div>
+                <div class="w-10 h-6 bg-brand-green rounded-full relative flex items-center px-1">
+                  <div class="w-4 h-4 bg-white rounded-full ml-auto shadow"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div>
+                  <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Limite de Carga</div>
+                  <div class="text-white font-bold">80% da bateria</div>
+                </div>
+                <div class="w-10 h-6 bg-brand-green rounded-full relative flex items-center px-1">
+                  <div class="w-4 h-4 bg-white rounded-full ml-auto shadow"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div>
+                  <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Notificação ao Concluir</div>
+                  <div class="text-white font-bold">Push + WhatsApp</div>
+                </div>
+                <div class="w-10 h-6 bg-brand-green rounded-full relative flex items-center px-1">
+                  <div class="w-4 h-4 bg-white rounded-full ml-auto shadow"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                <div>
+                  <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Limite de Custo</div>
+                  <div class="text-brand-muted font-bold">Desativado</div>
+                </div>
+                <div class="w-10 h-6 bg-white/10 rounded-full relative flex items-center px-1">
+                  <div class="w-4 h-4 bg-white/40 rounded-full shadow"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 pt-6 border-t border-white/5">
+              <div class="text-center">
+                <div class="text-xl font-bold text-brand-green font-mono">47 min</div>
+                <div class="text-[10px] text-brand-muted uppercase tracking-wider mt-1">Restantes</div>
+              </div>
+              <div class="text-center">
+                <div class="text-xl font-bold text-white font-mono">24,7</div>
+                <div class="text-[10px] text-brand-muted uppercase tracking-wider mt-1">kWh</div>
+              </div>
+              <div class="text-center">
+                <div class="text-xl font-bold text-white font-mono">R$18</div>
+                <div class="text-[10px] text-brand-muted uppercase tracking-wider mt-1">Custo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 5: MONITORAMENTO / ANALYTICS
+  ────────────────────────────────────────── -->
+  <section id="monitoramento"
+    class="relative overflow-hidden bg-brand-bg"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="orb w-[450px] h-[450px] top-0 right-0 bg-brand-green/10" style="animation-delay:1s;"></div>
+    <div class="orb w-[350px] h-[350px] bottom-0 left-0 bg-brand-green/8" style="animation-delay:9s;"></div>
+
+    <div class="container-wide relative z-10">
+
+      <!-- Header -->
+      <div class="text-center mb-16 observe">
+        <span
+          class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+          Analytics em Tempo Real
+        </span>
+        <h2 class="text-[clamp(28px,3.2vw,56px)] font-extrabold leading-tight tracking-tight text-white mb-5">
+          Dados em Tempo Real na<br>
+          <span class="text-brand-green">Tela do Seu Smartphone</span>
+        </h2>
+        <p class="text-brand-muted text-[clamp(15px,1.1vw,19px)] max-w-xl mx-auto leading-relaxed">
+          Dashboards interativos que transformam dados técnicos em insights visuais claros e acionáveis.
+        </p>
+      </div>
+
+      <!-- SVG Dashboard Mockup + 3 Highlight Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Dashboard SVG (spans 2 cols) -->
+        <div class="lg:col-span-2 observe">
+          <div class="bg-brand-bg2 border border-white/5 rounded-[28px] p-8 overflow-hidden">
+            <div class="flex items-center justify-between mb-8">
+              <div>
+                <div class="text-[11px] font-mono text-brand-green uppercase tracking-widest mb-1">Consumo — Últimos 30 dias</div>
+                <div class="text-2xl font-extrabold text-white">128,4 kWh <span class="text-brand-green text-base font-bold">↑ 12%</span></div>
+              </div>
+              <div class="flex gap-2">
+                <span class="px-3 py-1 rounded-lg bg-brand-green/10 text-brand-green text-[11px] font-mono font-bold border border-brand-green/20">Mês</span>
+                <span class="px-3 py-1 rounded-lg bg-white/5 text-brand-muted text-[11px] font-mono">Semana</span>
+                <span class="px-3 py-1 rounded-lg bg-white/5 text-brand-muted text-[11px] font-mono">Dia</span>
+              </div>
+            </div>
+
+            <svg viewBox="0 0 700 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+              <line x1="0" y1="180" x2="700" y2="180" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="0" y1="140" x2="700" y2="140" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="0" y1="100" x2="700" y2="100" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="0" y1="60" x2="700" y2="60" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="0" y1="20" x2="700" y2="20" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <text x="0" y="183" font-family="JetBrains Mono" font-size="10" fill="rgba(240,240,244,0.3)">0</text>
+              <text x="0" y="143" font-family="JetBrains Mono" font-size="10" fill="rgba(240,240,244,0.3)">10</text>
+              <text x="0" y="103" font-family="JetBrains Mono" font-size="10" fill="rgba(240,240,244,0.3)">20</text>
+              <text x="0" y="63" font-family="JetBrains Mono" font-size="10" fill="rgba(240,240,244,0.3)">30</text>
+              <text x="0" y="23" font-family="JetBrains Mono" font-size="10" fill="rgba(240,240,244,0.3)">40</text>
+              <defs>
+                <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22c55e" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#22c55e" stop-opacity="0.2"/>
+                </linearGradient>
+                <linearGradient id="barGradActive" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22c55e" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#22c55e" stop-opacity="0.4"/>
+                </linearGradient>
+              </defs>
+              <rect x="30" y="130" width="32" height="50" rx="6" fill="url(#barGrad)"/>
+              <text x="46" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">01</text>
+              <rect x="80" y="110" width="32" height="70" rx="6" fill="url(#barGrad)"/>
+              <text x="96" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">03</text>
+              <rect x="130" y="150" width="32" height="30" rx="6" fill="url(#barGrad)"/>
+              <text x="146" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">05</text>
+              <rect x="180" y="90" width="32" height="90" rx="6" fill="url(#barGrad)"/>
+              <text x="196" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">07</text>
+              <rect x="230" y="140" width="32" height="40" rx="6" fill="url(#barGrad)"/>
+              <text x="246" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">09</text>
+              <rect x="280" y="70" width="32" height="110" rx="6" fill="url(#barGrad)"/>
+              <text x="296" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">11</text>
+              <rect x="330" y="120" width="32" height="60" rx="6" fill="url(#barGrad)"/>
+              <text x="346" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">13</text>
+              <rect x="380" y="100" width="32" height="80" rx="6" fill="url(#barGrad)"/>
+              <text x="396" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">15</text>
+              <rect x="430" y="50" width="32" height="130" rx="6" fill="url(#barGrad)"/>
+              <text x="446" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">17</text>
+              <rect x="480" y="130" width="32" height="50" rx="6" fill="url(#barGrad)"/>
+              <text x="496" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">19</text>
+              <rect x="530" y="80" width="32" height="100" rx="6" fill="url(#barGrad)"/>
+              <text x="546" y="198" font-family="JetBrains Mono" font-size="9" fill="rgba(240,240,244,0.3)" text-anchor="middle">21</text>
+              <rect x="580" y="35" width="32" height="145" rx="6" fill="url(#barGradActive)"/>
+              <rect x="561" y="10" width="68" height="26" rx="6" fill="#22c55e"/>
+              <text x="595" y="26" font-family="JetBrains Mono" font-size="10" fill="#0a0a0f" font-weight="bold" text-anchor="middle">36,2 kWh</text>
+              <polygon points="595,36 590,47 600,47" fill="#22c55e"/>
+              <text x="596" y="198" font-family="JetBrains Mono" font-size="9" fill="#22c55e" text-anchor="middle">Hoje</text>
+              <path d="M46,130 C80,110 130,150 196,90 C246,140 296,70 346,120 C396,100 446,50 496,130 C546,80 596,35 596,35"
+                stroke="rgba(34,197,94,0.2)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3 Highlight cards -->
+        <div class="flex flex-col gap-6 observe" style="transition-delay:0.15s">
+
+          <div class="bg-white/[0.02] border border-white/5 rounded-[24px] p-6 hover:border-brand-green/20 transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Energia Total — Mês</div>
+            <div class="text-3xl font-extrabold text-white font-mono mb-1">128,4 <span class="text-sm text-brand-muted font-normal">kWh</span></div>
+            <div class="text-brand-green text-sm font-semibold">↑ 12% vs mês anterior</div>
+          </div>
+
+          <div class="bg-white/[0.02] border border-white/5 rounded-[24px] p-6 hover:border-brand-green/20 transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Gasto Total — Mês</div>
+            <div class="text-3xl font-extrabold text-white font-mono mb-1">R$ <span class="text-brand-green">96,20</span></div>
+            <div class="text-brand-muted text-sm font-semibold">vs R$510 em gasolina</div>
+          </div>
+
+          <div class="bg-white/[0.02] border border-white/5 rounded-[24px] p-6 hover:border-brand-green/20 transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="text-[10px] font-mono text-brand-muted uppercase tracking-wider mb-1">Sessões — Mês</div>
+            <div class="text-3xl font-extrabold text-white font-mono mb-1">23 <span class="text-sm text-brand-muted font-normal">sessões</span></div>
+            <div class="text-brand-green text-sm font-semibold">−42 kg CO₂ evitado</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 6: GESTÃO PRIVADA (LIGHT)
+  ────────────────────────────────────────── -->
+  <section id="gestao"
+    class="relative overflow-hidden bg-[#f5f5f7]"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="container-wide">
+
+      <div class="text-center mb-16 observe">
+        <span
+          class="inline-block px-4 py-1.5 rounded-full border border-brand-green/40 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+          Para Donos de Eletropostos
+        </span>
+        <h2 class="text-[clamp(28px,3.2vw,52px)] font-extrabold leading-tight tracking-tight text-[#0a0a0f] mb-5">
+          Para Donos de Eletropostos:<br>
+          <span class="text-brand-green">Controle Total</span>
+        </h2>
+        <p class="text-[#374151] text-[clamp(15px,1.1vw,19px)] max-w-xl mx-auto leading-relaxed">
+          O App VoltchZ também é uma poderosa ferramenta para proprietários de eletropostos privados e corporativos.
+          Gerencie, monitore e controle tudo de onde estiver.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="light-dark-card p-8 observe-stagger flex flex-col gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-3">Gestão de Usuários</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">
+              Cadastre e gerencie quais motoristas têm acesso ao seu eletroposto privado. Adicione, remova ou suspenda usuários com facilidade.
+            </p>
+          </div>
+          <ul class="flex flex-col gap-2 mt-auto">
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Lista de usuários autorizados
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Convite por e-mail ou QR Code
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Histórico por usuário
+            </li>
+          </ul>
+        </div>
+
+        <div class="light-dark-card p-8 observe-stagger flex flex-col gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-3">Controle de Acessos</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">
+              Defina horários de funcionamento, janelas de acesso por usuário e restrições por dia da semana. Segurança e flexibilidade totais.
+            </p>
+          </div>
+          <ul class="flex flex-col gap-2 mt-auto">
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Horários de operação
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Bloqueio remoto imediato
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Permissões por perfil
+            </li>
+          </ul>
+        </div>
+
+        <div class="light-dark-card p-8 observe-stagger flex flex-col gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-3">Estações Privadas</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">
+              Configure seu eletroposto como privado (somente usuários autorizados) ou semipúblico (com aprovação). Perfeito para condomínios e empresas.
+            </p>
+          </div>
+          <ul class="flex flex-col gap-2 mt-auto">
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Visibilidade configurável
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Relatórios de uso e faturamento
+            </li>
+            <li class="flex items-center gap-2 text-brand-muted text-sm">
+              <svg class="text-brand-green flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Tarifação personalizada
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 7: FLUXO DE USO (DARK)
+  ────────────────────────────────────────── -->
+  <section id="fluxo"
+    class="relative overflow-hidden bg-brand-bg2"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="orb w-[400px] h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-green/6" style="animation-delay:4s;"></div>
+
+    <div class="container-wide relative z-10">
+
+      <div class="text-center mb-20 observe">
+        <span
+          class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+          Simples e Intuitivo
+        </span>
+        <h2 class="text-[clamp(28px,3.2vw,56px)] font-extrabold leading-tight tracking-tight text-white mb-5">
+          Como Usar o App VoltchZ<br>
+          <span class="text-brand-green">em 6 Passos Simples</span>
+        </h2>
+        <p class="text-brand-muted text-[clamp(15px,1.1vw,19px)] max-w-xl mx-auto leading-relaxed">
+          Da abertura do app até o fim da recarga — uma experiência fluida, pensada para motoristas elétricos.
+        </p>
+      </div>
+
+      <!-- Desktop Stepper -->
+      <div class="hidden lg:grid grid-cols-6 gap-4 relative observe">
+        <div class="absolute top-6 left-[8.5%] right-[8.5%] h-px bg-gradient-to-r from-transparent via-brand-green/20 to-transparent pointer-events-none" style="z-index:0;"></div>
+
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle">1</div>
+          <div>
+            <div class="text-white font-bold text-sm mb-1">Encontrar Estação</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Abra o app e use o mapa para localizar o eletroposto mais próximo</div>
+          </div>
+        </div>
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle">2</div>
+          <div>
+            <div class="text-white font-bold text-sm mb-1">Escanear QR Code</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Aponte a câmera para o QR Code do eletroposto para conectar</div>
+          </div>
+        </div>
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle" style="background:rgba(34,197,94,0.2); border-color:rgba(34,197,94,0.6);">3</div>
+          <div>
+            <div class="text-brand-green font-bold text-sm mb-1">Iniciar Recarga</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Toque em "Iniciar" e conecte o cabo ao veículo. Recarga começa!</div>
+          </div>
+        </div>
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle">4</div>
+          <div>
+            <div class="text-white font-bold text-sm mb-1">Monitorar Consumo</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Acompanhe kWh, custo e tempo em tempo real no dashboard</div>
+          </div>
+        </div>
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle">5</div>
+          <div>
+            <div class="text-white font-bold text-sm mb-1">Finalizar Sessão</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Encerre manualmente ou aguarde o limite automático configurado</div>
+          </div>
+        </div>
+        <div class="step-item flex flex-col items-center text-center gap-4 relative z-10">
+          <div class="step-circle">6</div>
+          <div>
+            <div class="text-white font-bold text-sm mb-1">Consultar Histórico</div>
+            <div class="text-brand-muted text-[12px] leading-relaxed">Acesse o resumo completo da sessão com gráficos e dados</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Stepper -->
+      <div class="flex flex-col gap-0 lg:hidden">
+        <div class="step-item flex items-start gap-5 observe-stagger pb-8 relative">
+          <div class="flex flex-col items-center gap-0">
+            <div class="step-circle">1</div>
+            <div class="w-px flex-1 bg-brand-green/15 mt-2" style="min-height:40px;"></div>
+          </div>
+          <div class="pt-2 pb-4">
+            <div class="text-white font-bold text-base mb-1">Encontrar Estação</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Abra o app e use o mapa para localizar o eletroposto mais próximo com disponibilidade real.</div>
+          </div>
+        </div>
+        <div class="step-item flex items-start gap-5 observe-stagger pb-8 relative">
+          <div class="flex flex-col items-center gap-0">
+            <div class="step-circle">2</div>
+            <div class="w-px flex-1 bg-brand-green/15 mt-2" style="min-height:40px;"></div>
+          </div>
+          <div class="pt-2 pb-4">
+            <div class="text-white font-bold text-base mb-1">Escanear QR Code</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Aponte a câmera para o QR Code fixado no equipamento para identificar a estação.</div>
+          </div>
+        </div>
+        <div class="step-item flex items-start gap-5 observe-stagger pb-8 relative">
+          <div class="flex flex-col items-center gap-0">
+            <div class="step-circle" style="background:rgba(34,197,94,0.2); border-color:rgba(34,197,94,0.6);">3</div>
+            <div class="w-px flex-1 bg-brand-green/15 mt-2" style="min-height:40px;"></div>
+          </div>
+          <div class="pt-2 pb-4">
+            <div class="text-brand-green font-bold text-base mb-1">Iniciar Recarga</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Toque em "Iniciar", conecte o cabo ao veículo e a recarga começa automaticamente.</div>
+          </div>
+        </div>
+        <div class="step-item flex items-start gap-5 observe-stagger pb-8 relative">
+          <div class="flex flex-col items-center gap-0">
+            <div class="step-circle">4</div>
+            <div class="w-px flex-1 bg-brand-green/15 mt-2" style="min-height:40px;"></div>
+          </div>
+          <div class="pt-2 pb-4">
+            <div class="text-white font-bold text-base mb-1">Monitorar Consumo</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Acompanhe kWh, custo em R$ e tempo decorrido em tempo real diretamente no dashboard.</div>
+          </div>
+        </div>
+        <div class="step-item flex items-start gap-5 observe-stagger pb-8 relative">
+          <div class="flex flex-col items-center gap-0">
+            <div class="step-circle">5</div>
+            <div class="w-px flex-1 bg-brand-green/15 mt-2" style="min-height:40px;"></div>
+          </div>
+          <div class="pt-2 pb-4">
+            <div class="text-white font-bold text-base mb-1">Finalizar Sessão</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Encerre a sessão manualmente ou deixe o limite automático agir. Desconecte o cabo.</div>
+          </div>
+        </div>
+        <div class="step-item flex items-start gap-5 observe-stagger">
+          <div class="flex flex-col items-center">
+            <div class="step-circle">6</div>
+          </div>
+          <div class="pt-2">
+            <div class="text-white font-bold text-base mb-1">Consultar Histórico</div>
+            <div class="text-brand-muted text-sm leading-relaxed">Acesse o resumo completo da sessão com gráficos, comparativos e dados ambientais.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 8: BENEFÍCIOS (DARK)
+  ────────────────────────────────────────── -->
+  <section id="beneficios"
+    class="relative overflow-hidden bg-brand-bg3"
+    style="padding-top:clamp(4rem,8vw,9rem); padding-bottom:clamp(4rem,8vw,9rem);">
+
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.015)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
+
+    <div class="container-wide relative z-10">
+
+      <div class="text-center mb-16 observe">
+        <span
+          class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+          Por Que Escolher o App VoltchZ
+        </span>
+        <h2 class="text-[clamp(28px,3.2vw,56px)] font-extrabold leading-tight tracking-tight text-white mb-5">
+          Benefícios que Fazem<br>
+          <span class="text-brand-green">a Diferença no Dia a Dia</span>
+        </h2>
+        <p class="text-brand-muted text-[clamp(15px,1.1vw,19px)] max-w-xl mx-auto leading-relaxed">
+          Um aplicativo criado com foco na experiência real do motorista elétrico brasileiro.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Autonomia</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Controle total da sua recarga sem depender de ninguém ou de suporte presencial.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Praticidade</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Interface simples e fluida que qualquer motorista domina em minutos, sem curva de aprendizado.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Monitoramento</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Acompanhe cada detalhe da sessão em tempo real, mesmo à distância, pelo celular.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Gestão Inteligente</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Algoritmos que analisam seus padrões e sugerem o melhor horário para recarregar com menor custo.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Eficiência Energética</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Dashboards que revelam desperdícios e otimizam o consumo de energia em cada recarga.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Economia</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Reduza até 5× o custo por km rodado comparado a combustíveis fósseis com gestão inteligente.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Segurança</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Autenticação segura, dados criptografados e alertas instantâneos de falhas ou interrupções.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card p-6 observe-stagger flex flex-col gap-4">
+          <div class="w-11 h-11 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">Melhor Experiência</h4>
+            <p class="text-brand-muted text-sm leading-relaxed">Avaliado 4,8 estrelas pelos usuários. Design premium que torna a recarga elétrica um prazer.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ──────────────────────────────────────────
+       SECTION 9: CTA FINAL (DARK)
+  ────────────────────────────────────────── -->
+  <section id="cta-final"
+    class="relative overflow-hidden bg-brand-bg"
+    style="padding-top:clamp(5rem,10vw,11rem); padding-bottom:clamp(5rem,10vw,11rem);">
+
+    <div class="orb w-[800px] h-[800px] -top-64 left-1/2 -translate-x-1/2 bg-brand-green/12" style="animation-delay:0s;"></div>
+    <div class="orb w-[400px] h-[400px] -bottom-32 -left-24 bg-brand-green/8" style="animation-delay:6s;"></div>
+    <div class="orb w-[300px] h-[300px] -bottom-16 -right-16 bg-brand-green/6" style="animation-delay:3s;"></div>
+
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_30%,rgba(34,197,94,0.06),transparent)] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none"></div>
+
+    <div class="max-w-[960px] mx-auto px-6 relative z-10 text-center">
+
+      <div class="observe mb-8">
+        <span
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
+          <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span>
+          Gratuito · iOS e Android
+        </span>
+      </div>
+
+      <h2 class="observe text-[clamp(32px,4.5vw,72px)] font-extrabold leading-[1.05] tracking-tighter text-white mb-6"
+        style="transition-delay:0.1s">
+        Baixe Agora e Assuma o<br>
+        <span class="text-brand-green">Controle da sua Mobilidade Elétrica</span>
+      </h2>
+
+      <p class="observe text-[clamp(16px,1.3vw,21px)] text-brand-muted max-w-2xl mx-auto leading-relaxed mb-14"
+        style="transition-delay:0.2s">
+        Mais de 12 mil motoristas já transformaram a forma de recarregar. Disponível gratuitamente no Google Play
+        e na App Store. Instale agora e experimente o futuro da mobilidade elétrica.
+      </p>
+
+      <div class="observe flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+        style="transition-delay:0.3s">
+
+        <a href="https://play.google.com/store/apps/details?id=br.com.voltchz.app&hl=pt_BR" target="_blank"
+          rel="noopener noreferrer" class="store-badge" aria-label="Baixar no Google Play">
+          <div
+            class="flex items-center gap-3 bg-brand-bg2 border border-white/10 hover:border-brand-green/40 rounded-[16px] px-6 py-4 transition-all min-w-[200px]">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.18 23.76C2.48 23.36 2 22.6 2 21.72V2.28C2 1.4 2.48.64 3.18.24L13.72 12 3.18 23.76z" fill="#4FC3F7"/>
+              <path d="M17.96 15.74l-2.54-2.54L13.72 12l1.7-1.7 2.54-2.54 3.03 1.72c.87.5.87 1.8 0 2.3l-3.03 1.96z" fill="#FFD54F"/>
+              <path d="M3.18.24l10.54 11.76L7.3 7.58 3.18.24z" fill="#81C784"/>
+              <path d="M3.18 23.76l4.12-7.34 6.42-5.42L3.18 23.76z" fill="#F06292"/>
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-brand-muted font-medium leading-none mb-0.5">Disponível no</div>
+              <div class="text-[16px] font-bold text-white leading-tight">Google Play</div>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://apps.apple.com/br/app/voltchz/id6762458423" target="_blank" rel="noopener noreferrer"
+          class="store-badge" aria-label="Baixar na App Store">
+          <div
+            class="flex items-center gap-3 bg-brand-bg2 border border-white/10 hover:border-brand-green/40 rounded-[16px] px-6 py-4 transition-all min-w-[200px]">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <div class="text-left">
+              <div class="text-[10px] text-brand-muted font-medium leading-none mb-0.5">Disponível na</div>
+              <div class="text-[16px] font-bold text-white leading-tight">App Store</div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="observe flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-brand-muted text-sm"
+        style="transition-delay:0.4s">
+        <div class="flex items-center gap-2">
+          <svg class="text-brand-green" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Download gratuito
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="text-brand-green" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Sem taxas de cadastro
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="text-brand-green" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          iOS 14+ e Android 8+
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="text-brand-green" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Suporte em português
+        </div>
+      </div>
+    </div>
+  </section>
+
+<?php
+$additional_scripts = '<script type="module" src="js/pages/app.js"></script>';
+include "includes/footer.php";
+?>

@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <h3 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-tight tracking-tight mb-4 group-hover:text-brand-green transition-colors">
-                  <a href="artigo.html?slug=${featured.slug}">${featured.titulo}</a>
+                  <a href="artigo.php?slug=${featured.slug}">${featured.titulo}</a>
                 </h3>
 
                 <p class="text-brand-muted text-sm leading-relaxed mb-6">
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                   </div>
 
-                  <a href="artigo.html?slug=${featured.slug}" 
+                  <a href="artigo.php?slug=${featured.slug}" 
                     class="inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-6 py-3.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all active:scale-95 shadow-lg whitespace-nowrap">
                     Ler Artigo Completo
                   </a>
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-            <a href="artigo.html?slug=${art.slug}">${art.titulo}</a>
+            <a href="artigo.php?slug=${art.slug}">${art.titulo}</a>
           </h3>
 
           <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="text-[11px] font-bold text-white">${art.autor}</span>
             </div>
 
-            <a href="artigo.html?slug=${art.slug}" 
+            <a href="artigo.php?slug=${art.slug}" 
               class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
               Ler Artigo
             </a>

@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^voltchz.com.br [NC]
-RewriteRule ^(.*)$ https://www.voltchz.com.br/$1 [L,R=301]

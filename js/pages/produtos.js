@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const hasVariations = p.variacoes && p.variacoes.length > 0;
           
           card.innerHTML = `
-            <!-- SVG do Hardware Técnico -->
-            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5">
-              ${generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
+            <!-- Imagem / SVG do Hardware Técnico -->
+            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center p-3">
+              ${p.imagem ? `<img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-contain max-h-[150px] transition-transform duration-500 group-hover:scale-105">` : generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
             </div>
 
             <!-- Dados Descritivos -->
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? `<span class="w-1.5 h-1.5 rounded-full bg-brand-green inline-block mr-1"></span> ${p.variacoes.length} variações` 
                     : `<span class="w-1.5 h-1.5 rounded-full bg-white/20 inline-block mr-1"></span> Sem variações`}
                 </span>
-                <a href="produto-detalhe.html?slug=${p.slug}" 
+                <a href="produto-detalhe.php?slug=${p.slug}" 
                   class="text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all shadow-lg active:scale-95 whitespace-nowrap">
                   Ver Detalhes
                 </a>

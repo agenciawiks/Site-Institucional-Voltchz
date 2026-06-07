@@ -1,15 +1,33 @@
 <?php
-include "includes/db.php";
+require_once "includes/db.php";
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $produto = get_produto_by_slug($slug);
 
 if ($produto) {
-    $page_title = $produto['nome'] . " — VoltchZ Brasil";
+    $marca = get_marca_by_id($produto['marcaId']);
+    $page_title = $produto['nome'] . " | VoltchZ Brasil — Engenharia de Recarga";
     $page_desc = $produto['resumo'];
+
+    // Relacionados
+    $db = get_db_connection();
+    if ($produto['categoriaId'] === 'suportes') {
+        $stmtRel = $db->prepare("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, resumo, imagem FROM produtos WHERE categoria_id = 'estacoes' AND id != ? LIMIT 3");
+    } else {
+        $stmtRel = $db->prepare("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, resumo, imagem FROM produtos WHERE categoria_id = 'suportes' AND id != ? LIMIT 3");
+    }
+    $stmtRel->execute([$produto['id']]);
+    $related_products = $stmtRel->fetchAll();
+    
+    if (empty($related_products)) {
+        $stmtRelFB = $db->prepare("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, resumo, imagem FROM produtos WHERE marca_id = ? AND id != ? LIMIT 3");
+        $stmtRelFB->execute([$produto['marcaId'], $produto['id']]);
+        $related_products = $stmtRelFB->fetchAll();
+    }
 } else {
     $page_title = "Equipamento Não Localizado — VoltchZ Brasil";
     $page_desc = "O equipamento solicitado não consta em nosso catálogo de homologação ativa.";
+    $related_products = [];
 }
 
 $current_page = "produtos";
@@ -35,7 +53,6 @@ include "includes/header.php";
             </div>
           </li>
           <?php if ($produto): ?>
-          <?php $marca = get_marca_by_id($produto['marcaId']); ?>
           <li>
             <div class="flex items-center">
               <span class="mx-1 text-white/20">/</span>
@@ -66,8 +83,11 @@ include "includes/header.php";
         <div class="lg:col-span-5 flex flex-col gap-6">
           <div class="relative w-full aspect-[4/3] rounded-[32px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl p-6 flex items-center justify-center">
             <div id="product-media-container" class="w-full h-full flex items-center justify-center">
-              <!-- Renderização Server-Side de SEO do SVG Técnico -->
-              <?php echo generate_technical_svg($produto['categoriaId'], $produto['nome'], $marca['nome']); ?>
+              <?php if (!empty($produto['imagem'])): ?>
+                <img src="<?php echo htmlspecialchars($produto['imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" class="w-full h-full object-contain max-h-[250px] transition-transform duration-500 hover:scale-105">
+              <?php else: ?>
+                <?php echo generate_technical_svg($produto['categoriaId'], $produto['nome'], $marca['nome']); ?>
+              <?php endif; ?>
             </div>
           </div>
 
@@ -106,7 +126,7 @@ include "includes/header.php";
 
           <!-- Descrições -->
           <p id="product-desc-long" class="text-brand-muted text-sm sm:text-base leading-relaxed mb-6">
-            <?php echo htmlspecialchars($produto['descricao']); ?>
+            <?php echo htmlspecialchars($produto['descricao'] ?: $produto['resumo']); ?>
           </p>
 
           <!-- Seletor de Variações -->
@@ -114,17 +134,19 @@ include "includes/header.php";
           <div id="variations-section" class="mb-8 <?php echo $has_variations ? '' : 'hidden'; ?> p-5 rounded-2xl bg-white/[0.01] border border-white/5">
             <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Modelagem / Variação Técnica</p>
             <div id="variations-container" class="flex flex-col gap-2.5">
-              <!-- Chips injetados por JS/PHP Hydration -->
               <?php if ($has_variations): ?>
                 <?php foreach ($produto['variacoes'] as $index => $v): ?>
-                  <button data-sku="<?php echo htmlspecialchars($v['sku']); ?>" class="variation-btn <?php echo $index === 0 ? 'active' : ''; ?> px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-left flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <button data-sku="<?php echo htmlspecialchars($v['sku']); ?>" 
+                          data-desc="<?php echo htmlspecialchars($v['adicionalDesc'] ?: ''); ?>"
+                          data-budget-url="<?php echo htmlspecialchars(get_budget_url($produto, $v)); ?>"
+                          class="variation-btn <?php echo $index === 0 ? 'active' : ''; ?> px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-left flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span class="text-xs font-bold text-white"><?php echo htmlspecialchars($v['nome']); ?></span>
                     <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-green/80 bg-brand-green/10 border border-brand-green/20 px-2.5 py-0.5 rounded-md self-start sm:self-auto"><?php echo htmlspecialchars($v['sku']); ?></span>
                   </button>
                 <?php endforeach; ?>
               <?php endif; ?>
             </div>
-            <p id="variation-desc-box" class="text-xs text-brand-muted/80 mt-3 border-t border-white/5 pt-3 leading-relaxed <?php echo $has_variations ? '' : 'hidden'; ?>">
+            <p id="variation-desc-box" class="text-xs text-brand-muted/80 mt-3 border-t border-white/5 pt-3 leading-relaxed <?php echo ($has_variations && !empty($produto['variacoes'][0]['adicionalDesc'])) ? '' : 'hidden'; ?>">
               <?php if ($has_variations) echo htmlspecialchars($produto['variacoes'][0]['adicionalDesc']); ?>
             </p>
           </div>
@@ -200,7 +222,8 @@ include "includes/header.php";
       <!-- ──────────────────────────────────────────
            SEÇÃO: VOCÊ TAMBÉM PODE PRECISAR
       ────────────────────────────────────────── -->
-      <section id="related-section" class="mt-20 pt-12 border-t border-white/5 <?php echo $produto ? '' : 'hidden'; ?>">
+      <?php if ($produto && !empty($related_products)): ?>
+      <section id="related-section" class="mt-20 pt-12 border-t border-white/5">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-brand-green">
@@ -220,9 +243,40 @@ include "includes/header.php";
         </div>
 
         <div id="related-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Injetado por JS Hydration -->
+          <?php foreach ($related_products as $rp): 
+            $rmarca = get_marca_by_id($rp['marcaId']);
+          ?>
+            <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
+              <!-- Imagem / SVG Mini -->
+              <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center p-3">
+                <?php if (!empty($rp['imagem'])): ?>
+                  <img src="<?php echo htmlspecialchars($rp['imagem']); ?>" alt="<?php echo htmlspecialchars($rp['nome']); ?>" class="w-full h-full object-contain max-h-[120px] transition-transform duration-500 group-hover:scale-105">
+                <?php else: ?>
+                  <?php echo generate_technical_svg($rp['categoriaId'], $rp['nome'], $rmarca['nome']); ?>
+                <?php endif; ?>
+              </div>
+              
+              <div class="flex-grow flex flex-col">
+                <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green mb-1.5">
+                  <?php echo htmlspecialchars($rmarca['nome']); ?>
+                </span>
+                <h3 class="text-sm font-bold text-white mb-1.5 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
+                  <?php echo htmlspecialchars($rp['nome']); ?>
+                </h3>
+                <p class="text-brand-muted text-[11px] leading-relaxed mb-4 line-clamp-2">
+                  <?php echo htmlspecialchars($rp['resumo']); ?>
+                </p>
+                
+                <a href="produto-detalhe.php?slug=<?php echo htmlspecialchars($rp['slug']); ?>" 
+                  class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
+                  Ver Detalhes
+                </a>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
       </section>
+      <?php endif; ?>
 
     </div>
   </main>
@@ -252,7 +306,38 @@ include "includes/header.php";
     </div>
   </section>
 
+  <!-- Script local para gerenciar a troca de variações na UI local -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const variationButtons = document.querySelectorAll('.variation-btn');
+      const descBox = document.getElementById('variation-desc-box');
+      const whatsappBtn = document.getElementById('budget-whatsapp-btn');
+
+      variationButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Toggle active class
+          variationButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // Update description
+          const desc = btn.getAttribute('data-desc');
+          if (desc && desc.trim() !== '') {
+            descBox.textContent = desc;
+            descBox.classList.remove('hidden');
+          } else {
+            descBox.classList.add('hidden');
+          }
+
+          // Update whatsapp budget url
+          const budgetUrl = btn.getAttribute('data-budget-url');
+          if (budgetUrl) {
+            whatsappBtn.href = budgetUrl;
+          }
+        });
+      });
+    });
+  </script>
+
 <?php
-$additional_scripts = '<script type="module" src="js/pages/produto-detalhe.js"></script>';
 include "includes/footer.php";
 ?>

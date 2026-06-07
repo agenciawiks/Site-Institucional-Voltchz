@@ -1,5 +1,5 @@
 <?php
-include "includes/db.php";
+require_once "includes/db.php";
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $artigo = get_artigo_by_slug($slug);
@@ -7,9 +7,22 @@ $artigo = get_artigo_by_slug($slug);
 if ($artigo) {
     $page_title = $artigo['titulo'] . " — VoltchZ Brasil";
     $page_desc = $artigo['resumo'];
+
+    // Artigos Recomendados
+    $db = get_db_connection();
+    $stmtRec = $db->prepare("
+        SELECT id, slug, titulo, categoria, resumo, autor, data_publicacao AS data, tempo_leitura AS tempoLeitura 
+        FROM artigos 
+        WHERE id != ? 
+        ORDER BY (categoria = ?) DESC, id DESC 
+        LIMIT 3
+    ");
+    $stmtRec->execute([$artigo['id'], $artigo['categoria']]);
+    $recommended_articles = $stmtRec->fetchAll();
 } else {
     $page_title = "Publicação Não Localizada — VoltchZ Brasil";
     $page_desc = "O artigo solicitado não existe ou foi removido de nossa base técnica.";
+    $recommended_articles = [];
 }
 
 $current_page = "blog";
@@ -86,7 +99,7 @@ include "includes/header.php";
               class="w-12 h-12 rounded-full object-cover border-2 border-brand-green/30 flex-shrink-0">
             <div>
               <p id="article-author" class="text-sm font-bold text-white leading-tight"><?php echo htmlspecialchars($artigo['autor']); ?></p>
-              <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/60 uppercase tracking-widest mt-0.5"><?php echo htmlspecialchars($artigo['cargo']); ?></p>
+              <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/60 uppercase tracking-widest mt-0.5"><?php echo htmlspecialchars($artigo['cargo'] ?: 'Especialista VoltchZ'); ?></p>
             </div>
           </div>
         </header>
@@ -104,7 +117,7 @@ include "includes/header.php";
           <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-bg2 to-transparent pointer-events-none"></div>
         </div>
 
-        <!-- Corpo Editorial Reativo (Server-Side Premium Rendering) -->
+        <!-- Corpo Editorial Reativo -->
         <div id="article-body-content" class="text-brand-text/90 leading-relaxed min-h-0" style="min-height:auto;">
           <?php foreach ($artigo['conteudo'] as $block): ?>
             <?php if ($block['type'] === 'heading'): ?>
@@ -178,7 +191,8 @@ include "includes/header.php";
       <!-- ──────────────────────────────────────────
            SEÇÃO: ARTIGOS RECOMENDADOS (LATERAIS)
       ────────────────────────────────────────── -->
-      <section id="recommended-section" class="mt-24 pt-12 border-t border-white/5 <?php echo $artigo ? '' : 'hidden'; ?>">
+      <?php if ($artigo && !empty($recommended_articles)): ?>
+      <section id="recommended-section" class="mt-24 pt-12 border-t border-white/5">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-brand-green">
@@ -198,9 +212,54 @@ include "includes/header.php";
         </div>
 
         <div id="recommended-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Injetado por JS Hydration -->
+          <?php foreach ($recommended_articles as $ra): ?>
+            <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5 text-left">
+              <!-- Capa Técnica -->
+              <div class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center">
+                <?php echo generate_technical_svg($ra['categoria'] === 'Legislação' ? 'protecao' : 'estacoes', $ra['titulo'], 'VoltchZ Insights'); ?>
+              </div>
+
+              <!-- Metadados e Título -->
+              <div class="flex-grow flex flex-col">
+                <div class="flex items-center justify-between gap-4 mb-3 text-[10px] font-mono text-brand-muted/70">
+                  <span class="font-black uppercase tracking-wider text-brand-green">
+                    <?php echo htmlspecialchars($ra['categoria']); ?>
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span><?php echo htmlspecialchars($ra['data']); ?></span>
+                    <span>•</span>
+                    <span><?php echo htmlspecialchars($ra['tempoLeitura']); ?></span>
+                  </div>
+                </div>
+
+                <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
+                  <a href="artigo.php?slug=<?php echo htmlspecialchars($ra['slug']); ?>"><?php echo htmlspecialchars($ra['titulo']); ?></a>
+                </h3>
+
+                <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
+                  <?php echo htmlspecialchars($ra['resumo']); ?>
+                </p>
+
+                <!-- Rodapé do Card (Autor e CTA) -->
+                <div class="flex items-center justify-between gap-4 pt-4 border-t border-white/5 mt-auto">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full border border-white/10 bg-white/5 flex items-center justify-center font-bold text-xs text-brand-green">
+                      BR
+                    </div>
+                    <span class="text-[11px] font-bold text-white"><?php echo htmlspecialchars($ra['autor']); ?></span>
+                  </div>
+
+                  <a href="artigo.php?slug=<?php echo htmlspecialchars($ra['slug']); ?>" 
+                    class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
+                    Ler Artigo
+                  </a>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
         </div>
       </section>
+      <?php endif; ?>
 
     </div>
   </main>
@@ -231,6 +290,5 @@ include "includes/header.php";
   </section>
 
 <?php
-$additional_scripts = '<script type="module" src="js/pages/artigo.js"></script>';
 include "includes/footer.php";
 ?>

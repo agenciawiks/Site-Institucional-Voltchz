@@ -1,58 +1,293 @@
 <?php
 /**
- * VoltchZ Brasil - Conector de Banco de Dados PHP (Ponte JSON)
- * Serve os dados brutos e implementa a renderização dinâmica de SVGs no servidor para SEO.
+ * VoltchZ Brasil - Conector de Banco de Dados PHP (PDO MySQL)
+ * Serve os dados de forma estruturada a partir das tabelas relacionais do banco.
  */
 
-// Caminho absoluto para o arquivo JSON
-$json_path = dirname(__DIR__) . '/static/data/db.json';
-
-if (!file_exists($json_path)) {
-    die("Erro crítico: Arquivo de banco de dados não localizado em: " . $json_path);
+// =====================================================================
+// CONFIGURAÇÃO DO BANCO DE DADOS (Detecção Automática Local / Hostinger)
+// =====================================================================
+$is_local = false;
+if (isset($_SERVER['HTTP_HOST'])) {
+    $host = $_SERVER['HTTP_HOST'];
+    if ($host === 'localhost' || $host === '127.0.0.1' || preg_match('/\.local$/', $host) || preg_match('/^192\.168\./', $host)) {
+        $is_local = true;
+    }
+} else {
+    $is_local = true; // Fallback para CLI local
 }
 
-// Carrega os dados brutos do JSON
-$db_data = json_decode(file_get_contents($json_path), true);
+if ($is_local) {
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_NAME', 'voltchz_db');
+} else {
+    // Tenta carregar as credenciais de produção de um arquivo separado.
+    // Isso evita que suas credenciais sejam sobrescritas em cada upload de ZIP para a Hostinger.
+    if (file_exists(__DIR__ . '/db_config.php')) {
+        require_once __DIR__ . '/db_config.php';
+    } else {
+        // Fallback de desenvolvimento (ajuste com os dados reais caso não utilize o db_config.php)
+        define('DB_HOST', 'localhost');
+        define('DB_USER', 'root');
+        define('DB_PASS', '');
+        define('DB_NAME', 'voltchz_db');
+    }
+}
+define('DB_CHARSET', 'utf8mb4');
 
-$GLOBALS['VOLTCHZ_MARCAS'] = $db_data['MARCAS'] ?? [];
-$GLOBALS['VOLTCHZ_CATEGORIAS'] = $db_data['CATEGORIAS'] ?? [];
-$GLOBALS['VOLTCHZ_PRODUTOS'] = $db_data['PRODUTOS'] ?? [];
-$GLOBALS['VOLTCHZ_ARTIGOS'] = $db_data['ARTIGOS'] ?? [];
+
+/**
+ * Retorna uma instância do PDO conectada ao banco de dados.
+ */
+function get_db_connection() {
+    static $pdo = null;
+    if ($pdo === null) {
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+    }
+    return $pdo;
+}
 
 // --- FUNÇÕES UTILITÁRIAS ---
 
 function get_marcas() {
-    return $GLOBALS['VOLTCHZ_MARCAS'];
+    $db = get_db_connection();
+    $stmt = $db->query("SELECT * FROM marcas");
+    return $stmt->fetchAll();
 }
 
 function get_categorias() {
-    return $GLOBALS['VOLTCHZ_CATEGORIAS'];
+    $db = get_db_connection();
+    $stmt = $db->query("SELECT * FROM categorias");
+    return $stmt->fetchAll();
 }
 
+/**
+ * Retorna todos os produtos formatados exatamente como o front-end espera.
+ */
 function get_produtos() {
-    return $GLOBALS['VOLTCHZ_PRODUTOS'];
+    $db = get_db_connection();
+    
+    // Busca os produtos base
+    $stmt = $db->query("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem FROM produtos ORDER BY id ASC");
+    $produtos = $stmt->fetchAll();
+    
+    foreach ($produtos as &$prod) {
+        $prodId = $prod['id'];
+        
+        // 1. Busca os diferenciais
+        $stmtDif = $db->prepare("SELECT diferencial FROM produto_diferenciais WHERE produto_id = ? ORDER BY ordem ASC");
+        $stmtDif->execute([$prodId]);
+        $prod['diferenciais'] = $stmtDif->fetchAll(PDO::FETCH_COLUMN);
+        
+        // 2. Busca as especificações técnicas
+        $stmtSpec = $db->prepare("SELECT chave, valor FROM produto_especificacoes WHERE produto_id = ? ORDER BY ordem ASC");
+        $stmtSpec->execute([$prodId]);
+        $specs = $stmtSpec->fetchAll();
+        $prod['especificacoes'] = [];
+        foreach ($specs as $s) {
+            $prod['especificacoes'][$s['chave']] = $s['valor'];
+        }
+        
+        // 3. Busca as variações (SKUs)
+        $stmtVar = $db->prepare("SELECT sku, nome, adicional_desc AS adicionalDesc FROM produto_variacoes WHERE produto_id = ?");
+        $stmtVar->execute([$prodId]);
+        $prod['variacoes'] = $stmtVar->fetchAll();
+    }
+    
+    return $produtos;
 }
 
+/**
+ * Retorna produtos filtrados por marca, categoria e termo de busca.
+ */
+function get_filtered_produtos($marca = 'todos', $categoria = 'todos', $busca = '') {
+    $db = get_db_connection();
+    $sql = "SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem FROM produtos WHERE 1=1";
+    $params = [];
+
+    if ($marca !== 'todos') {
+        $sql .= " AND marca_id = ?";
+        $params[] = $marca;
+    }
+
+    if ($categoria !== 'todos') {
+        $sql .= " AND categoria_id = ?";
+        $params[] = $categoria;
+    }
+
+    if (!empty($busca)) {
+        $sql .= " AND (nome LIKE ? OR resumo LIKE ? OR descricao LIKE ? OR potencia LIKE ?)";
+        $searchVal = "%" . $busca . "%";
+        $params[] = $searchVal;
+        $params[] = $searchVal;
+        $params[] = $searchVal;
+        $params[] = $searchVal;
+    }
+
+    $sql .= " ORDER BY id ASC";
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $produtos = $stmt->fetchAll();
+
+    foreach ($produtos as &$prod) {
+        $prodId = $prod['id'];
+
+        $stmtDif = $db->prepare("SELECT diferencial FROM produto_diferenciais WHERE produto_id = ? ORDER BY ordem ASC");
+        $stmtDif->execute([$prodId]);
+        $prod['diferenciais'] = $stmtDif->fetchAll(PDO::FETCH_COLUMN);
+
+        $stmtSpec = $db->prepare("SELECT chave, valor FROM produto_especificacoes WHERE produto_id = ? ORDER BY ordem ASC");
+        $stmtSpec->execute([$prodId]);
+        $specs = $stmtSpec->fetchAll();
+        $prod['especificacoes'] = [];
+        foreach ($specs as $s) {
+            $prod['especificacoes'][$s['chave']] = $s['valor'];
+        }
+
+        $stmtVar = $db->prepare("SELECT sku, nome, adicional_desc AS adicionalDesc FROM produto_variacoes WHERE produto_id = ?");
+        $stmtVar->execute([$prodId]);
+        $prod['variacoes'] = $stmtVar->fetchAll();
+    }
+
+    return $produtos;
+}
+
+/**
+ * Retorna artigos filtrados por categoria e termo de busca.
+ */
+function get_filtered_artigos($category = 'todos', $busca = '') {
+    $db = get_db_connection();
+    $sql = "SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle FROM artigos WHERE 1=1";
+    $params = [];
+
+    if ($category !== 'todos') {
+        $sql .= " AND categoria = ?";
+        $params[] = $category;
+    }
+
+    if (!empty($busca)) {
+        $sql .= " AND (titulo LIKE ? OR resumo LIKE ? OR autor LIKE ?)";
+        $searchVal = "%" . $busca . "%";
+        $params[] = $searchVal;
+        $params[] = $searchVal;
+        $params[] = $searchVal;
+    }
+
+    $sql .= " ORDER BY id DESC";
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $artigos = $stmt->fetchAll();
+
+    foreach ($artigos as &$art) {
+        $artId = $art['id'];
+
+        $art['svg_metadata'] = [
+            'category' => $art['svg_metadata_category'],
+            'title' => $art['svg_metadata_title'],
+            'subtitle' => $art['svg_metadata_subtitle']
+        ];
+        unset($art['svg_metadata_category'], $art['svg_metadata_title'], $art['svg_metadata_subtitle']);
+
+        $stmtCont = $db->prepare("SELECT id, tipo, texto, autor_citado FROM artigo_conteudo WHERE artigo_id = ? ORDER BY ordem ASC");
+        $stmtCont->execute([$artId]);
+        $blocos = $stmtCont->fetchAll();
+
+        $art['conteudo'] = [];
+        foreach ($blocos as $bloco) {
+            $blocoData = ['type' => $bloco['tipo']];
+
+            if ($bloco['tipo'] === 'blockquote') {
+                $blocoData['text'] = $bloco['texto'];
+                $blocoData['author'] = $bloco['autor_citado'];
+            } elseif ($bloco['tipo'] === 'list') {
+                $stmtList = $db->prepare("SELECT item FROM artigo_conteudo_list_items WHERE artigo_conteudo_id = ? ORDER BY ordem ASC");
+                $stmtList->execute([$bloco['id']]);
+                $blocoData['items'] = $stmtList->fetchAll(PDO::FETCH_COLUMN);
+            } else {
+                $blocoData['text'] = $bloco['texto'];
+            }
+
+            $art['conteudo'][] = $blocoData;
+        }
+    }
+
+    return $artigos;
+}
+
+
+/**
+ * Retorna todos os artigos formatados exatamente como o front-end espera.
+ */
 function get_artigos() {
-    return $GLOBALS['VOLTCHZ_ARTIGOS'];
+    $db = get_db_connection();
+    
+    // Busca os artigos base
+    $stmt = $db->query("SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle FROM artigos ORDER BY id DESC");
+    $artigos = $stmt->fetchAll();
+    
+    foreach ($artigos as &$art) {
+        $artId = $art['id'];
+        
+        // Monta o svg_metadata esperado
+        $art['svg_metadata'] = [
+            'category' => $art['svg_metadata_category'],
+            'title' => $art['svg_metadata_title'],
+            'subtitle' => $art['svg_metadata_subtitle']
+        ];
+        unset($art['svg_metadata_category'], $art['svg_metadata_title'], $art['svg_metadata_subtitle']);
+        
+        // Busca os blocos de conteúdo do artigo
+        $stmtCont = $db->prepare("SELECT id, tipo, texto, autor_citado FROM artigo_conteudo WHERE artigo_id = ? ORDER BY ordem ASC");
+        $stmtCont->execute([$artId]);
+        $blocos = $stmtCont->fetchAll();
+        
+        $art['conteudo'] = [];
+        foreach ($blocos as $bloco) {
+            $blocoData = [
+                'type' => $bloco['tipo']
+            ];
+            
+            if ($bloco['tipo'] === 'blockquote') {
+                $blocoData['text'] = $bloco['texto'];
+                $blocoData['author'] = $bloco['autor_citado'];
+            } elseif ($bloco['tipo'] === 'list') {
+                // Busca os itens da lista
+                $stmtList = $db->prepare("SELECT item FROM artigo_conteudo_list_items WHERE artigo_conteudo_id = ? ORDER BY ordem ASC");
+                $stmtList->execute([$bloco['id']]);
+                $blocoData['items'] = $stmtList->fetchAll(PDO::FETCH_COLUMN);
+            } else {
+                $blocoData['text'] = $bloco['texto'];
+            }
+            
+            $art['conteudo'][] = $blocoData;
+        }
+    }
+    
+    return $artigos;
 }
 
 function get_marca_by_id($id) {
-    foreach (get_marcas() as $marca) {
-        if ($marca['id'] === $id) {
-            return $marca;
-        }
-    }
-    return ['nome' => 'Institucional', 'descricao' => 'VoltchZ Brasil'];
+    $db = get_db_connection();
+    $stmt = $db->prepare("SELECT * FROM marcas WHERE id = ?");
+    $stmt->execute([$id]);
+    $marca = $stmt->fetch();
+    return $marca ? $marca : ['nome' => 'Institucional', 'descricao' => 'VoltchZ Brasil'];
 }
 
 function get_categoria_by_id($id) {
-    foreach (get_categorias() as $cat) {
-        if ($cat['id'] === $id) {
-            return $cat;
-        }
-    }
-    return ['nome' => 'Geral', 'descricao' => ''];
+    $db = get_db_connection();
+    $stmt = $db->prepare("SELECT * FROM categorias WHERE id = ?");
+    $stmt->execute([$id]);
+    $cat = $stmt->fetch();
+    return $cat ? $cat : ['nome' => 'Geral', 'descricao' => ''];
 }
 
 function get_produto_by_slug($slug) {

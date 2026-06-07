@@ -67,9 +67,6 @@
             }
         }
     </script>
-    <script>
-        window.VOLTCHZ_DB = <?php echo file_get_contents(dirname(__DIR__) . '/static/data/db.json'); ?>;
-    </script>
     <?php if (isset($additional_head)) echo $additional_head; ?>
 </head>
 

@@ -79,7 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Injetar Imagem / SVG Técnico
     if (mediaContainer) {
-      mediaContainer.innerHTML = generateTechnicalSVG(p.categoriaId, p.nome, marca.nome);
+      if (p.imagem) {
+        mediaContainer.innerHTML = `<img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-contain max-h-[250px] transition-transform duration-500 hover:scale-105">`;
+      } else {
+        mediaContainer.innerHTML = generateTechnicalSVG(p.categoriaId, p.nome, marca.nome);
+      }
     }
 
     // 3. Atualizar Dados Identidade
@@ -215,9 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const categoria = getCategoriaById(p.categoriaId);
         
         card.innerHTML = `
-          <!-- SVG Mini -->
-          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-4 border border-white/5">
-            ${generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
+          <!-- Imagem / SVG Mini -->
+          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center p-3">
+            ${p.imagem ? `<img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-contain max-h-[120px] transition-transform duration-500 group-hover:scale-105">` : generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
           </div>
           
           <div class="flex-grow flex flex-col">
@@ -231,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ${p.resumo}
             </p>
             
-            <a href="produto-detalhe.html?slug=${p.slug}" 
+            <a href="produto-detalhe.php?slug=${p.slug}" 
               class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
               Ver Detalhes
             </a>

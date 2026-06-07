@@ -26,6 +26,16 @@ export const handleLeadSubmission = async (event, provider) => {
   button.textContent = provider === 'whatsapp' ? 'Preparando...' : 'Enviando...';
 
   try {
+    // Tenta persistir o lead no banco de dados em segundo plano antes do redirecionamento
+    try {
+      await fetch('save-lead.php', {
+        method: 'POST',
+        body: formData
+      });
+    } catch (dbError) {
+      console.error('Falha de salvamento no banco de dados, prosseguindo com fluxo direto:', dbError);
+    }
+
     if (provider === 'whatsapp') {
       const text = [
         'Olá! Vim pelo site da VoltchZ e quero um contato rápido.',
