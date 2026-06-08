@@ -824,10 +824,7 @@ include "includes/header.php";
               </svg>
             </button>
 
-                        <!-- Dots -->
-                        <div id="client-dots" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-                            <!-- Dots will be injected by JS -->
-                        </div>
+                        <!-- Dots disabled (too many slides) -->
 
                         <!-- Float Badge -->
                         <div class="absolute top-8 left-8 z-20 pointer-events-none">
