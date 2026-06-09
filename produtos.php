@@ -136,7 +136,7 @@ include "includes/header.php";
             ?>
               <div class="fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-2">
                 <!-- Imagem do Hardware / SVG Fallback -->
-                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center p-4">
+                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white mb-5 border border-white/5 flex items-center justify-center p-4">
                   <?php if (!empty($p['imagem'])): ?>
                     <img src="<?php echo htmlspecialchars($p['imagem']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>" class="w-full h-full object-contain max-h-[180px] transition-transform duration-500 hover:scale-105">
                   <?php else: ?>
