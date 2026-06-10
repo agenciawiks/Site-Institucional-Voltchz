@@ -25,11 +25,14 @@ $artigo = [
     'tempo_leitura' => '5 min',
     'svg_metadata_category' => '',
     'svg_metadata_title' => '',
-    'svg_metadata_subtitle' => ''
+    'svg_metadata_subtitle' => '',
+    'imagem' => ''
 ];
 $conteudo_blocos = [];
 
 // Carrega dados atuais do banco se for edição
+$tempo_valor = 5;
+$tempo_unidade = 'min';
 if ($is_edit) {
     try {
         $stmtArt = $db->prepare("SELECT * FROM artigos WHERE id = ?");
@@ -38,6 +41,13 @@ if ($is_edit) {
         
         if ($loaded_art) {
             $artigo = $loaded_art;
+            
+            if (!empty($artigo['tempo_leitura'])) {
+                if (preg_match('/^(\d+)\s*(min|h|horas|minutos)/i', $artigo['tempo_leitura'], $matches)) {
+                    $tempo_valor = intval($matches[1]);
+                    $tempo_unidade = strtolower($matches[2]) === 'h' || strtolower($matches[2]) === 'horas' ? 'h' : 'min';
+                }
+            }
             
             // Carrega blocos
             $stmtCont = $db->prepare("SELECT id, tipo, texto, autor_citado FROM artigo_conteudo WHERE artigo_id = ? ORDER BY ordem ASC");
@@ -79,7 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $autor = filter_input(INPUT_POST, 'autor', FILTER_SANITIZE_SPECIAL_CHARS);
     $cargo = filter_input(INPUT_POST, 'cargo', FILTER_SANITIZE_SPECIAL_CHARS);
     $data_publicacao = filter_input(INPUT_POST, 'data_publicacao', FILTER_SANITIZE_SPECIAL_CHARS);
-    $tempo_leitura = filter_input(INPUT_POST, 'tempo_leitura', FILTER_SANITIZE_SPECIAL_CHARS);
+    
+    // Concatena tempo_leitura a partir dos campos numérico e unidade
+    $tempo_num = filter_input(INPUT_POST, 'tempo_leitura_num', FILTER_VALIDATE_INT) ?: 5;
+    $tempo_uni = filter_input(INPUT_POST, 'tempo_leitura_unit', FILTER_SANITIZE_SPECIAL_CHARS) ?: 'min';
+    $tempo_leitura = $tempo_num . ' ' . $tempo_uni;
+    
+    $imagem = filter_input(INPUT_POST, 'imagem', FILTER_SANITIZE_SPECIAL_CHARS);
     
     // Cover SVG Metadata
     $svg_metadata_category = filter_input(INPUT_POST, 'svg_metadata_category', FILTER_SANITIZE_SPECIAL_CHARS) ?: $categoria;
@@ -106,12 +122,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($is_edit) {
-                $stmtUp = $db->prepare("UPDATE artigos SET slug = ?, titulo = ?, categoria = ?, resumo = ?, autor = ?, cargo = ?, data_publicacao = ?, tempo_leitura = ?, svg_metadata_category = ?, svg_metadata_title = ?, svg_metadata_subtitle = ? WHERE id = ?");
-                $stmtUp->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle, $artigo_id]);
+                $stmtUp = $db->prepare("UPDATE artigos SET slug = ?, titulo = ?, categoria = ?, resumo = ?, autor = ?, cargo = ?, data_publicacao = ?, tempo_leitura = ?, svg_metadata_category = ?, svg_metadata_title = ?, svg_metadata_subtitle = ?, imagem = ? WHERE id = ?");
+                $stmtUp->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle, $imagem, $artigo_id]);
                 $artId = $artigo_id;
             } else {
-                $stmtIn = $db->prepare("INSERT INTO artigos (slug, titulo, categoria, resumo, autor, cargo, data_publicacao, tempo_leitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmtIn->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle]);
+                $stmtIn = $db->prepare("INSERT INTO artigos (slug, titulo, categoria, resumo, autor, cargo, data_publicacao, tempo_leitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle, imagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmtIn->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle, $imagem]);
                 $artId = $db->lastInsertId();
             }
 
@@ -173,7 +189,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'tempo_leitura' => $tempo_leitura,
                 'svg_metadata_category' => $svg_metadata_category,
                 'svg_metadata_title' => $svg_metadata_title,
-                'svg_metadata_subtitle' => $svg_metadata_subtitle
+                'svg_metadata_subtitle' => $svg_metadata_subtitle,
+                'imagem' => $imagem
             ];
             
             $conteudo_blocos = [];
@@ -256,6 +273,9 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
                         <button type="button" onclick="addBloco('blockquote')" class="px-2.5 py-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-lg text-xs font-bold transition-all">
                             + Citação
                         </button>
+                        <button type="button" onclick="addBloco('image')" class="px-2.5 py-1.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-lg text-xs font-bold transition-all">
+                            + Imagem
+                        </button>
                     </div>
                 </div>
 
@@ -269,6 +289,25 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
         <!-- SIDEBAR: METADADOS E SALVAR -->
         <div class="space-y-6">
             
+            <!-- CAPA DO ARTIGO -->
+            <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 space-y-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green">Imagem de Capa (Opcional)</h3>
+                <p class="text-brand-muted text-[11px]">Selecione uma imagem de capa personalizada para este artigo. Deixe vazio para usar a capa técnica em SVG.</p>
+                <div>
+                    <div class="flex gap-2">
+                        <input type="text" id="art-imagem" name="imagem" value="<?php echo htmlspecialchars($artigo['imagem'] ?? ''); ?>" placeholder="ex: static/uploads/capa.png"
+                               class="flex-1 bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-2.5 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                        <input type="file" id="art-file-input" class="hidden" accept="image/*">
+                        <button type="button" onclick="triggerUpload('art-file-input', 'art-imagem', 'art-preview')" class="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold px-4 rounded-xl text-xs transition-all">
+                            Fazer Upload
+                        </button>
+                    </div>
+                    <div id="art-preview-container" class="mt-3 p-2 bg-brand-bg3/25 border border-white/5 rounded-xl inline-block <?php echo empty($artigo['imagem']) ? 'hidden' : ''; ?>">
+                        <img id="art-preview" src="<?php echo !empty($artigo['imagem']) ? '../' . $artigo['imagem'] : ''; ?>" class="max-h-24 rounded-lg object-contain">
+                    </div>
+                </div>
+            </div>
+
             <!-- DADOS DO AUTOR E METADADOS -->
             <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 space-y-4">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green">Publicação</h3>
@@ -293,8 +332,14 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Tempo Leitura</label>
-                        <input type="text" name="tempo_leitura" value="<?php echo htmlspecialchars($artigo['tempo_leitura']); ?>" placeholder="ex: 6 min"
-                               class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-3 py-2.5 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                        <div class="flex gap-2">
+                            <input type="number" name="tempo_leitura_num" value="<?php echo $tempo_valor; ?>" min="1" required
+                                   class="w-1/2 bg-brand-bg3/50 border border-white/5 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                            <select name="tempo_leitura_unit" class="w-1/2 bg-brand-bg3/50 border border-white/5 rounded-xl px-2 py-2.5 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                                <option value="min" <?php echo $tempo_unidade === 'min' ? 'selected' : ''; ?>>Minutos</option>
+                                <option value="h" <?php echo $tempo_unidade === 'h' ? 'selected' : ''; ?>>Horas</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -337,6 +382,49 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
 </form>
 
 <script>
+    // Função de Upload AJAX
+    function triggerUpload(fileInputId, textInputId, previewImgId) {
+        const fileInput = document.getElementById(fileInputId);
+        fileInput.click();
+        
+        fileInput.onchange = function() {
+            if (fileInput.files.length === 0) return;
+            
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const btn = fileInput.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+            
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                
+                if (data.success) {
+                    document.getElementById(textInputId).value = data.path;
+                    const previewImg = document.getElementById(previewImgId);
+                    previewImg.src = '../' + data.path;
+                    previewImg.parentElement.classList.remove('hidden');
+                } else {
+                    alert(data.message || 'Erro ao fazer upload.');
+                }
+            })
+            .catch(err => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                alert('Erro na comunicação com o servidor.');
+            });
+        };
+    }
+
     // Gerador de Slug Automático
     const tituloInput = document.getElementById('art-titulo');
     const slugInput = document.getElementById('art-slug');
@@ -416,6 +504,23 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
                           class="w-full bg-brand-bg3 border border-white/5 rounded-lg p-3 text-xs text-white placeholder-brand-muted/20 focus:outline-none focus:border-brand-green/30">${itens}</textarea>
                 <input type="hidden" name="bloco_texto[]" value="">
                 <input type="hidden" name="bloco_autor[]" value="">
+            `;
+        } else if (tipo === 'image') {
+            headerLabel = 'Imagem no Artigo';
+            inputContent = `
+                <div class="flex gap-2">
+                    <input type="text" id="bloco-img-${blocoCount}" name="bloco_texto[]" value="${texto}" placeholder="Caminho da imagem (ex: static/uploads/imagem.png)" required
+                           class="flex-1 bg-brand-bg3 border border-white/5 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                    <input type="file" id="bloco-file-${blocoCount}" class="hidden" accept="image/*">
+                    <button type="button" onclick="triggerUpload('bloco-file-${blocoCount}', 'bloco-img-${blocoCount}', 'bloco-preview-${blocoCount}')" class="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold px-3 rounded-lg text-xs transition-all">
+                        Upload
+                    </button>
+                </div>
+                <div id="bloco-preview-container-${blocoCount}" class="mt-2 p-1 bg-brand-bg3/25 border border-white/5 rounded-lg inline-block ${texto ? '' : 'hidden'}">
+                    <img id="bloco-preview-${blocoCount}" src="${texto ? '../' + texto : ''}" class="max-h-20 rounded-md object-contain">
+                </div>
+                <input type="hidden" name="bloco_autor[]" value="">
+                <input type="hidden" name="bloco_itens[]" value="">
             `;
         }
 

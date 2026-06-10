@@ -288,8 +288,17 @@ admin_header($is_edit ? "Editar Produto" : "Cadastrar Novo Produto", "produtos")
 
                 <div>
                     <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Imagem do Produto (Pasta `static/` ou URL)</label>
-                    <input type="text" name="imagem" value="<?php echo htmlspecialchars($produto['imagem']); ?>" placeholder="ex: static/carregador-wallbox.png"
-                           class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                    <div class="flex gap-2">
+                        <input type="text" id="prod-imagem" name="imagem" value="<?php echo htmlspecialchars($produto['imagem']); ?>" placeholder="ex: static/produtos/carregador.png"
+                               class="flex-1 bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                        <input type="file" id="prod-file-input" class="hidden" accept="image/*">
+                        <button type="button" onclick="triggerUpload('prod-file-input', 'prod-imagem', 'prod-preview')" class="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold px-4 rounded-xl text-xs transition-all">
+                            Fazer Upload
+                        </button>
+                    </div>
+                    <div id="prod-preview-container" class="mt-3 p-2 bg-brand-bg3/25 border border-white/5 rounded-xl inline-block <?php echo empty($produto['imagem']) ? 'hidden' : ''; ?>">
+                        <img id="prod-preview" src="<?php echo !empty($produto['imagem']) ? '../' . $produto['imagem'] : ''; ?>" class="max-h-24 rounded-lg object-contain">
+                    </div>
                 </div>
             </div>
 
@@ -417,6 +426,49 @@ admin_header($is_edit ? "Editar Produto" : "Cadastrar Novo Produto", "produtos")
 </form>
 
 <script>
+    // Função de Upload AJAX
+    function triggerUpload(fileInputId, textInputId, previewImgId) {
+        const fileInput = document.getElementById(fileInputId);
+        fileInput.click();
+        
+        fileInput.onchange = function() {
+            if (fileInput.files.length === 0) return;
+            
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const btn = fileInput.nextElementSibling;
+            const originalText = btn.textContent;
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+            
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                
+                if (data.success) {
+                    document.getElementById(textInputId).value = data.path;
+                    const previewImg = document.getElementById(previewImgId);
+                    previewImg.src = '../' + data.path;
+                    previewImg.parentElement.classList.remove('hidden');
+                } else {
+                    alert(data.message || 'Erro ao fazer upload.');
+                }
+            })
+            .catch(err => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                alert('Erro na comunicação com o servidor.');
+            });
+        };
+    }
+
     // Gerar Slug Automaticamente
     const nomeInput = document.getElementById('prod-nome');
     const slugInput = document.getElementById('prod-slug');

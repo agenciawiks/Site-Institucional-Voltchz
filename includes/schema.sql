@@ -102,6 +102,7 @@ CREATE TABLE `artigos` (
     `svg_metadata_category` VARCHAR(50) NULL,
     `svg_metadata_title` VARCHAR(150) NULL,
     `svg_metadata_subtitle` VARCHAR(150) NULL,
+    `imagem` VARCHAR(255) NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_artigos_slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

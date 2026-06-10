@@ -78,11 +78,11 @@ admin_header("Inbox de Leads", "leads");
     </div>
 <?php endif; ?>
 
-<!-- LEADS SPLIT VIEW -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEADS VIEW CONTAINER -->
+<div class="relative">
     
-    <!-- LEFT SIDE: LIST & FILTERS -->
-    <div class="lg:col-span-8 space-y-6">
+    <!-- LEFT SIDE: LIST & FILTERS (Full Width) -->
+    <div class="space-y-6">
         
         <!-- Filters Card -->
         <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-5">
@@ -141,7 +141,8 @@ admin_header("Inbox de Leads", "leads");
                             $status_color = 'bg-brand-green/10 text-brand-green border border-brand-green/20';
                         }
                     ?>
-                        <div class="p-4 rounded-xl border transition-all <?php echo $is_selected ? 'bg-brand-green/[0.03] border-brand-green/30' : 'bg-brand-bg3/40 border-white/5 hover:border-white/10'; ?>">
+                        <div onclick="openLead(<?php echo $lead['id']; ?>)"
+                             class="p-4 rounded-xl border transition-all cursor-pointer <?php echo $is_selected ? 'bg-brand-green/[0.03] border-brand-green/30' : 'bg-brand-bg3/40 border-white/5 hover:border-white/10 hover:bg-white/[0.01]'; ?>">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                                 <div>
                                     <h4 class="text-sm font-bold text-white"><?php echo htmlspecialchars($lead['nome']); ?></h4>
@@ -172,11 +173,10 @@ admin_header("Inbox de Leads", "leads");
                                         Prazo: <?php echo htmlspecialchars($lead['prazo_desejado']); ?>
                                     </span>
                                 </div>
-                                <a href="?id=<?php echo $lead['id']; ?>&q=<?php echo urlencode($busca); ?>&status=<?php echo urlencode($filtro_status); ?>&projeto=<?php echo urlencode($filtro_projeto); ?>"
-                                   class="text-xs font-semibold text-brand-green hover:underline inline-flex items-center gap-1">
-                                    Detalhes
+                                <span class="text-xs font-semibold text-brand-green hover:underline inline-flex items-center gap-1">
+                                    Ver Detalhes
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
-                                </a>
+                                </span>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -185,85 +185,116 @@ admin_header("Inbox de Leads", "leads");
         </div>
     </div>
 
-    <!-- RIGHT SIDE: DETAIL CARD -->
-    <div class="lg:col-span-4">
-        <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 sticky top-6">
-            <?php if (!$active_lead): ?>
-                <div class="text-center py-20 text-brand-muted">
-                    <svg class="w-12 h-12 text-brand-muted/20 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.884 2.223v6.12c0 1.242 1.008 2.25 2.25 2.25h15c1.242 0 2.25-1.008 2.25-2.25v-6.12a2.25 2.25 0 00-1.884-2.223m-16.5 0c.22-.034.446-.051.676-.051h15c.23 0 .456.017.676.051m-16.5 0a2.447 2.447 0 00-.766.197m18.032.197a2.447 2.447 0 00-.767-.197m0 0A2.25 2.25 0 0118 7.5V5.25A2.25 2.25 0 0015.75 3H8.25A2.25 2.25 0 006 5.25V7.5c0 .285-.053.559-.149.811z"></path></svg>
-                    <p class="text-xs">Selecione um lead comercial na listagem para ver todo o histórico de mensagens e atualizar o status.</p>
+    <!-- DRAWER LATERAL: DETAIL & EDIT PANELS -->
+    <div id="lead-drawer-backdrop" onclick="closeLeadDrawer()" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+
+    <div id="lead-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-lg bg-brand-bg2/95 border-l border-white/10 p-6 shadow-2xl transition-transform duration-300 translate-x-full backdrop-blur-xl flex flex-col justify-between overflow-y-auto">
+        <?php if ($active_lead): ?>
+            <div class="space-y-6">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white"><?php echo htmlspecialchars($active_lead['nome']); ?></h3>
+                        <p class="text-xs text-brand-muted mt-0.5">Recebido em <?php echo date('d/m/Y H:i', strtotime($active_lead['criado_em'])); ?></p>
+                    </div>
+                    <button onclick="closeLeadDrawer()" class="text-brand-muted hover:text-white text-2xl font-semibold leading-none">&times;</button>
                 </div>
-            <?php else: ?>
-                <div class="space-y-6">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <h3 class="text-lg font-bold text-white"><?php echo htmlspecialchars($active_lead['nome']); ?></h3>
-                            <p class="text-xs text-brand-muted mt-0.5">Recebido em <?php echo date('d/m/Y H:i', strtotime($active_lead['criado_em'])); ?></p>
-                        </div>
-                        <a href="leads.php" class="text-brand-muted hover:text-white">&times; Fechar</a>
-                    </div>
 
-                    <!-- Informações de Contato -->
-                    <div class="border-t border-b border-white/5 py-4 space-y-3">
+                <!-- Informações de Contato -->
+                <div class="border-t border-b border-white/5 py-4 space-y-3">
+                    <div class="text-xs">
+                        <span class="block font-bold text-white uppercase tracking-wider mb-1">E-mail</span>
+                        <a href="mailto:<?php echo htmlspecialchars($active_lead['email']); ?>" class="text-brand-green hover:underline">
+                            <?php echo htmlspecialchars($active_lead['email']); ?>
+                        </a>
+                    </div>
+                    <div class="text-xs">
+                        <span class="block font-bold text-white uppercase tracking-wider mb-1">Telefone / WhatsApp</span>
+                        <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $active_lead['telefone']); ?>" target="_blank" class="text-brand-green hover:underline inline-flex items-center gap-1">
+                            <?php echo htmlspecialchars($active_lead['telefone']); ?>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-10 10c0 1.86.5 3.6 1.39 5.12l-1.39 5.08 5.2-.13c1.47.8 3.12 1.25 4.8 1.25a10 10 0 0010-10 10 10 0 00-10-10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                    </div>
+                    <?php if (!empty($active_lead['empresa'])): ?>
                         <div class="text-xs">
-                            <span class="block font-bold text-white uppercase tracking-wider mb-1">E-mail</span>
-                            <a href="mailto:<?php echo htmlspecialchars($active_lead['email']); ?>" class="text-brand-green hover:underline">
-                                <?php echo htmlspecialchars($active_lead['email']); ?>
-                            </a>
+                            <span class="block font-bold text-white uppercase tracking-wider mb-0.5">Empresa / Condomínio</span>
+                            <span class="text-white"><?php echo htmlspecialchars($active_lead['empresa']); ?></span>
                         </div>
+                    <?php endif; ?>
+                    <?php if (!empty($active_lead['cidade'])): ?>
                         <div class="text-xs">
-                            <span class="block font-bold text-white uppercase tracking-wider mb-1">Telefone / WhatsApp</span>
-                            <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $active_lead['telefone']); ?>" target="_blank" class="text-brand-green hover:underline inline-flex items-center gap-1">
-                                <?php echo htmlspecialchars($active_lead['telefone']); ?>
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-10 10c0 1.86.5 3.6 1.39 5.12l-1.39 5.08 5.2-.13c1.47.8 3.12 1.25 4.8 1.25a10 10 0 0010-10 10 10 0 00-10-10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </a>
+                            <span class="block font-bold text-white uppercase tracking-wider mb-0.5">Cidade / UF</span>
+                            <span class="text-white"><?php echo htmlspecialchars($active_lead['cidade']); ?></span>
                         </div>
-                        <?php if (!empty($active_lead['empresa'])): ?>
-                            <div class="text-xs">
-                                <span class="block font-bold text-white uppercase tracking-wider mb-0.5">Empresa / Condomínio</span>
-                                <span class="text-white"><?php echo htmlspecialchars($active_lead['empresa']); ?></span>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($active_lead['cidade'])): ?>
-                            <div class="text-xs">
-                                <span class="block font-bold text-white uppercase tracking-wider mb-0.5">Cidade / UF</span>
-                                <span class="text-white"><?php echo htmlspecialchars($active_lead['cidade']); ?></span>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
+                </div>
 
-                    <!-- Mensagem -->
-                    <div class="text-xs space-y-2">
-                        <span class="block font-bold text-white uppercase tracking-wider">Mensagem e Detalhes</span>
-                        <div class="bg-brand-bg3/60 p-4 rounded-xl border border-white/5 text-white/90 leading-relaxed max-h-60 overflow-y-auto whitespace-pre-wrap">
-                            <?php echo htmlspecialchars($active_lead['mensagem']); ?>
-                        </div>
-                    </div>
-
-                    <!-- Ação: Atualizar Status -->
-                    <div class="border-t border-white/5 pt-4">
-                        <form method="POST" action="" class="space-y-3">
-                            <input type="hidden" name="action" value="update_status">
-                            <input type="hidden" name="lead_id" value="<?php echo $active_lead['id']; ?>">
-                            
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-brand-muted">Alterar Status</label>
-                            
-                            <div class="flex gap-2">
-                                <select name="status" class="flex-1 bg-brand-bg3 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green/30">
-                                    <option value="Pendente" <?php echo $active_lead['status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
-                                    <option value="Em Atendimento" <?php echo $active_lead['status'] === 'Em Atendimento' ? 'selected' : ''; ?>>Em Atendimento</option>
-                                    <option value="Concluído" <?php echo $active_lead['status'] === 'Concluído' ? 'selected' : ''; ?>>Concluído</option>
-                                </select>
-                                <button type="submit" class="bg-brand-green text-brand-bg font-bold px-4 py-2 rounded-xl text-xs hover:brightness-110 active:scale-95 transition-all">
-                                    Salvar
-                                </button>
-                            </div>
-                        </form>
+                <!-- Mensagem -->
+                <div class="text-xs space-y-2">
+                    <span class="block font-bold text-white uppercase tracking-wider">Mensagem e Detalhes</span>
+                    <div class="bg-brand-bg3/60 p-4 rounded-xl border border-white/5 text-white/90 leading-relaxed max-h-60 overflow-y-auto whitespace-pre-wrap">
+                        <?php echo htmlspecialchars($active_lead['mensagem']); ?>
                     </div>
                 </div>
-            <?php endif; ?>
-        </div>
+
+                <!-- Ação: Atualizar Status -->
+                <div class="border-t border-white/5 pt-4">
+                    <form method="POST" action="" class="space-y-3">
+                        <input type="hidden" name="action" value="update_status">
+                        <input type="hidden" name="lead_id" value="<?php echo $active_lead['id']; ?>">
+                        
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-brand-muted">Alterar Status</label>
+                        
+                        <div class="flex gap-2">
+                            <select name="status" class="flex-1 bg-brand-bg3 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                                <option value="Pendente" <?php echo $active_lead['status'] === 'Pendente' ? 'selected' : ''; ?>>Pendente</option>
+                                <option value="Em Atendimento" <?php echo $active_lead['status'] === 'Em Atendimento' ? 'selected' : ''; ?>>Em Atendimento</option>
+                                <option value="Concluído" <?php echo $active_lead['status'] === 'Concluído' ? 'selected' : ''; ?>>Concluído</option>
+                            </select>
+                            <button type="submit" class="bg-brand-green text-brand-bg font-bold px-4 py-2 rounded-xl text-xs hover:brightness-110 active:scale-95 transition-all">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="text-center py-20 text-brand-muted h-full flex flex-col items-center justify-center">
+                <svg class="w-12 h-12 text-brand-muted/20 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.884 2.223v6.12c0 1.242 1.008 2.25 2.25 2.25h15c1.242 0 2.25-1.008 2.25-2.25v-6.12a2.25 2.25 0 00-1.884-2.223m-16.5 0c.22-.034.446-.051.676-.051h15c.23 0 .456.017.676.051m-16.5 0a2.447 2.447 0 00-.766.197m18.032.197a2.447 2.447 0 00-.767-.197m0 0A2.25 2.25 0 0118 7.5V5.25A2.25 2.25 0 0015.75 3H8.25A2.25 2.25 0 006 5.25V7.5c0 .285-.053.559-.149.811z"></path></svg>
+                <p class="text-xs">Selecione um lead comercial na listagem para ver os detalhes.</p>
+            </div>
+        <?php endif; ?>
     </div>
+
+</div>
+
+<script>
+    function openLead(id) {
+        window.location.href = "?id=" + id + "&q=<?php echo urlencode($busca); ?>&status=<?php echo urlencode($filtro_status); ?>&projeto=<?php echo urlencode($filtro_projeto); ?>";
+    }
+
+    function closeLeadDrawer() {
+        const drawer = document.getElementById("lead-drawer");
+        const backdrop = document.getElementById("lead-drawer-backdrop");
+        if (drawer && backdrop) {
+            drawer.classList.add("translate-x-full");
+            backdrop.classList.add("opacity-0", "pointer-events-none");
+            backdrop.classList.remove("opacity-100");
+        }
+        setTimeout(() => {
+            window.location.href = "leads.php?q=<?php echo urlencode($busca); ?>&status=<?php echo urlencode($filtro_status); ?>&projeto=<?php echo urlencode($filtro_projeto); ?>";
+        }, 300);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const drawer = document.getElementById("lead-drawer");
+        const backdrop = document.getElementById("lead-drawer-backdrop");
+        if (drawer && backdrop && <?php echo $active_lead ? 'true' : 'false'; ?>) {
+            drawer.classList.remove("translate-x-full");
+            backdrop.classList.remove("opacity-0", "pointer-events-none");
+            backdrop.classList.add("opacity-100");
+        }
+    });
+</script>
 
 </div>
 

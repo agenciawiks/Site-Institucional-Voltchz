@@ -107,7 +107,7 @@ include "includes/header.php";
         <!-- Capa Técnica -->
         <div class="relative w-full aspect-[16/5] rounded-[20px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl flex items-center justify-center mb-12">
           <div id="article-media-container" class="w-full h-full flex items-center justify-center">
-            <img src="<?php echo get_artigo_imagem($artigo['slug']); ?>" alt="<?php echo htmlspecialchars($artigo['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
+            <img src="<?php echo !empty($artigo['imagem']) ? $artigo['imagem'] : get_artigo_imagem($artigo['slug']); ?>" alt="<?php echo htmlspecialchars($artigo['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
           </div>
           <!-- Gradient overlay bottom -->
           <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-bg2 to-transparent pointer-events-none"></div>
@@ -146,6 +146,10 @@ include "includes/header.php";
                     — <?php echo htmlspecialchars($block['author']); ?>
                   </cite>
                 <?php endif; ?>
+              </div>
+            <?php elseif ($block['type'] === 'image'): ?>
+              <div class="my-8 rounded-3xl overflow-hidden border border-white/5 shadow-2xl observe">
+                <img src="<?php echo htmlspecialchars($block['text']); ?>" alt="Imagem do artigo" class="w-full h-auto object-cover max-h-[500px]" loading="lazy">
               </div>
             <?php endif; ?>
           <?php endforeach; ?>

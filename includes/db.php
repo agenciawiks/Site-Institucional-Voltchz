@@ -51,6 +51,17 @@ function get_db_connection() {
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        
+        // Auto-migração da coluna imagem na tabela artigos se necessário
+        try {
+            $pdo->query("SELECT imagem FROM artigos LIMIT 1");
+        } catch (Exception $e) {
+            try {
+                $pdo->exec("ALTER TABLE artigos ADD COLUMN imagem VARCHAR(255) NULL AFTER svg_metadata_subtitle");
+            } catch (Exception $e2) {
+                // Silencioso se der erro (ex: tabela ainda não criada)
+            }
+        }
     }
     return $pdo;
 }
@@ -165,7 +176,7 @@ function get_filtered_produtos($marca = 'todos', $categoria = 'todos', $busca = 
  */
 function get_filtered_artigos($category = 'todos', $busca = '') {
     $db = get_db_connection();
-    $sql = "SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle FROM artigos WHERE 1=1";
+    $sql = "SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle, imagem FROM artigos WHERE 1=1";
     $params = [];
 
     if ($category !== 'todos') {
@@ -230,7 +241,7 @@ function get_artigos() {
     $db = get_db_connection();
     
     // Busca os artigos base
-    $stmt = $db->query("SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle FROM artigos ORDER BY id DESC");
+    $stmt = $db->query("SELECT id, slug, titulo, categoria, resumo, autor, cargo, data_publicacao AS data, tempo_leitura AS tempoLeitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle, imagem FROM artigos ORDER BY id DESC");
     $artigos = $stmt->fetchAll();
     
     foreach ($artigos as &$art) {
