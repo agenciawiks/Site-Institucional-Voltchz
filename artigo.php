@@ -107,11 +107,7 @@ include "includes/header.php";
         <!-- Capa Técnica -->
         <div class="relative w-full aspect-[16/5] rounded-[20px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl flex items-center justify-center mb-12">
           <div id="article-media-container" class="w-full h-full flex items-center justify-center">
-            <!-- SVG do Artigo Gerado no Servidor -->
-            <?php 
-              $svg_meta = $artigo['svg_metadata'];
-              echo generate_technical_svg($svg_meta['category'], $svg_meta['title'], $svg_meta['subtitle']);
-            ?>
+            <img src="<?php echo get_artigo_imagem($artigo['slug']); ?>" alt="<?php echo htmlspecialchars($artigo['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
           </div>
           <!-- Gradient overlay bottom -->
           <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-bg2 to-transparent pointer-events-none"></div>
@@ -216,7 +212,7 @@ include "includes/header.php";
             <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5 text-left">
               <!-- Capa Técnica -->
               <div class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center">
-                <?php echo generate_technical_svg($ra['categoria'] === 'Legislação' ? 'protecao' : 'estacoes', $ra['titulo'], 'VoltchZ Insights'); ?>
+                <img src="<?php echo get_artigo_imagem($ra['slug']); ?>" alt="<?php echo htmlspecialchars($ra['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
               </div>
 
               <!-- Metadados e Título -->

@@ -308,6 +308,26 @@ function get_artigo_by_slug($slug) {
     return null;
 }
 
+// Retorna o caminho da imagem WebP correspondente ao artigo
+function get_artigo_imagem($slug) {
+    $mapping = [
+        'independencia-energetica-energia-solar-e-carregadores-evs' => 'solar panel electric car.webp',
+        'economia-de-tempo-e-dinheiro-tco-dos-veiculos-eletricos' => 'electric car cost savings.webp',
+        'conconveniencia-carregamento-residencial-comercial' => 'ev charging hotel parking.webp',
+        'segundo-a-abve-numeros-indicam-transformacao-mercado-veiculos-eletrificados' => 'electric vehicle market.webp',
+        'seguranca-e-controle-gestao-de-frotas-comerciais' => 'fleet electric vehicles.webp',
+        'a-escolha-do-cabo-certo-na-instalacao-de-carregadores-para-veiculos-eletricos' => 'electrical cable installation.webp',
+        'a-importancia-do-disjuntor-certo-na-protecao-de-instalacoes-eletricas' => 'circuit breaker panel.webp',
+        'a-escolha-certa-carregador-tipo-a-ac-ou-b-para-carros-eletricos' => 'electrical safety protection.webp',
+        'lei-18403-carregadores-veiculos-eletricos-condominios' => 'apartment parking charging.webp',
+    ];
+
+    if (isset($mapping[$slug])) {
+        return 'static/blogs/' . $mapping[$slug];
+    }
+    return 'static/logo.webp';
+}
+
 // Retorna a URL do WhatsApp para solicitação de orçamento
 function get_budget_url($produto, $variacao = null) {
     $number = '5512981039845'; // WhatsApp padrão das configurações

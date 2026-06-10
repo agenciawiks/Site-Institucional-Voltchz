@@ -90,9 +90,9 @@ include "includes/header.php";
           <section id="featured-article-section" class="mb-16">
             <div id="featured-article-container">
               <div class="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white/[0.01] border border-white/5 hover:border-brand-green/20 rounded-[32px] overflow-hidden p-6 lg:p-8 backdrop-blur-xl shadow-2xl transition-all duration-300">
-                <!-- Capa / Imagem Vetorial -->
+                <!-- Capa / Imagem -->
                 <div class="lg:col-span-6 relative aspect-[16/10] lg:aspect-auto rounded-2xl overflow-hidden bg-brand-bg border border-white/5 flex items-center justify-center min-h-[250px]">
-                  <?php echo generate_technical_svg($featured['categoria'] === 'Legislação' ? 'protecao' : 'estacoes', $featured['titulo'], 'VoltchZ Insights'); ?>
+                  <img src="<?php echo get_artigo_imagem($featured['slug']); ?>" alt="<?php echo htmlspecialchars($featured['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
                 </div>
 
                 <!-- Metadados e Texto -->
@@ -173,7 +173,7 @@ include "includes/header.php";
                 <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
                   <!-- Capa -->
                   <div class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center">
-                    <?php echo generate_technical_svg($art['categoria'] === 'Legislação' ? 'protecao' : 'estacoes', $art['titulo'], 'VoltchZ Insights'); ?>
+                    <img src="<?php echo get_artigo_imagem($art['slug']); ?>" alt="<?php echo htmlspecialchars($art['titulo']); ?>" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy">
                   </div>
 
                   <!-- Conteúdo -->
