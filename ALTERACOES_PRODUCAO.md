@@ -5,38 +5,38 @@
 > **NÃO SUBIR ESTE ARQUIVO PARA O SITE OFICIAL EM PRODUÇÃO (HOSTINGER)**
 > Este arquivo serve apenas como documentação local e registro das modificações aplicadas para controle interno.
 
-Este documento detalha todas as otimizações, correções e novos recursos implementados no site hoje.
+Este documento detalha todas as otimizações, correções e novos recursos implementados no site.
 
 ---
 
-## 1. URLs Amigáveis e Roteamento Avançado
-* **Remoção de Extensões `.php`:** Configuração global para remover a extensão `.php` de todas as URLs do site.
-* **Mapeamento de Rotas no `.htaccess`:**
-  * `/blog` direciona internamente para `blog.php`.
-  * `/blog/slug` direciona internamente para `artigo.php?slug=slug`.
-  * `/produto/slug` direciona internamente para `produto-detalhe.php?slug=slug`.
-* **Redirecionamento 301 Automático:** URLs antigas acessadas diretamente com `.php` (ex: `/sobre.php`) ou com parâmetros antigos (ex: `artigo.php?slug=...`) são redirecionadas automaticamente e de forma absoluta para a URL amigável correspondente.
-* **Resolução de Pasta Base Dinâmica:**
-  * Implementada detecção de ambiente isolada em `includes/header.php`.
-  * Em ambiente local (XAMPP), resolve a `<base href="/Site-Institucional-Voltchz/">` automaticamente.
-  * Em produção (Hostinger), resolve a `<base href="/">` automaticamente.
-  * Isso evitou erros de caminhos de arquivos, duplicidade de diretórios e quebras de imagens/CSS.
+## [16/06/2026] - Grandes Atualizações e Otimizações de Produção
 
-## 2. Consolidação e Migração do Banco de Dados (SQL)
-* **XAMPP Local (`xampp_setup_completo.sql`):** Script completo de destruição e recriação das tabelas do banco `voltchz_db`, com carga completa de dados iniciais e novos produtos Incharge.
-* **Hostinger Produção (`hostinger_atualizacao_segura.sql`):** Script seguro para atualização da estrutura do banco em produção utilizando comandos de alteração sem risco de perda de leads ativos ou usuários existentes.
+### 1. URLs Amigáveis do Blog e Roteamento Avançado
+* **Remoção do Prefixo `/blog/`:** Os artigos agora são acessados diretamente na raiz (ex: `/meu-artigo` em vez de `/blog/meu-artigo`).
+* **Resolução de Conflitos de Âncora (Menu):** Ajustada a regra no `.htaccess` para impedir que arquivos `.php` físicos sem extensão (como `index`, `sobre`, `produtos`) fossem incorretamente capturados como slugs de blog.
+* **Redirecionamento 301 Automático:** Configurados redirecionamentos permanentes no `.htaccess` de acessos legados (`artigo.php?slug=...` e `/blog/slug`) para a nova URL limpa.
+* **Atualização de Templates e Scripts:** Atualizados todos os links de artigos em `blog.php`, `artigo.php`, `js/pages/artigo.js` e `js/pages/blog.js`.
 
-## 3. Melhorias Visuais e de Performance
-* **Fundo de Imagens no Catálogo:** Alterado o fundo dos containers de imagens do catálogo em `produtos.php` de `bg-white` para `bg-brand-bg` (tema escuro), preparando o site para novas fotos com transparência.
-* **Substituição de Imagem (Cliente 6):** Atualização física da foto `cliente-6.webp` (conversão otimizada de JPG para WebP via Python), agora utilizando a versão limpa sem o varal de roupas ao fundo.
+### 2. Separação de Produtos no Banco de Dados
+* **Divisão de Quadro de Proteção:** O "Quadro de Proteção E-Wolf 7.2 kW" foi subdividido em 4 produtos distintos (com/sem tomada, monofásico/bifásico e trifásico).
+* **Migração SQL:** Atualizados os scripts de banco de dados local (`includes/xampp_setup_completo.sql`) e produção (`includes/hostinger_atualizacao_segura.sql`), além do `db.json`.
 
-## 4. Novo Portfólio Dedicado e Logos Premium
-* **Nova Página de Portfólio (`portfolio.php`):** Migração do portfólio expandido da página inicial para uma página dedicada `/portfolio` acessível por link limpo.
-* **Filtro de Marcas Corrigido:** Atualização do Javascript em `js/ui/portfolio-real.js` para aplicar ouvintes de eventos de clique individuais diretos nos botões de filtro, eliminando falhas de delegação de cliques.
-* **Logos de Elétricos em SVG:** Integração de logos vetorizadas em formato SVG inline de alta qualidade para as marcas automotivas integradas (Tesla, BYD, GWM, Volvo, Geely/Zeekr, Porsche, BMW, Audi, Mercedes-Benz, Chevrolet).
+### 3. Remoção de Fundo de Imagens
+* **Transparência Premium:** Processamento com sucesso de 17 imagens de carregadores e pedestais (Intelbras e Incharge) removendo o fundo e otimizando a exibição no tema escuro.
+
+### 4. Segurança contra Bots (Anti-Spam)
+* **Honeypot + Time Lock:** Implementado campo invisível para bots e trava de tempo de envio mínimo (2 segundos) no front-end (`js/utils/forms.js`) e validações no back-end (`save-lead.php` e `contato.php`).
+
+### 5. Portfólio & Organização de Logos
+* **Logos Oficiais:** Substituição das logos no portfólio (`portfolio.php`) pelas versões atualizadas da pasta `static/logos-marcas/` (E-Wolf, Intelbras, Incharge, BYD, BMW, Embraer), removendo a logo Padrão Brasil.
+* **Filtros Dinâmicos:** Correção dos ouvintes de clique em `js/ui/portfolio-real.js`.
+
+### 6. Novo Script de Deploy (PowerShell)
+* **`make_deploy.ps1`:** Substituição do antigo script Python por um script nativo PowerShell super veloz que gera o pacote compactado `voltchz_hostinger_deploy.zip` ignorando pastas como `.git` e `node_modules` de forma limpa.
 
 ---
 
 ## Estrutura de Arquivos Modificados / Adicionados
-* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `includes/xampp_setup_completo.sql`, `includes/hostinger_atualizacao_segura.sql`.
-* **Modificados:** `index.php`, `produtos.php`, `blog.php`, `artigo.php`, `viabilidade.php`, `includes/header.php`, `includes/footer.php`, `js/config.js`, `js/main.js`, `js/pages/artigo.js`, `js/pages/blog.js`, `js/pages/produtos.js`, `js/pages/produto-detalhe.js`, `js/ui/navigation.js`, `static/clientes/cliente-6.webp`.
+* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `make_deploy.ps1`, `includes/xampp_setup_completo.sql`, `includes/hostinger_atualizacao_segura.sql`.
+* **Removidos:** `make_deploy.py`.
+* **Modificados:** `index.php`, `produtos.php`, `blog.php`, `artigo.php`, `viabilidade.php`, `includes/header.php`, `includes/footer.php`, `js/config.js`, `js/main.js`, `js/pages/artigo.js`, `js/pages/blog.js`, `js/pages/produtos.js`, `js/pages/produto-detalhe.js`, `js/ui/navigation.js`.

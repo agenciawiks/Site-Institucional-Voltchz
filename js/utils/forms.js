@@ -21,6 +21,13 @@ export const handleLeadSubmission = async (event, provider) => {
   // Limpeza básica
   Object.keys(data).forEach(key => data[key] = String(data[key]).trim());
 
+  // Bloqueio de bot via Honeypot
+  if (data.sobrenome_confirm) {
+    console.warn('Bot detected via Honeypot');
+    form.reset();
+    return;
+  }
+
   // Estado de carregamento
   button.disabled = true;
   button.textContent = provider === 'whatsapp' ? 'Preparando...' : 'Enviando...';

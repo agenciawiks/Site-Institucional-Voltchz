@@ -5,26 +5,37 @@ $success_message = '';
 $error_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_SPECIAL_CHARS);
-    $empresa = filter_input(INPUT_POST, 'empresa', FILTER_SANITIZE_SPECIAL_CHARS);
-    $cidade = filter_input(INPUT_POST, 'cidade', FILTER_SANITIZE_SPECIAL_CHARS);
-    $tipo_projeto = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
-    $prazo_desejado = filter_input(INPUT_POST, 'prazo', FILTER_SANITIZE_SPECIAL_CHARS);
-    $mensagem = filter_input(INPUT_POST, 'mensagem', FILTER_SANITIZE_SPECIAL_CHARS);
+    // Validação de bots (Honeypot e time lock)
+    $honeypot = filter_input(INPUT_POST, 'sobrenome_confirm', FILTER_DEFAULT);
+    $form_time = filter_input(INPUT_POST, 'form_time', FILTER_VALIDATE_INT);
 
-    if ($nome && $email && $telefone && $tipo_projeto && $prazo_desejado && $mensagem) {
-        try {
-            $db = get_db_connection();
-            $stmt = $db->prepare("INSERT INTO leads (nome, email, telefone, empresa, cidade, tipo_projeto, prazo_desejado, mensagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$nome, $email, $telefone, $empresa, $cidade, $tipo_projeto, $prazo_desejado, $mensagem]);
-            $success_message = 'Obrigado! Seu contato foi enviado com sucesso. Nossa equipe técnica retornará em breve.';
-        } catch (Exception $e) {
-            $error_message = 'Houve um erro técnico ao processar seu contato. Por favor, tente novamente ou fale conosco via WhatsApp.';
-        }
+    if (!empty($honeypot)) {
+        // Silenciosamente simula sucesso para despistar bots
+        $success_message = 'Obrigado! Seu contato foi enviado com sucesso. Nossa equipe técnica retornará em breve.';
+    } elseif ($form_time && (time() - $form_time < 2)) {
+        $error_message = 'Envio muito rápido. Por favor, aguarde alguns segundos.';
     } else {
-        $error_message = 'Por favor, preencha todos os campos obrigatórios.';
+        $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_SPECIAL_CHARS);
+        $empresa = filter_input(INPUT_POST, 'empresa', FILTER_SANITIZE_SPECIAL_CHARS);
+        $cidade = filter_input(INPUT_POST, 'cidade', FILTER_SANITIZE_SPECIAL_CHARS);
+        $tipo_projeto = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
+        $prazo_desejado = filter_input(INPUT_POST, 'prazo', FILTER_SANITIZE_SPECIAL_CHARS);
+        $mensagem = filter_input(INPUT_POST, 'mensagem', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if ($nome && $email && $telefone && $tipo_projeto && $prazo_desejado && $mensagem) {
+            try {
+                $db = get_db_connection();
+                $stmt = $db->prepare("INSERT INTO leads (nome, email, telefone, empresa, cidade, tipo_projeto, prazo_desejado, mensagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$nome, $email, $telefone, $empresa, $cidade, $tipo_projeto, $prazo_desejado, $mensagem]);
+                $success_message = 'Obrigado! Seu contato foi enviado com sucesso. Nossa equipe técnica retornará em breve.';
+            } catch (Exception $e) {
+                $error_message = 'Houve um erro técnico ao processar seu contato. Por favor, tente novamente ou fale conosco via WhatsApp.';
+            }
+        } else {
+            $error_message = 'Por favor, preencha todos os campos obrigatórios.';
+        }
     }
 }
 
@@ -62,6 +73,11 @@ include "includes/header.php";
         <?php endif; ?>
 
         <form method="POST" action="contato.php" class="grid grid-cols-1 gap-4">
+          <input type="hidden" name="form_time" value="<?php echo time(); ?>">
+          <div style="display:none !important;">
+            <label for="sobrenome_confirm">Não preencha este campo se for humano:</label>
+            <input type="text" id="sobrenome_confirm" name="sobrenome_confirm" tabindex="-1" autocomplete="off">
+          </div>
           <input type="text" name="nome" placeholder="Nome completo" required
             class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-green/50 transition-all">
           <input type="email" name="email" placeholder="E-mail" required

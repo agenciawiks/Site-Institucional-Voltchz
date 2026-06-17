@@ -1067,6 +1067,11 @@ include "includes/header.php";
                             Preencha os dados essenciais para receber um retorno rápido da equipe comercial.
                         </p>
                         <form id="quick-lead-form" class="grid grid-cols-1 gap-4 mb-8">
+                            <input type="hidden" name="form_time" value="<?php echo time(); ?>">
+                            <div style="display:none !important;">
+                                <label for="sobrenome_confirm">Não preencha este campo se for humano:</label>
+                                <input type="text" id="sobrenome_confirm" name="sobrenome_confirm" tabindex="-1" autocomplete="off">
+                            </div>
                             <input type="text" name="nome" placeholder="Nome completo" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
                             <input type="tel" name="telefone" placeholder="Telefone / WhatsApp" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-green/50 transition-all">
                             <select name="tipo" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-green/50 transition-all">

@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-            <a href="blog/${art.slug}">${art.titulo}</a>
+            <a href="${art.slug}">${art.titulo}</a>
           </h3>
 
           <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="text-[11px] font-bold text-white">${art.autor}</span>
             </div>
 
-            <a href="blog/${art.slug}" 
+            <a href="${art.slug}" 
               class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
               Ler Artigo
             </a>

@@ -14,8 +14,8 @@
   "PRODUTOS": [
     {
       "id": 1,
-      "slug": "quadro-protecao-7-2kw",
-      "nome": "Quadro de Proteção E-Wolf 7.2 kW",
+      "slug": "quadro-protecao-ewolf-7-2kw-mono-bif-sem-tomada",
+      "nome": "Quadro de Proteção E-Wolf 7.2 kW (Monofásico/Bifásico - Sem Tomada)",
       "marcaId": "ewolf",
       "categoriaId": "protecao",
       "potencia": "7,2 kW (32A)",
@@ -37,20 +37,96 @@
         "Interruptor DR": "Bipolar 40A / 30mA Classe A",
         "DPS Surto": "Bipolar 20/40kA 275V Classe II",
         "Grau de Vedação": "IP65 (Instalação interna ou externa)",
-        "Dimensões Externas": "200mm x 150mm x 120mm"
+        "Saída de Energia": "Prensa-cabo direto nos bornes internos"
       },
-      "variacoes": [
-        {
-          "sku": "EW-QP7-ST",
-          "nome": "Sem tomada industrial",
-          "adicionalDesc": "Projetado para ligação direta via cabo até os bornes internos da estação Wallbox, ideal para acabamento embutido super limpo."
-        },
-        {
-          "sku": "EW-QP7-CT",
-          "nome": "Com tomada industrial",
-          "adicionalDesc": "Apresenta saída acoplada integrada com tomada industrial azul 32A 2P+T padrão NBR IEC 60309, perfeito para carregadores portáteis potentes."
-        }
-      ]
+      "variacoes": []
+    },
+    {
+      "id": 39,
+      "slug": "quadro-protecao-ewolf-7-2kw-mono-bif-com-tomada",
+      "nome": "Quadro de Proteção E-Wolf 7.2 kW (Monofásico/Bifásico - Com Tomada)",
+      "marcaId": "ewolf",
+      "categoriaId": "protecao",
+      "potencia": "7,2 kW (32A)",
+      "tensao": "220VAC (Monofásico / Bifásico)",
+      "aplicacao": "Residencial e Comercial Leve",
+      "tipo": "Quadro de Segurança Bipolar (com Tomada)",
+      "resumo": "Proteção de segurança essencial equipada com tomada industrial azul de 32A 2P+T acoplada de alta performance.",
+      "descricao": "Projetado especificamente para atender a norma brasileira NBR 5410 e as diretrizes de segurança da indústria de mobilidade elétrica. O Quadro de Proteção E-Wolf de 7,2 kW atua como um escudo entre a rede elétrica e seu carregador, neutralizando de forma imediata eventuais surtos causados por raios, além de interromper fugas de corrente pulsantes que colocam a vida humana em risco. Apresenta saída com tomada industrial padrão NBR IEC 60309.",
+      "diferenciais": [
+        "Dispositivo DR Classe A de 30mA (obrigatório para veículos elétricos contra choque de corrente contínua)",
+        "Gabinete termoplástico resistente com proteção IP65 contra poeira e jatos d'água",
+        "Dispositivos de Proteção contra Surtos (DPS) Classe II de 20/40kA instalados e cabeados",
+        "Bornes de passagem industriais que garantem aperto firme e evitam sobreaquecimento"
+      ],
+      "especificacoes": {
+        "Potência Nominal": "7,2 kW (32A)",
+        "Tensão Operacional": "220VAC (Monofásico F+N ou Bifásico F+F)",
+        "Disjuntor": "Bipolar 32A Curva C (6kA)",
+        "Interruptor DR": "Bipolar 40A / 30mA Classe A",
+        "DPS Surto": "Bipolar 20/40kA 275V Classe II",
+        "Grau de Vedação": "IP65 (Gabinete) / IP44 (Tomada acoplada)",
+        "Saída de Energia": "Tomada Industrial Azul 32A 2P+T padrão IEC 60309"
+      },
+      "variacoes": []
+    },
+    {
+      "id": 40,
+      "slug": "quadro-protecao-ewolf-7-2kw-trifasico-sem-tomada",
+      "nome": "Quadro de Proteção E-Wolf 7.2 kW (Trifásico - Sem Tomada)",
+      "marcaId": "ewolf",
+      "categoriaId": "protecao",
+      "potencia": "7,2 kW (Trifásico)",
+      "tensao": "380VAC (Trifásico com Neutro)",
+      "aplicacao": "Residencial e Comercial Leve",
+      "tipo": "Quadro de Segurança Tetrapolar",
+      "resumo": "Proteção trifásica inteligente e compacta de alta performance, equipada com DR Classe A e DPS de alta performance.",
+      "descricao": "Projetado especificamente para atender a norma brasileira NBR 5410 e as diretrizes de segurança da indústria de mobilidade elétrica. O Quadro de Proteção E-Wolf de 7,2 kW (Trifásico) atua como um escudo entre a rede elétrica trifásica e seu carregador, neutralizando de forma imediata eventuais surtos causados por raios, além de interromper fugas de corrente pulsantes que colocam a vida humana em risco.",
+      "diferenciais": [
+        "Dispositivo DR Classe A de 30mA (obrigatório para veículos elétricos contra choque de corrente contínua)",
+        "Gabinete termoplástico resistente com proteção IP65 contra poeira e jatos d'água",
+        "Dispositivos de Proteção contra Surtos (DPS) Classe II de 20/40kA instalados e cabeados",
+        "Bornes de passagem industriais que garantem aperto firme e evitam sobreaquecimento"
+      ],
+      "especificacoes": {
+        "Potência Nominal": "7,2 kW / 22 kW Trifásico",
+        "Tensão Operacional": "380VAC Trifásico (L1+L2+L3+N+Terra)",
+        "Disjuntor": "Tetrapolar 40A Curva C (6kA)",
+        "Interruptor DR": "Tetrapolar 40A / 30mA Classe A",
+        "DPS Surto": "Tetrapolar 20/40kA 275V Classe II",
+        "Grau de Vedação": "IP65 (Instalação interna ou externa)",
+        "Saída de Energia": "Prensa-cabo direto nos bornes internos"
+      },
+      "variacoes": []
+    },
+    {
+      "id": 41,
+      "slug": "quadro-protecao-ewolf-7-2kw-trifasico-com-tomada",
+      "nome": "Quadro de Proteção E-Wolf 7.2 kW (Trifásico - Com Tomada)",
+      "marcaId": "ewolf",
+      "categoriaId": "protecao",
+      "potencia": "7,2 kW (Trifásico)",
+      "tensao": "380VAC (Trifásico com Neutro)",
+      "aplicacao": "Residencial e Comercial Leve",
+      "tipo": "Quadro de Segurança Tetrapolar (com Tomada)",
+      "resumo": "Proteção trifásica inteligente de alta performance equipada com tomada industrial vermelha de alta potência acoplada.",
+      "descricao": "Projetado especificamente para atender a norma brasileira NBR 5410 e as diretrizes de segurança da indústria de mobilidade elétrica. O Quadro de Proteção E-Wolf de 7,2 kW (Trifásico) atua como um escudo entre a rede elétrica e seu carregador, neutralizando de forma imediata eventuais surtos causados por raios, além de interromper fugas de corrente pulsantes que colocam a vida humana em risco. Apresenta tomada vermelha trifásica padrão IEC 60309.",
+      "diferenciais": [
+        "Dispositivo DR Classe A de 30mA (obrigatório para veículos elétricos contra choque de corrente contínua)",
+        "Gabinete termoplástico resistente com proteção IP65 contra poeira e jatos d'água",
+        "Dispositivos de Proteção contra Surtos (DPS) Classe II de 20/40kA instalados e cabeados",
+        "Bornes de passagem industriais que garantem aperto firme e evitam sobreaquecimento"
+      ],
+      "especificacoes": {
+        "Potência Nominal": "7,2 kW / 22 kW Trifásico",
+        "Tensão Operacional": "380VAC Trifásico (L1+L2+L3+N+Terra)",
+        "Disjuntor": "Tetrapolar 40A Curva C (6kA)",
+        "Interruptor DR": "Tetrapolar 40A / 30mA Classe A",
+        "DPS Surto": "Tetrapolar 20/40kA 275V Classe II",
+        "Grau de Vedação": "IP65 (Gabinete) / IP44 (Tomada acoplada)",
+        "Saída de Energia": "Tomada Industrial Vermelha 32A 3P+N+T padrão IEC 60309"
+      },
+      "variacoes": []
     },
     {
       "id": 2,

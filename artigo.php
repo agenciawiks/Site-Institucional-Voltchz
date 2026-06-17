@@ -240,7 +240,7 @@ include "includes/header.php";
                 </div>
 
                 <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-                  <a href="blog/<?php echo htmlspecialchars($ra['slug']); ?>"><?php echo htmlspecialchars($ra['titulo']); ?></a>
+                  <a href="<?php echo htmlspecialchars($ra['slug']); ?>"><?php echo htmlspecialchars($ra['titulo']); ?></a>
                 </h3>
 
                 <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -256,7 +256,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-white"><?php echo htmlspecialchars($ra['autor']); ?></span>
                   </div>
 
-                  <a href="blog/<?php echo htmlspecialchars($ra['slug']); ?>" 
+                  <a href="<?php echo htmlspecialchars($ra['slug']); ?>" 
                     class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
                     Ler Artigo
                   </a>

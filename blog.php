@@ -106,7 +106,7 @@ include "includes/header.php";
                   </div>
 
                   <h3 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-tight tracking-tight mb-4 group-hover:text-brand-green transition-colors">
-                    <a href="blog/<?php echo htmlspecialchars($featured['slug']); ?>"><?php echo htmlspecialchars($featured['titulo']); ?></a>
+                    <a href="<?php echo htmlspecialchars($featured['slug']); ?>"><?php echo htmlspecialchars($featured['titulo']); ?></a>
                   </h3>
 
                   <p class="text-brand-muted text-sm leading-relaxed mb-6">
@@ -125,7 +125,7 @@ include "includes/header.php";
                       </div>
                     </div>
 
-                    <a href="blog/<?php echo htmlspecialchars($featured['slug']); ?>" 
+                    <a href="<?php echo htmlspecialchars($featured['slug']); ?>" 
                       class="inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-6 py-3.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all active:scale-95 shadow-lg whitespace-nowrap">
                       Ler Artigo Completo
                     </a>
@@ -188,7 +188,7 @@ include "includes/header.php";
                     </div>
 
                     <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-                      <a href="blog/<?php echo htmlspecialchars($art['slug']); ?>"><?php echo htmlspecialchars($art['titulo']); ?></a>
+                      <a href="<?php echo htmlspecialchars($art['slug']); ?>"><?php echo htmlspecialchars($art['titulo']); ?></a>
                     </h3>
 
                     <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -204,7 +204,7 @@ include "includes/header.php";
                         <span class="text-[11px] font-bold text-white"><?php echo htmlspecialchars($art['autor']); ?></span>
                       </div>
 
-                      <a href="blog/<?php echo htmlspecialchars($art['slug']); ?>" 
+                      <a href="<?php echo htmlspecialchars($art['slug']); ?>" 
                         class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
                         Ler Artigo
                       </a>

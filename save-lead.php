@@ -7,6 +7,22 @@ require_once __DIR__ . '/includes/db.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validação de bots (Honeypot e time lock)
+    $honeypot = filter_input(INPUT_POST, 'sobrenome_confirm', FILTER_DEFAULT);
+    $form_time = filter_input(INPUT_POST, 'form_time', FILTER_VALIDATE_INT);
+
+    if (!empty($honeypot)) {
+        // Silenciosamente diz que deu certo para despistar bots
+        echo json_encode(['success' => true, 'msg' => 'Spam blocked']);
+        exit;
+    }
+
+    if ($form_time && (time() - $form_time < 2)) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'Envio muito rápido. Por favor, aguarde alguns segundos.']);
+        exit;
+    }
+
     $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL) ?: '';
     $telefone = filter_input(INPUT_POST, 'telefone', FILTER_SANITIZE_SPECIAL_CHARS);
