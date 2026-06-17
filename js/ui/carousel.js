@@ -107,7 +107,9 @@ export const initClientsCarousel = () => {
   const dotsContainer = $('#client-dots');
   if (!slider) return;
 
-  CONFIG.ASSETS.CLIENTS.forEach((src, idx) => {
+  const images = window.VOLTCHZ_CLIENTS || CONFIG.ASSETS.CLIENTS;
+
+  images.forEach((src, idx) => {
     const slide = document.createElement('div');
     slide.className = 'client-slide' + (idx === 0 ? ' active' : '');
     slide.style.backgroundImage = `url('${src}')`;

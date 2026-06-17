@@ -115,9 +115,15 @@ export const initPortfolioExpandido = () => {
     const renderPortfolio = (filter = 'all') => {
         grid.innerHTML = '';
         
+        // Filtra itens cujo arquivo de imagem não existe na pasta
+        const existingImages = window.VOLTCHZ_EXISTING_IMAGES || [];
+        const activeData = existingImages.length > 0
+            ? PORTFOLIO_DATA.filter(item => existingImages.includes(item.image))
+            : PORTFOLIO_DATA;
+        
         const filtered = filter === 'all' 
-            ? PORTFOLIO_DATA 
-            : PORTFOLIO_DATA.filter(item => item.brand === filter);
+            ? activeData 
+            : activeData.filter(item => item.brand === filter);
 
         filtered.forEach(item => {
             const card = document.createElement('div');

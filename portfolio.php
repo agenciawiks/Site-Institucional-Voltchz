@@ -23,7 +23,7 @@ include "includes/header.php";
         <span class="text-brand-green">por Montadora</span>
       </h1>
       <p class="text-lg text-brand-muted max-w-3xl mx-auto leading-relaxed">
-        Explore nossa galeria de instalações de carregadores e quadros de segurança E-Wolf feitas para cada fabricante, certificando compatibilidade absoluta e engenharia de alto padrão.
+        Explore nossa galeria de instalações de carregadores e quadros de segurança feitas para cada fabricante, certificando compatibilidade absoluta e engenharia de alto padrão.
       </p>
     </div>
   </header>
@@ -182,6 +182,17 @@ include "includes/header.php";
       </a>
     </div>
   </section>
+
+<?php
+// Escaneia a pasta de clientes dinamicamente
+$existing_images = glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE);
+if (!$existing_images) {
+    $existing_images = [];
+}
+?>
+<script>
+    window.VOLTCHZ_EXISTING_IMAGES = <?php echo json_encode($existing_images); ?>;
+</script>
 
 <?php
 include "includes/footer.php";

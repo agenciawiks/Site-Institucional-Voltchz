@@ -1090,5 +1090,19 @@ include "includes/header.php";
 
 
 <?php
+// Escaneia a pasta dinamicamente para detectar qualquer alteração/remoção de imagens
+$client_images = glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE);
+if ($client_images) {
+    natsort($client_images);
+    $client_images = array_values($client_images);
+} else {
+    $client_images = [];
+}
+?>
+<script>
+    window.VOLTCHZ_CLIENTS = <?php echo json_encode($client_images); ?>;
+</script>
+
+<?php
 include "includes/footer.php";
 ?>
