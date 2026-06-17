@@ -39,19 +39,19 @@ include "includes/header.php";
       <nav class="flex mb-8 text-[11px] font-mono font-bold uppercase tracking-widest text-brand-muted/50" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2">
           <li class="inline-flex items-center">
-            <a href="index.php" class="hover:text-brand-green transition-colors">Início</a>
+            <a href="index" class="hover:text-brand-green transition-colors">Início</a>
           </li>
           <li>
             <div class="flex items-center">
               <span class="mx-1 text-white/20">/</span>
-              <a href="blog.php" class="hover:text-brand-green transition-colors">Blog</a>
+              <a href="blog" class="hover:text-brand-green transition-colors">Blog</a>
             </div>
           </li>
           <?php if ($artigo): ?>
           <li>
             <div class="flex items-center">
               <span class="mx-1 text-white/20">/</span>
-              <a href="blog.php?categoria=<?php echo urlencode($artigo['categoria']); ?>" class="hover:text-brand-green transition-colors"><?php echo htmlspecialchars($artigo['categoria']); ?></a>
+              <a href="blog?categoria=<?php echo urlencode($artigo['categoria']); ?>" class="hover:text-brand-green transition-colors"><?php echo htmlspecialchars($artigo['categoria']); ?></a>
             </div>
           </li>
           <li aria-current="page">
@@ -93,14 +93,21 @@ include "includes/header.php";
             <?php echo htmlspecialchars($artigo['titulo']); ?>
           </h1>
 
-          <!-- Perfil do Autor -->
-          <div class="flex items-center gap-4">
-            <img src="static/bruno.webp" alt="Bruno Riêra" loading="lazy"
-              class="w-12 h-12 rounded-full object-cover border-2 border-brand-green/30 flex-shrink-0">
-            <div>
-              <p id="article-author" class="text-sm font-bold text-white leading-tight"><?php echo htmlspecialchars($artigo['autor']); ?></p>
-              <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/60 uppercase tracking-widest mt-0.5"><?php echo htmlspecialchars($artigo['cargo'] ?: 'Especialista VoltchZ'); ?></p>
+          <!-- Perfil do Autor e Botão de Compartilhar -->
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-4">
+              <img src="static/bruno.webp" alt="Bruno Riêra" loading="lazy"
+                class="w-12 h-12 rounded-full object-cover border-2 border-brand-green/30 flex-shrink-0">
+              <div>
+                <p id="article-author" class="text-sm font-bold text-white leading-tight"><?php echo htmlspecialchars($artigo['autor']); ?></p>
+                <p id="article-author-cargo" class="text-[10px] font-mono text-brand-muted/60 uppercase tracking-widest mt-0.5"><?php echo htmlspecialchars($artigo['cargo'] ?: 'Especialista VoltchZ'); ?></p>
+              </div>
             </div>
+            
+            <button id="btn-share-article" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-brand-green/10 text-brand-muted hover:text-brand-green border border-white/10 hover:border-brand-green/20 text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 active:scale-95">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Compartilhar
+            </button>
           </div>
         </header>
 
@@ -182,7 +189,7 @@ include "includes/header.php";
         <p class="text-sm text-brand-muted leading-relaxed mb-6">
           O artigo solicitado não existe ou foi removido de nossa base técnica. Retorne ao painel editorial para conferir outras matérias de engenharia de recarga.
         </p>
-        <a href="blog.php" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
+        <a href="blog" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
           Retornar ao Blog
         </a>
       </div>
@@ -202,7 +209,7 @@ include "includes/header.php";
               Recomendado para você
             </h2>
           </div>
-          <a href="blog.php" class="text-brand-green text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-1">
+          <a href="blog" class="text-brand-green text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-1">
             Ver Todos os Artigos
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -233,7 +240,7 @@ include "includes/header.php";
                 </div>
 
                 <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-                  <a href="artigo.php?slug=<?php echo htmlspecialchars($ra['slug']); ?>"><?php echo htmlspecialchars($ra['titulo']); ?></a>
+                  <a href="blog/<?php echo htmlspecialchars($ra['slug']); ?>"><?php echo htmlspecialchars($ra['titulo']); ?></a>
                 </h3>
 
                 <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -249,7 +256,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-white"><?php echo htmlspecialchars($ra['autor']); ?></span>
                   </div>
 
-                  <a href="artigo.php?slug=<?php echo htmlspecialchars($ra['slug']); ?>" 
+                  <a href="blog/<?php echo htmlspecialchars($ra['slug']); ?>" 
                     class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
                     Ler Artigo
                   </a>
@@ -281,7 +288,7 @@ include "includes/header.php";
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
           Orçamento no WhatsApp
         </a>
-        <a href="contato.php"
+        <a href="contato"
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/10 bg-white/5 text-white font-extrabold px-8 py-4 rounded-2xl hover:bg-white/10 transition-all">
           Agendar Reunião Técnica
         </a>
@@ -292,3 +299,30 @@ include "includes/header.php";
 <?php
 include "includes/footer.php";
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const shareBtn = document.getElementById('btn-share-article');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const originalText = shareBtn.innerHTML;
+        shareBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Copiado!
+        `;
+        shareBtn.classList.remove('hover:bg-brand-green/10', 'text-brand-muted', 'hover:text-brand-green', 'border-white/10');
+        shareBtn.classList.add('bg-brand-green/20', 'text-brand-green', 'border-brand-green/30');
+        setTimeout(() => {
+          shareBtn.innerHTML = originalText;
+          shareBtn.classList.add('hover:bg-brand-green/10', 'text-brand-muted', 'hover:text-brand-green', 'border-white/10');
+          shareBtn.classList.remove('bg-brand-green/20', 'text-brand-green', 'border-brand-green/30');
+        }, 2000);
+      } catch (err) {
+        console.error('Falha ao copiar o link:', err);
+      }
+    });
+  }
+});
+</script>

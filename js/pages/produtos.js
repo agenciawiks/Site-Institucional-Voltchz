@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? `<span class="w-1.5 h-1.5 rounded-full bg-brand-green inline-block mr-1"></span> ${p.variacoes.length} variações` 
                     : `<span class="w-1.5 h-1.5 rounded-full bg-white/20 inline-block mr-1"></span> Sem variações`}
                 </span>
-                <a href="produto-detalhe.php?slug=${p.slug}" 
+                <a href="produto/${p.slug}" 
                   class="text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all shadow-lg active:scale-95 whitespace-nowrap">
                   Ver Detalhes
                 </a>

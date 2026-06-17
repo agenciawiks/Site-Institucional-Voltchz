@@ -91,7 +91,7 @@
                     <p class="text-brand-muted text-sm leading-relaxed">
                         Solicite orientação técnica, proposta comercial ou suporte para seu projeto.
                     </p>
-                    <a href="contato.php" class="inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-bold py-3 px-6 rounded-xl hover:brightness-110 active:scale-95 transition-all text-sm">
+                    <a href="contato" class="inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-bold py-3 px-6 rounded-xl hover:brightness-110 active:scale-95 transition-all text-sm">
                         Ir para contato
                     </a>
                     <p class="text-brand-muted text-xs leading-relaxed">
@@ -104,7 +104,7 @@
             <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-6 text-[11px] font-bold text-brand-muted tracking-widest uppercase">
                     <span>© <?php echo date('Y'); ?> VoltchZ Brasil</span>
-                    <a href="politica-de-privacidade.php" class="hover:text-white transition-colors">Privacidade</a>
+                    <a href="politica-de-privacidade" class="hover:text-white transition-colors">Privacidade</a>
                 </div>
                 <div class="flex items-center gap-2 text-[11px] font-bold text-brand-muted tracking-widest uppercase">
                     <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span> Engenharia Certificada ITA

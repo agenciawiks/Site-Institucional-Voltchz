@@ -37,7 +37,7 @@ include "includes/header.php";
                         <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
               Solicitar Orçamento
             </a>
-                        <a href="sobre.php" class="border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-10 rounded-2xl hover:bg-white/10 transition-all font-bold">
+                        <a href="sobre" class="border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-10 rounded-2xl hover:bg-white/10 transition-all font-bold">
               Saiba Mais
             </a>
                     </div>
@@ -125,7 +125,7 @@ include "includes/header.php";
                     <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[700px] mb-10 leading-relaxed">
                         Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.
                     </p>
-                    <a href="contato.php" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
+                    <a href="contato" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
             Planejar Estação Comercial
           </a>
                 </div>
@@ -278,7 +278,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Documentação</span>
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Laudos e Relatórios</h3>
                     <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Conformidade técnica</span> detalhada para <span class="font-bold text-brand-green">uso seguro</span>.</p>
-                    <a href="viabilidade.php" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Ver
+                    <a href="viabilidade" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Ver
             Mais</a>
                 </div>
 
@@ -712,7 +712,7 @@ include "includes/header.php";
                         </li>
                     </ul>
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <a href="viabilidade.php" class="inline-flex items-center justify-center gap-2.5 bg-brand-green text-brand-bg font-bold py-3.5 px-7 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 text-[14px]">
+                        <a href="viabilidade" class="inline-flex items-center justify-center gap-2.5 bg-brand-green text-brand-bg font-bold py-3.5 px-7 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 text-[14px]">
               Ver Estudo Completo
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -788,14 +788,20 @@ include "includes/header.php";
                         </div>
                     </div>
 
-                    <div class="mt-12">
+                    <div class="mt-12 flex flex-wrap gap-4">
                         <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
-              Falar com Engenheiro
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
+                            Falar com Engenheiro
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                        <a href="portfolio" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-8 rounded-2xl hover:bg-white/10 transition-all font-bold">
+                            Ver Portfólio Completo
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
@@ -839,6 +845,8 @@ include "includes/header.php";
         </div>
     </section>
 
+
+
     <!-- SOBRE -->
     <section id="sobre" class="bg-white py-28 px-6 text-slate-900">
         <div class="max-w-[1200px] mx-auto">
@@ -873,7 +881,7 @@ include "includes/header.php";
                 corporativas</span>, sempre com <span class="font-bold text-brand-green">ART e documentação
                 técnica</span> completa.</p>
                     </div>
-                    <a href="sobre.php" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20 mb-10">
+                    <a href="sobre" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20 mb-10">
             Saiba Mais
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="9 18 15 12 9 6" />

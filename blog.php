@@ -42,7 +42,7 @@ include "includes/header.php";
     <div class="max-w-[1200px] mx-auto">
 
       <!-- Filtro de Busca Textual Rápido -->
-      <form method="GET" action="blog.php" class="mb-12 max-w-xl mx-auto">
+      <form method="GET" action="blog" class="mb-12 max-w-xl mx-auto">
         <input type="hidden" name="categoria" value="<?php echo htmlspecialchars($cat_filter); ?>">
         <div class="relative">
           <input type="text" name="busca" value="<?php echo htmlspecialchars($busca_filter); ?>" placeholder="Pesquisar artigos por palavra-chave, tema ou norma..."
@@ -106,7 +106,7 @@ include "includes/header.php";
                   </div>
 
                   <h3 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white leading-tight tracking-tight mb-4 group-hover:text-brand-green transition-colors">
-                    <a href="artigo.php?slug=<?php echo htmlspecialchars($featured['slug']); ?>"><?php echo htmlspecialchars($featured['titulo']); ?></a>
+                    <a href="blog/<?php echo htmlspecialchars($featured['slug']); ?>"><?php echo htmlspecialchars($featured['titulo']); ?></a>
                   </h3>
 
                   <p class="text-brand-muted text-sm leading-relaxed mb-6">
@@ -125,7 +125,7 @@ include "includes/header.php";
                       </div>
                     </div>
 
-                    <a href="artigo.php?slug=<?php echo htmlspecialchars($featured['slug']); ?>" 
+                    <a href="blog/<?php echo htmlspecialchars($featured['slug']); ?>" 
                       class="inline-flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-6 py-3.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all active:scale-95 shadow-lg whitespace-nowrap">
                       Ler Artigo Completo
                     </a>
@@ -162,7 +162,7 @@ include "includes/header.php";
               <p class="text-sm text-brand-muted leading-relaxed mb-6">
                 Não encontramos nenhuma publicação para o termo pesquisado. Experimente buscar por palavras genéricas como "lei", "cabo", "DR" ou "condomínio".
               </p>
-              <a href="blog.php" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
+              <a href="blog" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
                 Limpar Filtros e Busca
               </a>
             </div>
@@ -188,7 +188,7 @@ include "includes/header.php";
                     </div>
 
                     <h3 class="text-base sm:text-lg font-bold text-white mb-3 leading-snug group-hover:text-brand-green transition-colors line-clamp-2">
-                      <a href="artigo.php?slug=<?php echo htmlspecialchars($art['slug']); ?>"><?php echo htmlspecialchars($art['titulo']); ?></a>
+                      <a href="blog/<?php echo htmlspecialchars($art['slug']); ?>"><?php echo htmlspecialchars($art['titulo']); ?></a>
                     </h3>
 
                     <p class="text-brand-muted text-[13px] leading-relaxed mb-6 line-clamp-3">
@@ -204,7 +204,7 @@ include "includes/header.php";
                         <span class="text-[11px] font-bold text-white"><?php echo htmlspecialchars($art['autor']); ?></span>
                       </div>
 
-                      <a href="artigo.php?slug=<?php echo htmlspecialchars($art['slug']); ?>" 
+                      <a href="blog/<?php echo htmlspecialchars($art['slug']); ?>" 
                         class="text-[10px] font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all whitespace-nowrap">
                         Ler Artigo
                       </a>
@@ -237,7 +237,7 @@ include "includes/header.php";
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
           Falar com Especialistas
         </a>
-        <a href="contato.php"
+        <a href="contato"
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/10 bg-white/5 text-white font-extrabold px-8 py-4 rounded-2xl hover:bg-white/10 transition-all">
           Entre em Contato
         </a>

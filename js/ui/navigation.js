@@ -104,7 +104,7 @@ export const initNavigation = () => {
 };
 
 function updateActiveLink() {
-  const isSobre = window.location.pathname.includes('sobre.php');
+  const isSobre = window.location.pathname.includes('sobre.php') || window.location.pathname.endsWith('/sobre');
   const sections = isSobre
     ? ['historia', 'proposito', 'diferenciais', 'equipamentos']
     : ['servicos', 'o-que-faz', 'clientes', 'sobre'];

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- LEITOR DE SLUG NA URL ---
   const urlParams = new URLSearchParams(window.location.search);
-  const slug = urlParams.get('slug');
+  const slug = urlParams.get('slug') || window.location.pathname.split('/').filter(Boolean).pop();
 
   if (!slug) {
     show404();
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ${p.resumo}
             </p>
             
-            <a href="produto-detalhe.php?slug=${p.slug}" 
+            <a href="produto/${p.slug}" 
               class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
               Ver Detalhes
             </a>

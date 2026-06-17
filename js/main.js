@@ -9,6 +9,7 @@ import { initHeroCarousel, initClientsCarousel } from './ui/carousel.js';
 import { initLightbox } from './ui/lightbox.js';
 import { initNavigation } from './ui/navigation.js';
 import { initFaq, initIntersections } from './ui/animations.js';
+import { initPortfolioExpandido } from './ui/portfolio-real.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initHeroCarousel();
   initClientsCarousel();
+  initPortfolioExpandido();
   initLightbox();
   initFaq();
   initIntersections();

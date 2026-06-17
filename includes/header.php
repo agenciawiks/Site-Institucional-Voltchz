@@ -2,6 +2,20 @@
 <html lang="pt-BR" class="h-full scroll-smooth">
 
 <head>
+    <?php
+    $is_local_env = false;
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $host_env = $_SERVER['HTTP_HOST'];
+        if ($host_env === 'localhost' || $host_env === '127.0.0.1' || preg_match('/\.local$/', $host_env) || preg_match('/^192\.168\./', $host_env)) {
+            $is_local_env = true;
+        }
+    }
+    $base_dir = '/';
+    if ($is_local_env) {
+        $base_dir = preg_replace('/[^\/]+\.php$/', '', $_SERVER['SCRIPT_NAME']);
+    }
+    ?>
+    <base href="<?php echo htmlspecialchars($base_dir); ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Primary Meta Tags -->
@@ -83,20 +97,20 @@
   ────────────────────────────────────────── -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-[18px] border-b border-white/5 transition-all duration-300">
         <div class="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
-            <a href="index.php" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
+            <a href="index" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
                 <img src="static/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
             </a>
 
             <?php $active_page = isset($current_page) ? $current_page : ''; ?>
 
             <div id="nav-links" class="hidden md:flex items-center gap-1.5">
-                <a href="index.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'index' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Início</a>
-                <a href="sobre.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'sobre' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Sobre Nós</a>
-                <a href="produtos.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'produtos' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Produtos</a>
-                <a href="app.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'app' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">App VoltchZ</a>
-                <a href="blog.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'blog' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Blog</a>
-                <a href="ferramentas.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'ferramentas' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Encontre um Eletroposto</a>
-                <a href="contato.php" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'contato' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Contato</a>
+                <a href="index" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'index' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Início</a>
+                <a href="sobre" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'sobre' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Sobre Nós</a>
+                <a href="produtos" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'produtos' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Produtos</a>
+                <a href="app" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'app' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">App VoltchZ</a>
+                <a href="blog" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'blog' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Blog</a>
+                <a href="ferramentas" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'ferramentas' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Encontre um Eletroposto</a>
+                <a href="contato" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'contato' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Contato</a>
             </div>
 
             <div class="flex items-center gap-4">
@@ -120,13 +134,13 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] z-40 bg-brand-bg/95 backdrop-blur-xl px-6 py-8 border-t border-white/5 overflow-y-auto">
             <div class="flex flex-col gap-4">
-                <a href="index.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
-                <a href="sobre.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'sobre' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Sobre Nós</a>
-                <a href="produtos.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'produtos' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Produtos</a>
-                <a href="app.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'app' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">App VoltchZ</a>
-                <a href="blog.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'blog' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Blog</a>
-                <a href="ferramentas.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'ferramentas' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Encontre um Eletroposto</a>
-                <a href="contato.php" class="text-2xl font-bold py-2 <?php echo $active_page === 'contato' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Contato</a>
+                <a href="index" class="text-2xl font-bold py-2 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
+                <a href="sobre" class="text-2xl font-bold py-2 <?php echo $active_page === 'sobre' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Sobre Nós</a>
+                <a href="produtos" class="text-2xl font-bold py-2 <?php echo $active_page === 'produtos' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Produtos</a>
+                <a href="app" class="text-2xl font-bold py-2 <?php echo $active_page === 'app' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">App VoltchZ</a>
+                <a href="blog" class="text-2xl font-bold py-2 <?php echo $active_page === 'blog' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Blog</a>
+                <a href="ferramentas" class="text-2xl font-bold py-2 <?php echo $active_page === 'ferramentas' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Encontre um Eletroposto</a>
+                <a href="contato" class="text-2xl font-bold py-2 <?php echo $active_page === 'contato' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Contato</a>
 
                 <div class="pt-8 border-t border-white/10 mt-4">
                     <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 rounded-2xl shadow-xl shadow-brand-green/20">

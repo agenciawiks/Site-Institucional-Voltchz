@@ -44,7 +44,7 @@ include "includes/header.php";
     <div class="max-w-[1200px] mx-auto">
 
       <!-- Barra de Busca Textual -->
-      <form method="GET" action="produtos.php" class="mb-10 max-w-xl mx-auto observe">
+      <form method="GET" action="produtos" class="mb-10 max-w-xl mx-auto observe">
         <input type="hidden" name="categoria" value="<?php echo htmlspecialchars($cat_filter); ?>">
         <input type="hidden" name="marca" value="<?php echo htmlspecialchars($marca_filter); ?>">
         <div class="relative">
@@ -99,7 +99,7 @@ include "includes/header.php";
       <!-- Indicador de Resultados -->
       <div class="flex items-center justify-between mb-6 text-sm text-brand-muted observe">
         <span>Exibindo <?php echo $produtos_count; ?> <?php echo $produtos_count === 1 ? 'produto' : 'produtos'; ?></span>
-        <a href="produtos.php" class="text-brand-green hover:underline text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+        <a href="produtos" class="text-brand-green hover:underline text-xs font-bold uppercase tracking-wider flex items-center gap-1">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
             <path d="M23 4v6h-6M1 20v-6h6"></path>
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
@@ -123,7 +123,7 @@ include "includes/header.php";
             <p class="text-sm text-brand-muted leading-relaxed mb-6">
               Não existem produtos cadastrados sob estes critérios no momento. Nossa divisão de engenharia realiza homologação e testes de novos hardwares continuamente.
             </p>
-            <a href="contato.php" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
+            <a href="contato" class="inline-flex items-center gap-2 bg-brand-green text-brand-bg text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:brightness-110 active:scale-95 transition-all">
               Solicitar Projeto Especial
             </a>
           </div>
@@ -136,7 +136,7 @@ include "includes/header.php";
             ?>
               <div class="fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-2">
                 <!-- Imagem do Hardware / SVG Fallback -->
-                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white mb-5 border border-white/5 flex items-center justify-center p-4">
+                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center p-4">
                   <?php if (!empty($p['imagem'])): ?>
                     <img src="<?php echo htmlspecialchars($p['imagem']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>" class="w-full h-full object-contain max-h-[180px] transition-transform duration-500 hover:scale-105">
                   <?php else: ?>
@@ -184,7 +184,7 @@ include "includes/header.php";
                         <span class="w-1.5 h-1.5 rounded-full bg-white/20 inline-block mr-1"></span> Sem variações
                       <?php endif; ?>
                     </span>
-                    <a href="produto-detalhe.php?slug=<?php echo htmlspecialchars($p['slug']); ?>" 
+                    <a href="produto/<?php echo htmlspecialchars($p['slug']); ?>" 
                       class="text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-4 py-2.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all shadow-lg active:scale-95 whitespace-nowrap">
                       Ver Detalhes
                     </a>
@@ -216,7 +216,7 @@ include "includes/header.php";
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
           Conversar no WhatsApp
         </a>
-        <a href="viabilidade.php"
+        <a href="viabilidade"
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/10 bg-white/5 text-white font-extrabold px-8 py-4 rounded-2xl hover:bg-white/10 transition-all">
           Estudo de Viabilidade
         </a>
