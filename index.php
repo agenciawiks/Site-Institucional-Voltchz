@@ -242,7 +242,7 @@ include "includes/header.php";
                     </div>
                     <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Produtos</span>
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Venda de Carregadores e Acessórios</h3>
-                    <p class="text-slate-600 leading-relaxed text-[14.5px]">Curadoria de excelência <span class="font-bold text-brand-green">Intelbras</span>, <span class="font-bold text-brand-green">E-Wolf</span> e <span class="font-bold text-brand-green">Incharge</span>.</p>
+                    <p class="text-slate-600 leading-relaxed text-[14.5px]">Curadoria de excelência com as marcas líderes do mercado.</p>
                     <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">
             Falar com Especialista
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
@@ -628,7 +628,7 @@ include "includes/header.php";
                     </div>
 
                     <!-- Chart footer metrics -->
-                    <div class="grid grid-cols-3 gap-2 sm:gap-6 mt-6 sm:mt-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
                         <!-- Potencia Limite -->
                         <div class="flex flex-col items-center justify-center text-center gap-2 sm:gap-3 p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-orange-500/30 bg-[#0a0a0f]">
                             <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0">
@@ -855,7 +855,7 @@ include "includes/header.php";
                     <div class="rounded-[48px] overflow-hidden shadow-2xl shadow-brand-green/20">
                         <img src="static/bruno.webp" alt="Bruno, Fundador da VoltchZ" class="w-full transform group-hover:scale-105 transition-transform duration-700" loading="lazy" width="600" height="800">
                     </div>
-                    <div class="absolute -bottom-6 -right-2 lg:-bottom-8 lg:-right-8 bg-slate-50 p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-2xl backdrop-blur-xl max-w-[240px] lg:max-w-[280px]">
+                    <div class="absolute -bottom-6 right-4 sm:-right-2 lg:-bottom-8 lg:-right-8 bg-slate-50 p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-2xl backdrop-blur-xl max-w-[240px] lg:max-w-[280px]">
                         <h4 class="text-brand-green font-extrabold text-xl mb-1">Bruno, CEO</h4>
                         <p class="text-[12px] text-slate-600 mb-4 font-mono font-semibold uppercase tracking-widest">ITA / INATEL / UNIFESP
                         </p>

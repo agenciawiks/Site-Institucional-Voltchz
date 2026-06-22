@@ -191,7 +191,7 @@ include "includes/header.php";
             </div>
 
             <!-- Chart footer metrics -->
-            <div class="grid grid-cols-3 gap-2 sm:gap-6 mt-6 sm:mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8">
               <!-- Potencia Limite -->
               <div class="flex flex-col items-center justify-center text-center gap-2 sm:gap-3 p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-orange-500/30 bg-[#0a0a0f]">
                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0">

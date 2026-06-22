@@ -25,7 +25,9 @@ if ($is_local) {
 } else {
     // Tenta carregar as credenciais de produção de um arquivo separado.
     // Isso evita que suas credenciais sejam sobrescritas em cada upload de ZIP para a Hostinger.
-    if (file_exists(__DIR__ . '/db_config.php')) {
+    if (file_exists(__DIR__ . '/../db_config.php')) {
+        require_once __DIR__ . '/../db_config.php';
+    } elseif (file_exists(__DIR__ . '/db_config.php')) {
         require_once __DIR__ . '/db_config.php';
     } else {
         // Fallback de desenvolvimento (ajuste com os dados reais caso não utilize o db_config.php)
@@ -107,10 +109,8 @@ function get_produtos() {
             $prod['especificacoes'][$s['chave']] = $s['valor'];
         }
         
-        // 3. Busca as variações (SKUs)
-        $stmtVar = $db->prepare("SELECT sku, nome, adicional_desc AS adicionalDesc FROM produto_variacoes WHERE produto_id = ?");
-        $stmtVar->execute([$prodId]);
-        $prod['variacoes'] = $stmtVar->fetchAll();
+        // 3. Busca as variações (SKUs) - Desativado (produtos únicos)
+        $prod['variacoes'] = [];
     }
     
     return $produtos;
@@ -163,9 +163,8 @@ function get_filtered_produtos($marca = 'todos', $categoria = 'todos', $busca = 
             $prod['especificacoes'][$s['chave']] = $s['valor'];
         }
 
-        $stmtVar = $db->prepare("SELECT sku, nome, adicional_desc AS adicionalDesc FROM produto_variacoes WHERE produto_id = ?");
-        $stmtVar->execute([$prodId]);
-        $prod['variacoes'] = $stmtVar->fetchAll();
+        // Desativado (produtos únicos)
+        $prod['variacoes'] = [];
     }
 
     return $produtos;

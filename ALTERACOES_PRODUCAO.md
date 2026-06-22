@@ -36,7 +36,35 @@ Este documento detalha todas as otimizações, correções e novos recursos impl
 
 ---
 
+## [19/06/2026] - Atualizações de Mídia, Ajustes de Design e Responsividade
+
+### 1. Ajustes Visuais de Design (Banners)
+* **VoltchZ com "Z" Maiúsculo no Banner 04:** Substituição e atualização da imagem binária do banner rotativo (`static/banner-rotativo-04.webp`) para exibir a marca corretamente escrita como "VoltchZ" com o "Z" maiúsculo no design gráfico do banner.
+
+### 2. Atualização de Fotos da Análise Técnica (Estudo de Viabilidade)
+* **Fotos de Alta Resolução:** Atualização de fotos institucionais da página de análise técnica para retratar melhor a equipe e os equipamentos de engenharia:
+  * `static/engenheiro-analise-eletrica.webp` (Foto atualizada com engenheiro realizando testes de rede elétrica in loco).
+  * `static/painel-eletrico-industrial.webp` (Foto de alta qualidade do painel elétrico de infraestrutura).
+
+### 3. Ajustes de Responsividade Mobile e Badges
+* **Métricas de Curva de Carga:** Grid de métricas em `index.php` e `viabilidade.php` ajustado para empilhar em celulares (usando `grid-cols-1 sm:grid-cols-3`).
+* **Badges do Bruno:** Badges absolutas em `index.php` e `sobre.php` ajustadas para evitar estouro da tela em dispositivos móveis.
+
+### 4. Alterações de Conteúdo e Remoção de Marcas
+* **Responsável Técnico:** Adicionado "UNIFESP" ao responsável técnico no arquivo `sobre.php` (passando a ITA/Inatel/UNIFESP).
+* **Marcas Parceiras:** Ocultada a seção de marcas parceiras `#equipamentos` no rodapé do `sobre.php` e removidas as referências a elas no `index.php`.
+
+### 5. Simplificação de Produtos e Visual dos Cards
+* **Fim das Variações:** Variações de produtos desabilitadas (produtos agora são únicos no `includes/db.php` e estruturas de dados).
+* **Contraste:** Fundo dos cards de produtos alterado para branco, melhorando o contraste e a leitura dos textos.
+
+### 6. Atualização do Script de Deploy
+* **Migração para Python:** Remoção do antigo `make_deploy.ps1` (PowerShell) e criação do novo script `make_deploy.py` em Python para automação do deploy.
+
+---
+
 ## Estrutura de Arquivos Modificados / Adicionados
-* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `make_deploy.ps1`, `includes/xampp_setup_completo.sql`, `includes/hostinger_atualizacao_segura.sql`.
-* **Removidos:** `make_deploy.py`.
-* **Modificados:** `index.php`, `produtos.php`, `blog.php`, `artigo.php`, `viabilidade.php`, `includes/header.php`, `includes/footer.php`, `js/config.js`, `js/main.js`, `js/pages/artigo.js`, `js/pages/blog.js`, `js/pages/produtos.js`, `js/pages/produto-detalhe.js`, `js/ui/navigation.js`.
+* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `make_deploy.py`, `includes/xampp_setup_completo.sql`, `includes/hostinger_atualizacao_segura.sql`.
+* **Removidos:** `make_deploy.ps1`.
+* **Modificados:** `index.php`, `produtos.php`, `blog.php`, `artigo.php`, `viabilidade.php`, `sobre.php`, `includes/db.php`, `includes/header.php`, `includes/footer.php`, `js/config.js`, `js/main.js`, `js/pages/artigo.js`, `js/pages/blog.js`, `js/pages/produtos.js`, `js/pages/produto-detalhe.js`, `js/ui/navigation.js`.
+

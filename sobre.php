@@ -51,7 +51,7 @@ include "includes/header.php";
         <img src="static/bruno.webp" alt="Bruno, Fundador da VoltchZ"
           class="rounded-[40px] shadow-2xl border border-white/5 w-full" loading="lazy" width="600" height="800">
         <div
-          class="absolute -bottom-4 -left-2 lg:-bottom-6 lg:-left-6 bg-brand-green p-4 lg:p-6 rounded-2xl font-bold text-brand-bg shadow-xl">
+          class="absolute -bottom-4 left-4 sm:-left-6 lg:-bottom-6 bg-brand-green p-4 lg:p-6 rounded-2xl font-bold text-brand-bg shadow-xl">
           Fundada em 2020
         </div>
       </div>
@@ -156,7 +156,7 @@ include "includes/header.php";
         <tbody class="text-slate-700">
           <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
             <td class="p-8 font-medium">Responsável Técnico</td>
-            <td class="p-8 text-brand-green font-bold">Engenheiro especializado (ITA/Inatel)</td>
+            <td class="p-8 text-brand-green font-bold">Engenheiro especializado (ITA/Inatel/UNIFESP)</td>
             <td class="p-8 text-slate-400">Mão de obra sem especialização</td>
           </tr>
 
@@ -183,8 +183,8 @@ include "includes/header.php";
   </section>
 
   <!-- ──────────────────────────────────────────
-       EQUIPAMENTOS SECTION (HARDWARE)
-  ────────────────────────────────────────── -->
+       EQUIPAMENTOS SECTION (HARDWARE) (COMMENTED OUT)
+  ────────────────────────────────────────── 
   <section id="equipamentos" class="bg-brand-bg2 py-24 px-6 relative overflow-hidden">
     <div class="orb w-[300px] h-[300px] top-1/2 -left-20 bg-brand-green/10"></div>
     <div class="max-w-[1200px] mx-auto relative z-10">
@@ -196,9 +196,7 @@ include "includes/header.php";
           líderes do mercado global, garantindo longevidade e suporte técnico nacional.</p>
       </div>
 
-      <!-- Grid de Marcas Parceiras -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 observe">
-        <!-- Intelbras -->
         <div
           class="group relative bg-white/5 border border-white/10 rounded-[40px] p-10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2">
           <div class="mb-8"><span
@@ -213,7 +211,6 @@ include "includes/header.php";
             <span class="text-white/20 font-bold uppercase tracking-tighter text-3xl">Intelbras EV</span>
           </div>
         </div>
-        <!-- Incharge -->
         <div
           class="group relative bg-white/5 border border-white/10 rounded-[40px] p-10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2">
           <div class="mb-8"><span
@@ -228,7 +225,6 @@ include "includes/header.php";
             <span class="text-white/20 font-bold uppercase tracking-tighter text-3xl">Incharge Pro</span>
           </div>
         </div>
-        <!-- E-Wolf -->
         <div
           class="group relative bg-white/5 border border-white/10 rounded-[40px] p-10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2">
           <div class="mb-8"><span
@@ -246,6 +242,7 @@ include "includes/header.php";
       </div>
     </div>
   </section>
+  -->
 
   <!-- ──────────────────────────────────────────
 
