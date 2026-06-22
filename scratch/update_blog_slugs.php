@@ -41,11 +41,11 @@ try {
             'titulo' => 'Conveniência'
         ],
         8 => [
-            'slug' => 'economia-de-tempo-e-dinheiro',
+            'slug' => 'httpswwwinstagramcompc23mx5ytteigsheg1wcwe2b2jzc2dn',
             'titulo' => 'Economia de Tempo e Dinheiro | VoltchZ Brasil'
         ],
         9 => [
-            'slug' => 'independencia-energetica',
+            'slug' => 'httpswwwinstagramcompc23nitktip6igshmwm5mwq5amvtzm9ndg',
             'titulo' => 'Independência Energética | VoltchZ Brasil'
         ],
     ];
