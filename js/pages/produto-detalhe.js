@@ -165,8 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 7. Carregar Produtos Relacionados ("Você também pode precisar")
-    loadRelatedProducts(p);
   }
 
   function updateActiveVariation(product, variation) {
@@ -181,68 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Atualizar WhatsApp link
     if (whatsappBtn) {
       whatsappBtn.href = getBudgetUrl(product, variation);
-    }
-  }
-
-  function loadRelatedProducts(currentProduct) {
-    // Selecionar produtos sugeridos:
-    // Se o produto for carregador ou proteção, sugerimos os suportes da VoltchZ (categoria "suportes")
-    // Se for suporte, sugerimos estações de carregamento (categoria "estacoes")
-    let related = [];
-    if (currentProduct.categoriaId === 'suportes') {
-      related = PRODUTOS.filter(p => p.categoriaId === 'estacoes');
-    } else {
-      related = PRODUTOS.filter(p => p.categoriaId === 'suportes');
-    }
-
-    // Fallback: se não houver produtos na categoria sugerida, buscar da mesma marca
-    if (related.length === 0) {
-      related = PRODUTOS.filter(p => p.marcaId === currentProduct.marcaId && p.id !== currentProduct.id);
-    }
-
-    // Filtrar para remover o próprio item e limitar em 3
-    related = related.filter(p => p.id !== currentProduct.id).slice(0, 3);
-
-    if (related.length === 0) {
-      if (relatedSection) relatedSection.classList.add('hidden');
-      return;
-    }
-
-    if (relatedSection) relatedSection.classList.remove('hidden');
-    if (relatedGrid) {
-      relatedGrid.innerHTML = '';
-      related.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
-        
-        const marca = getMarcaById(p.marcaId);
-        const categoria = getCategoriaById(p.categoriaId);
-        
-        card.innerHTML = `
-          <!-- Imagem / SVG Mini -->
-          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center p-3">
-            ${p.imagem ? `<img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-contain max-h-[120px] transition-transform duration-500 group-hover:scale-105">` : generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
-          </div>
-          
-          <div class="flex-grow flex flex-col">
-            <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green mb-1.5">
-              ${marca.nome}
-            </span>
-            <h3 class="text-sm font-bold text-white mb-1.5 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
-              ${p.nome}
-            </h3>
-            <p class="text-brand-muted text-[11px] leading-relaxed mb-4 line-clamp-2">
-              ${p.resumo}
-            </p>
-            
-            <a href="produto/${p.slug}" 
-              class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
-              Ver Detalhes
-            </a>
-          </div>
-        `;
-        relatedGrid.appendChild(card);
-      });
     }
   }
 });

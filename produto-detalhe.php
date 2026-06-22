@@ -81,7 +81,7 @@ include "includes/header.php";
       <div id="product-detail-chassis" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         <!-- COLUNA ESQUERDA: Render/Mídia -->
         <div class="lg:col-span-5 flex flex-col gap-6">
-          <div class="relative w-full aspect-[4/3] rounded-[32px] overflow-hidden bg-[#fafafa] border border-white/5 shadow-2xl p-6 flex items-center justify-center">
+          <div class="relative w-full aspect-[4/3] rounded-[32px] overflow-hidden bg-white/[0.02] border border-white/5 shadow-2xl p-6 flex items-center justify-center">
             <div id="product-media-container" class="w-full h-full flex items-center justify-center">
               <?php if (!empty($produto['imagem'])): ?>
                 <img src="<?php echo htmlspecialchars($produto['imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" class="w-full h-full object-contain max-h-[250px] transition-transform duration-500 hover:scale-105">
@@ -154,7 +154,7 @@ include "includes/header.php";
           <!-- CTA WhatsApp Dinâmico -->
           <div class="mb-8">
             <a id="budget-whatsapp-btn" href="<?php echo get_budget_url($produto, $has_variations ? $produto['variacoes'][0] : null); ?>" target="_blank" rel="noopener noreferrer"
-              class="w-full inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg text-sm font-bold uppercase tracking-wider px-8 py-4.5 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20 text-center">
+              class="w-full inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg text-base font-bold uppercase tracking-wider px-10 py-5.5 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20 text-center">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
               </svg>
@@ -219,64 +219,7 @@ include "includes/header.php";
       </div>
       <?php endif; ?>
 
-      <!-- ──────────────────────────────────────────
-           SEÇÃO: VOCÊ TAMBÉM PODE PRECISAR
-      ────────────────────────────────────────── -->
-      <?php if ($produto && !empty($related_products)): ?>
-      <section id="related-section" class="mt-20 pt-12 border-t border-white/5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-brand-green">
-              Acessórios e Dimensionamento
-            </span>
-            <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">
-              Você também pode precisar
-            </h2>
-          </div>
-          <a href="produtos.php?categoria=suportes" class="text-brand-green text-xs font-bold uppercase tracking-wider hover:underline flex items-center gap-1">
-            Ver Todos os Suportes
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        </div>
 
-        <div id="related-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <?php foreach ($related_products as $rp): 
-            $rmarca = get_marca_by_id($rp['marcaId']);
-          ?>
-            <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
-              <!-- Imagem / SVG Mini -->
-              <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#fafafa] mb-4 border border-white/5 flex items-center justify-center p-3">
-                <?php if (!empty($rp['imagem'])): ?>
-                  <img src="<?php echo htmlspecialchars($rp['imagem']); ?>" alt="<?php echo htmlspecialchars($rp['nome']); ?>" class="w-full h-full object-contain max-h-[120px] transition-transform duration-500 group-hover:scale-105">
-                <?php else: ?>
-                  <?php echo generate_technical_svg($rp['categoriaId'], $rp['nome'], $rmarca['nome']); ?>
-                <?php endif; ?>
-              </div>
-              
-              <div class="flex-grow flex flex-col">
-                <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green mb-1.5">
-                  <?php echo htmlspecialchars($rmarca['nome']); ?>
-                </span>
-                <h3 class="text-sm font-bold text-white mb-1.5 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
-                  <?php echo htmlspecialchars($rp['nome']); ?>
-                </h3>
-                <p class="text-brand-muted text-[11px] leading-relaxed mb-4 line-clamp-2">
-                  <?php echo htmlspecialchars($rp['resumo']); ?>
-                </p>
-                
-                <a href="produto-detalhe.php?slug=<?php echo htmlspecialchars($rp['slug']); ?>" 
-                  class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
-                  Ver Detalhes
-                </a>
-              </div>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      </section>
-      <?php endif; ?>
 
     </div>
   </main>
