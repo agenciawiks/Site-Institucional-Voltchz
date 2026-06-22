@@ -81,7 +81,7 @@ include "includes/header.php";
       <div id="product-detail-chassis" class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         <!-- COLUNA ESQUERDA: Render/Mídia -->
         <div class="lg:col-span-5 flex flex-col gap-6">
-          <div class="relative w-full aspect-[4/3] rounded-[32px] overflow-hidden bg-brand-bg2 border border-white/5 shadow-2xl p-6 flex items-center justify-center">
+          <div class="relative w-full aspect-[4/3] rounded-[32px] overflow-hidden bg-[#fafafa] border border-white/5 shadow-2xl p-6 flex items-center justify-center">
             <div id="product-media-container" class="w-full h-full flex items-center justify-center">
               <?php if (!empty($produto['imagem'])): ?>
                 <img src="<?php echo htmlspecialchars($produto['imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>" class="w-full h-full object-contain max-h-[250px] transition-transform duration-500 hover:scale-105">
@@ -246,9 +246,9 @@ include "includes/header.php";
           <?php foreach ($related_products as $rp): 
             $rmarca = get_marca_by_id($rp['marcaId']);
           ?>
-            <div class="group bg-white border border-slate-200 hover:border-brand-green/30 rounded-[28px] overflow-hidden flex flex-col p-5 shadow-xl transition-all duration-300 hover:-translate-y-1.5">
+            <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
               <!-- Imagem / SVG Mini -->
-              <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-50 mb-4 border border-slate-100 flex items-center justify-center p-3">
+              <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#fafafa] mb-4 border border-white/5 flex items-center justify-center p-3">
                 <?php if (!empty($rp['imagem'])): ?>
                   <img src="<?php echo htmlspecialchars($rp['imagem']); ?>" alt="<?php echo htmlspecialchars($rp['nome']); ?>" class="w-full h-full object-contain max-h-[120px] transition-transform duration-500 group-hover:scale-105">
                 <?php else: ?>
@@ -260,15 +260,15 @@ include "includes/header.php";
                 <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green mb-1.5">
                   <?php echo htmlspecialchars($rmarca['nome']); ?>
                 </span>
-                <h3 class="text-sm font-bold text-slate-900 mb-1.5 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
+                <h3 class="text-sm font-bold text-white mb-1.5 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
                   <?php echo htmlspecialchars($rp['nome']); ?>
                 </h3>
-                <p class="text-slate-600 text-[11px] leading-relaxed mb-4 line-clamp-2">
+                <p class="text-brand-muted text-[11px] leading-relaxed mb-4 line-clamp-2">
                   <?php echo htmlspecialchars($rp['resumo']); ?>
                 </p>
                 
                 <a href="produto-detalhe.php?slug=<?php echo htmlspecialchars($rp['slug']); ?>" 
-                  class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-white bg-slate-900 py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
+                  class="mt-auto text-[10px] font-bold uppercase tracking-wider text-center text-brand-bg bg-white py-2 rounded-lg hover:bg-brand-green hover:text-brand-bg transition-all">
                   Ver Detalhes
                 </a>
               </div>

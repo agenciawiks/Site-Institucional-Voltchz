@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
           
           card.innerHTML = `
             <!-- Imagem / SVG do Hardware Técnico -->
-            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-brand-bg mb-5 border border-white/5 flex items-center justify-center p-3">
+            <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#fafafa] mb-5 border border-white/5 flex items-center justify-center p-3">
               ${p.imagem ? `<img src="${p.imagem}" alt="${p.nome}" class="w-full h-full object-contain max-h-[150px] transition-transform duration-500 group-hover:scale-105">` : generateTechnicalSVG(p.categoriaId, p.nome, marca.nome)}
             </div>
 

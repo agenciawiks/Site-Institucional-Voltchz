@@ -134,9 +134,9 @@ include "includes/header.php";
               $categoria = get_categoria_by_id($p['categoriaId']);
               $hasVariations = !empty($p['variacoes']) && count($p['variacoes']) > 0;
             ?>
-              <div class="fade-item group bg-white border border-slate-200 hover:border-brand-green/30 rounded-[28px] overflow-hidden flex flex-col p-5 shadow-xl transition-all duration-300 hover:-translate-y-2">
+              <div class="fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[28px] overflow-hidden flex flex-col p-5 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-2">
                 <!-- Imagem do Hardware / SVG Fallback -->
-                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-50 mb-5 border border-slate-100 flex items-center justify-center p-4">
+                <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#fafafa] mb-5 border border-white/5 flex items-center justify-center p-4">
                   <?php if (!empty($p['imagem'])): ?>
                     <img src="<?php echo htmlspecialchars($p['imagem']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>" class="w-full h-full object-contain max-h-[180px] transition-transform duration-500 hover:scale-105">
                   <?php else: ?>
@@ -150,35 +150,35 @@ include "includes/header.php";
                     <span class="text-[10px] font-mono font-black uppercase tracking-[0.2em] text-brand-green">
                       <?php echo htmlspecialchars($marca['nome']); ?>
                     </span>
-                    <span class="text-[10px] font-mono text-slate-400">
+                    <span class="text-[10px] font-mono text-brand-muted/70">
                       <?php echo htmlspecialchars($categoria['nome']); ?>
                     </span>
                   </div>
 
-                  <h3 class="text-lg font-bold text-slate-900 mb-2 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
+                  <h3 class="text-lg font-bold text-white mb-2 leading-tight group-hover:text-brand-green transition-colors line-clamp-1">
                     <?php echo htmlspecialchars($p['nome']); ?>
                   </h3>
 
-                  <p class="text-slate-600 text-[13px] leading-relaxed mb-4 flex-grow line-clamp-2 min-h-[38px]">
+                  <p class="text-brand-muted text-[13px] leading-relaxed mb-4 flex-grow line-clamp-2 min-h-[38px]">
                     <?php echo htmlspecialchars($p['resumo']); ?>
                   </p>
 
                   <!-- Especificações Base -->
-                  <div class="grid grid-cols-2 gap-2 pt-4 border-t border-slate-100 mt-auto text-[11px] font-mono text-slate-500">
+                  <div class="grid grid-cols-2 gap-2 pt-4 border-t border-white/5 mt-auto text-[11px] font-mono text-brand-muted">
                     <div>
-                      <span class="block text-[9px] text-slate-400 uppercase tracking-wider">Potência</span>
-                      <span class="font-bold text-slate-800 text-ellipsis overflow-hidden whitespace-nowrap block"><?php echo htmlspecialchars($p['potencia'] ?: 'N/A'); ?></span>
+                      <span class="block text-[9px] text-brand-muted/40 uppercase tracking-wider">Potência</span>
+                      <span class="font-bold text-white text-ellipsis overflow-hidden whitespace-nowrap block"><?php echo htmlspecialchars($p['potencia'] ?: 'N/A'); ?></span>
                     </div>
                     <div>
-                      <span class="block text-[9px] text-slate-400 uppercase tracking-wider">Tensão</span>
-                      <span class="font-bold text-slate-800 text-ellipsis overflow-hidden whitespace-nowrap block"><?php echo htmlspecialchars($p['tensao'] ?: 'N/A'); ?></span>
+                      <span class="block text-[9px] text-brand-muted/40 uppercase tracking-wider">Tensão</span>
+                      <span class="font-bold text-white text-ellipsis overflow-hidden whitespace-nowrap block"><?php echo htmlspecialchars($p['tensao'] ?: 'N/A'); ?></span>
                     </div>
                   </div>
 
                   <!-- Rodapé da Ação -->
                   <div class="flex items-center justify-end gap-4 pt-4 mt-3">
                     <a href="produto/<?php echo htmlspecialchars($p['slug']); ?>" 
-                      class="text-xs font-bold uppercase tracking-wider text-white bg-slate-900 px-5 py-2.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all shadow-lg active:scale-95 whitespace-nowrap">
+                      class="text-xs font-bold uppercase tracking-wider text-brand-bg bg-white px-5 py-2.5 rounded-xl hover:bg-brand-green hover:text-brand-bg transition-all shadow-lg active:scale-95 whitespace-nowrap">
                       Ver Detalhes
                     </a>
                   </div>
