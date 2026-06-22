@@ -1,6 +1,6 @@
 <?php
 /**
- * VoltchZ Brasil - Script Utilitário Temporário de Atualização dos Slugs e Títulos do Blog
+ * VoltchZ Brasil - Script Utilitário Temporário de Atualização dos Slugs e Títulos do Blog + Imagens de Quadros
  * IMPORTANTE: Após executar este arquivo no servidor, delete-o por segurança.
  */
 
@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/db.php';
 try {
     $db = get_db_connection();
     
-    // Array de mapeamento de IDs para novos Slugs e Títulos
+    // Array de mapeamento de IDs para novos Slugs e Títulos do Blog
     $updates = [
         1 => [
             'slug' => 'lei-no-18403-o-que-muda-na-instalacao-de-carregadores-de-veiculos-eletricos-em-condominios',
@@ -51,7 +51,7 @@ try {
     ];
 
     echo "<html><head><title>Atualização do Banco VoltchZ</title></head><body style='font-family: sans-serif; padding: 20px; line-height: 1.6;'>";
-    echo "<h2>Atualizando Slugs e Títulos do Blog no Banco de Dados...</h2><hr>";
+    echo "<h2>1. Atualizando Slugs e Títulos do Blog no Banco de Dados...</h2><hr>";
     
     foreach ($updates as $id => $data) {
         $stmt = $db->prepare("UPDATE artigos SET slug = ?, titulo = ? WHERE id = ?");
@@ -61,7 +61,21 @@ try {
         echo " - Slug: <code>{$data['slug']}</code><br><br>";
     }
     
-    echo "<hr><h3 style='color: green;'>[OK] Todos os artigos foram atualizados com sucesso no banco de dados!</h3>";
+    echo "<h2>2. Atualizando Imagens dos Quadros de Proteção (Com Tomada)...</h2><hr>";
+    
+    // Atualizar quadros que usam tomada industrial para as novas fotos exclusivas
+    $quadros_updates = [
+        39 => 'static/produtos/ewolf-quadro-protecao-7kw-com-tomada.webp', // Mono/Bif Com Tomada
+        41 => 'static/produtos/ewolf-quadro-protecao-7kw-com-tomada.webp', // Trifásico Com Tomada
+    ];
+    
+    foreach ($quadros_updates as $id => $img_path) {
+        $stmt = $db->prepare("UPDATE produtos SET imagem = ? WHERE id = ?");
+        $stmt->execute([$img_path, $id]);
+        echo "Produto ID <b>{$id}</b> imagem atualizada para: <code>{$img_path}</code><br>";
+    }
+    
+    echo "<hr><h3 style='color: green;'>[OK] Todas as atualizações foram aplicadas com sucesso no banco de dados!</h3>";
     echo "<p style='color: red;'><b>ATENÇÃO: Delete este arquivo da sua pasta 'scratch' agora por segurança!</b></p>";
     echo "</body></html>";
     
