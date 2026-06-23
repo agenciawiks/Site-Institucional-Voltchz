@@ -121,6 +121,7 @@ admin_header("Gerenciar Portfólio Completo", "portfolio");
                     <tr class="border-b border-white/5 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-bg/30">
                         <th class="py-3 px-4 rounded-l-xl">Imagem</th>
                         <th class="py-3 px-4">Veículo / Modelo</th>
+                        <th class="py-3 px-4">Tipo</th>
                         <th class="py-3 px-4">Marca</th>
                         <th class="py-3 px-4">Localização</th>
                         <th class="py-3 px-4">Descrição</th>
@@ -146,8 +147,15 @@ admin_header("Gerenciar Portfólio Completo", "portfolio");
                             <td class="py-4 px-4 font-bold text-white">
                                 <?php echo htmlspecialchars($item['model']); ?>
                             </td>
+                            <td class="py-4 px-4">
+                                <?php if (($item['tipo'] ?? 'veiculo') === 'condominio'): ?>
+                                    <span class="px-2 py-0.5 rounded bg-brand-green/10 border border-brand-green/20 text-brand-green text-[10px] font-semibold uppercase">Condomínio</span>
+                                <?php else: ?>
+                                    <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-brand-muted text-[10px] font-semibold uppercase">Veículo</span>
+                                <?php endif; ?>
+                            </td>
                             <td class="py-4 px-4 text-xs font-semibold uppercase font-mono text-brand-green">
-                                <?php echo htmlspecialchars($item['brand']); ?>
+                                <?php echo htmlspecialchars($item['brand'] === 'condominio' ? '-' : $item['brand']); ?>
                             </td>
                             <td class="py-4 px-4 text-xs text-white">
                                 <?php echo htmlspecialchars($item['location']); ?>

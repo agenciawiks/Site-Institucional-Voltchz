@@ -15,6 +15,7 @@ $is_edit = (bool)$portfolio_id;
 
 // Dados default do portfólio
 $portfolio = [
+    'tipo' => 'veiculo',
     'brand' => '',
     'model' => '',
     'location' => '',
@@ -49,35 +50,41 @@ if ($is_edit) {
 
 // Processa o form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $tipo = $_POST['tipo'] ?? 'veiculo';
     $model = filter_input(INPUT_POST, 'model', FILTER_SANITIZE_SPECIAL_CHARS);
     $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
     $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_SPECIAL_CHARS);
     
     // Processamento da marca
-    $brand_selected = $_POST['brand'] ?? '';
-    if ($brand_selected === 'new') {
-        $brand = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_POST['brand_new'] ?? '')));
+    if ($tipo === 'condominio') {
+        $brand = 'condominio';
     } else {
-        $brand = $brand_selected;
+        $brand_selected = $_POST['brand'] ?? '';
+        if ($brand_selected === 'new') {
+            $brand = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_POST['brand_new'] ?? '')));
+        } else {
+            $brand = $brand_selected;
+        }
     }
 
     if (empty($brand) || empty($model) || empty($location) || empty($image)) {
-        $error_message = "Marca, Modelo do Veículo, Localização e Imagem são campos obrigatórios.";
+        $error_message = "Marca/Tipo, Nome do Projeto/Modelo, Localização e Imagem são campos obrigatórios.";
     } else {
         try {
             if ($is_edit) {
-                $stmtUp = $db->prepare("UPDATE portfolio SET brand = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
-                $stmtUp->execute([$brand, $model, $location, $description, $image, $portfolio_id]);
+                $stmtUp = $db->prepare("UPDATE portfolio SET tipo = ?, brand = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
+                $stmtUp->execute([$tipo, $brand, $model, $location, $description, $image, $portfolio_id]);
             } else {
-                $stmtIn = $db->prepare("INSERT INTO portfolio (brand, model, location, description, image) VALUES (?, ?, ?, ?, ?)");
-                $stmtIn->execute([$brand, $model, $location, $description, $image]);
+                $stmtIn = $db->prepare("INSERT INTO portfolio (tipo, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmtIn->execute([$tipo, $brand, $model, $location, $description, $image]);
             }
             header("Location: portfolio.php?saved=1");
             exit;
         } catch (Exception $e) {
             $error_message = "Erro ao salvar item do portfólio: " . $e->getMessage();
             $portfolio = [
+                'tipo' => $tipo,
                 'brand' => $brand,
                 'model' => $model,
                 'location' => $location,
@@ -103,22 +110,33 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
         <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 space-y-6">
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green border-b border-white/5 pb-3">Informações Técnicas & Local</h3>
 
-            <!-- BRAND SELECT & NEW INPUT -->
+            <!-- TIPO DE INSTALAÇÃO -->
             <div>
+                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Tipo de Instalação</label>
+                <select id="tipo-select" name="tipo" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                    <option value="veiculo" <?php echo ($portfolio['tipo'] === 'veiculo') ? 'selected' : ''; ?>>Residencial (Veículo/Montadora)</option>
+                    <option value="condominio" <?php echo ($portfolio['tipo'] === 'condominio') ? 'selected' : ''; ?>>Infraestrutura Coletiva (Condomínio)</option>
+                </select>
+            </div>
+
+            <!-- BRAND SELECT & NEW INPUT -->
+            <div id="brand-selection-block" class="<?php echo ($portfolio['tipo'] === 'condominio') ? 'hidden' : ''; ?>">
                 <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Marca do Veículo</label>
-                <select id="brand-select" name="brand" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                <select id="brand-select" name="brand" class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30" <?php echo ($portfolio['tipo'] !== 'condominio') ? 'required' : ''; ?>>
                     <option value="">Selecione uma marca existente...</option>
-                    <?php foreach ($existing_brands as $eb): ?>
+                    <?php foreach ($existing_brands as $eb): 
+                        if ($eb === 'condominio') continue;
+                    ?>
                         <option value="<?php echo htmlspecialchars($eb); ?>" <?php echo ($portfolio['brand'] === $eb) ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars(strtoupper($eb)); ?>
                         </option>
                     <?php endforeach; ?>
-                    <option value="new" <?php echo ($is_edit && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
+                    <option value="new" <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
                 </select>
 
-                <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
+                <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
                     <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Nome da Nova Marca (Slug/Letras Minúsculas)</label>
-                    <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars($portfolio['brand']); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
+                    <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars($portfolio['brand'] !== 'condominio' ? $portfolio['brand'] : ''); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
                            class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
                 </div>
             </div>
@@ -180,9 +198,27 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
 
 <script>
     // Gerenciador do select de nova marca
+    const tipoSelect = document.getElementById('tipo-select');
+    const brandBlock = document.getElementById('brand-selection-block');
     const select = document.getElementById('brand-select');
     const newBrandContainer = document.getElementById('new-brand-container');
     const brandNewInput = document.getElementById('brand-new');
+
+    if (tipoSelect && brandBlock && select) {
+        tipoSelect.addEventListener('change', function() {
+            if (this.value === 'condominio') {
+                brandBlock.classList.add('hidden');
+                select.required = false;
+                brandNewInput.required = false;
+            } else {
+                brandBlock.classList.remove('hidden');
+                select.required = true;
+                if (select.value === 'new') {
+                    brandNewInput.required = true;
+                }
+            }
+        });
+    }
 
     if (select && newBrandContainer && brandNewInput) {
         select.addEventListener('change', function() {

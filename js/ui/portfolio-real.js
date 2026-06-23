@@ -103,87 +103,132 @@ const HARDCODED_PORTFOLIO_DATA = [
         location: 'Jardim Aquarius, SJC',
         desc: 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.',
         image: 'static/clientes/cliente-30.webp'
+    },
+    {
+        tipo: 'condominio',
+        brand: 'condominio',
+        model: 'Infraestrutura Coletiva',
+        location: 'Condomínio Aquarius, SJC',
+        desc: 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.',
+        image: 'static/carregador-predio-estacionamento.webp'
+    },
+    {
+        tipo: 'condominio',
+        brand: 'condominio',
+        model: 'Adequação Elétrica Coletiva',
+        location: 'Edifício Esplanada, SJC',
+        desc: 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.',
+        image: 'static/carregador-predio-estacionamento2.webp'
     }
 ];
 
 const DB_PORTFOLIO = window.VOLTCHZ_PORTFOLIO_DB_DATA || [];
 const PORTFOLIO_DATA = DB_PORTFOLIO.length > 0 
     ? DB_PORTFOLIO.map(item => ({
+        tipo: item.tipo || (item.brand === 'condominio' ? 'condominio' : 'veiculo'),
         brand: item.brand,
         model: item.model,
         location: item.location,
         desc: item.description,
         image: item.image
       }))
-    : HARDCODED_PORTFOLIO_DATA;
+    : HARDCODED_PORTFOLIO_DATA.map(item => ({
+        tipo: item.tipo || (item.brand === 'condominio' ? 'condominio' : 'veiculo'),
+        brand: item.brand,
+        model: item.model,
+        location: item.location,
+        desc: item.desc || item.description,
+        image: item.image
+      }));
 
 export const initPortfolioExpandido = () => {
-    const grid = $('#portfolio-grid-expandido');
+    const gridVeiculos = $('#portfolio-grid-expandido');
+    const gridCondos = $('#condominios-grid');
     const tabsContainer = $('#portfolio-tabs-expandido');
-    if (!grid) return;
+    if (!gridVeiculos) return;
 
-    // Função para renderizar os cards baseados no filtro
-    const renderPortfolio = (filter = 'all') => {
-        grid.innerHTML = '';
+    // Filtra itens cujo arquivo de imagem não existe na pasta
+    const existingImages = window.VOLTCHZ_EXISTING_IMAGES || [];
+    const activeData = existingImages.length > 0
+        ? PORTFOLIO_DATA.filter(item => existingImages.includes(item.image))
+        : PORTFOLIO_DATA;
+
+    const veiculosData = activeData.filter(item => item.tipo === 'veiculo');
+    const condosData = activeData.filter(item => item.tipo === 'condominio');
+
+    // Helper para criar o card HTML
+    const createCardElement = (item) => {
+        const card = document.createElement('div');
+        card.className = 'fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
         
-        // Filtra itens cujo arquivo de imagem não existe na pasta
-        const existingImages = window.VOLTCHZ_EXISTING_IMAGES || [];
-        const activeData = existingImages.length > 0
-            ? PORTFOLIO_DATA.filter(item => existingImages.includes(item.image))
-            : PORTFOLIO_DATA;
+        card.innerHTML = `
+            <!-- Imagem da Instalação -->
+            <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer">
+                <img src="${item.image}" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
+                </div>
+            </div>
+
+            <!-- Conteúdo -->
+            <div class="flex-grow flex flex-col">
+                <div class="flex items-center justify-between gap-4 mb-2">
+                    <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green">
+                        ${item.tipo === 'condominio' ? 'CONDOMÍNIO' : (item.brand.toUpperCase() === 'GEELY' ? 'GRUPO GEELY' : item.brand.toUpperCase())}
+                    </span>
+                    <span class="text-[9px] font-mono text-white/45 truncate max-w-[150px]">
+                        ${item.location.split(',')[0]}
+                    </span>
+                </div>
+                
+                <h3 class="text-base font-bold text-white mb-2 leading-snug group-hover:text-brand-green transition-colors">
+                    ${item.model}
+                </h3>
+                
+                <p class="text-brand-muted text-[12px] leading-relaxed mb-2 flex-grow">
+                    ${item.desc}
+                </p>
+                
+                <div class="text-[10px] text-white/40 flex items-center gap-1.5 mt-auto pt-2 border-t border-white/5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span class="truncate">${item.location}</span>
+                </div>
+            </div>
+        `;
+
+        // Clique na imagem para lightbox
+        card.querySelector('img').parentNode.addEventListener('click', () => {
+            window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: item.image } }));
+        });
+
+        return card;
+    };
+
+    // Função para renderizar os cards de veículos baseados no filtro
+    const renderVeiculos = (filter = 'all') => {
+        gridVeiculos.innerHTML = '';
         
         const filtered = filter === 'all' 
-            ? activeData 
-            : activeData.filter(item => item.brand === filter);
+            ? veiculosData 
+            : veiculosData.filter(item => item.brand === filter);
 
         filtered.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
-            
-            card.innerHTML = `
-                <!-- Imagem da Instalação -->
-                <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer">
-                    <img src="${item.image}" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
-                    </div>
-                </div>
+            const card = createCardElement(item);
+            gridVeiculos.appendChild(card);
+        });
+    };
 
-                <!-- Conteúdo -->
-                <div class="flex-grow flex flex-col">
-                    <div class="flex items-center justify-between gap-4 mb-2">
-                        <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green">
-                            ${item.brand.toUpperCase() === 'GEELY' ? 'GRUPO GEELY' : item.brand.toUpperCase()}
-                        </span>
-                        <span class="text-[9px] font-mono text-white/45 truncate max-w-[150px]">
-                            ${item.location.split(',')[0]}
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug group-hover:text-brand-green transition-colors">
-                        ${item.model}
-                    </h3>
-                    
-                    <p class="text-brand-muted text-[12px] leading-relaxed mb-2 flex-grow">
-                        ${item.desc}
-                    </p>
-                    
-                    <div class="text-[10px] text-white/40 flex items-center gap-1.5 mt-auto pt-2 border-t border-white/5">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span class="truncate">${item.location}</span>
-                    </div>
-                </div>
-            `;
-
-            // Clique na imagem para lightbox
-            card.querySelector('img').parentNode.addEventListener('click', () => {
-                window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: item.image } }));
-            });
-
-            grid.appendChild(card);
+    // Função para renderizar os cards de condomínios
+    const renderCondominios = () => {
+        if (!gridCondos) return;
+        gridCondos.innerHTML = '';
+        
+        condosData.forEach(item => {
+            const card = createCardElement(item);
+            gridCondos.appendChild(card);
         });
     };
 
@@ -202,11 +247,12 @@ export const initPortfolioExpandido = () => {
                 btn.classList.remove('border-white/10', 'bg-white/5', 'text-brand-muted');
 
                 const filter = btn.getAttribute('data-filter');
-                renderPortfolio(filter);
+                renderVeiculos(filter);
             });
         });
     }
 
     // Inicialização
-    renderPortfolio('all');
+    renderVeiculos('all');
+    renderCondominios();
 };

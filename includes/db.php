@@ -65,6 +65,17 @@ function get_db_connection() {
             }
         }
         
+        // Auto-migração da coluna tipo na tabela portfolio se necessário
+        try {
+            $pdo->query("SELECT tipo FROM portfolio LIMIT 1");
+        } catch (Exception $e) {
+            try {
+                $pdo->exec("ALTER TABLE portfolio ADD COLUMN tipo VARCHAR(30) DEFAULT 'veiculo' AFTER id");
+            } catch (Exception $e2) {
+                // Silencioso se der erro (ex: tabela ainda não criada)
+            }
+        }
+        
         // Inicializa as novas tabelas e dados padrão para o Admin
         try {
             init_voltchz_admin_tables($pdo);
@@ -592,6 +603,7 @@ function init_voltchz_admin_tables($pdo) {
     // 2. Tabela portfolio
     $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio` (
         `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `tipo` VARCHAR(30) DEFAULT 'veiculo',
         `brand` VARCHAR(50) NOT NULL,
         `model` VARCHAR(100) NOT NULL,
         `location` VARCHAR(150) NOT NULL,
@@ -604,22 +616,24 @@ function init_voltchz_admin_tables($pdo) {
     $countPortfolio = $pdo->query("SELECT COUNT(*) FROM portfolio")->fetchColumn();
     if ($countPortfolio == 0) {
         $portfolio_items = [
-            ['byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'],
-            ['byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'],
-            ['byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'],
-            ['gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'],
-            ['gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'],
-            ['volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'],
-            ['volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'],
-            ['geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'],
-            ['geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'],
-            ['geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'],
-            ['porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'],
-            ['tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'],
-            ['bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'],
-            ['audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp']
+            ['veiculo', 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'],
+            ['veiculo', 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'],
+            ['veiculo', 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'],
+            ['veiculo', 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'],
+            ['veiculo', 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'],
+            ['veiculo', 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'],
+            ['veiculo', 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'],
+            ['veiculo', 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'],
+            ['veiculo', 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'],
+            ['veiculo', 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'],
+            ['veiculo', 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'],
+            ['veiculo', 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'],
+            ['veiculo', 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'],
+            ['veiculo', 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp'],
+            ['condominio', 'condominio', 'Infraestrutura Coletiva', 'Condomínio Aquarius, SJC', 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.', 'static/carregador-predio-estacionamento.webp'],
+            ['condominio', 'condominio', 'Adequação Elétrica Coletiva', 'Edifício Esplanada, SJC', 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.', 'static/carregador-predio-estacionamento2.webp']
         ];
-        $stmt = $pdo->prepare("INSERT INTO portfolio (brand, model, location, description, image) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO portfolio (tipo, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
         foreach ($portfolio_items as $item) {
             $stmt->execute($item);
         }
