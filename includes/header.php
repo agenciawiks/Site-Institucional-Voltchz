@@ -107,6 +107,7 @@ if ($is_local_env) {
             <div id="nav-links" class="hidden md:flex items-center gap-1.5">
                 <a href="index" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'index' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Início</a>
                 <a href="sobre" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'sobre' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Sobre Nós</a>
+                <a href="portfolio" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'portfolio' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Portfólio</a>
                 <a href="produtos" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'produtos' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Produtos</a>
                 <a href="app" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'app' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">App VoltchZ</a>
                 <a href="blog" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'blog' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Blog</a>
@@ -137,6 +138,7 @@ if ($is_local_env) {
             <div class="flex flex-col gap-4">
                 <a href="index" class="text-2xl font-bold py-2 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
                 <a href="sobre" class="text-2xl font-bold py-2 <?php echo $active_page === 'sobre' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Sobre Nós</a>
+                <a href="portfolio" class="text-2xl font-bold py-2 <?php echo $active_page === 'portfolio' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Portfólio</a>
                 <a href="produtos" class="text-2xl font-bold py-2 <?php echo $active_page === 'produtos' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Produtos</a>
                 <a href="app" class="text-2xl font-bold py-2 <?php echo $active_page === 'app' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">App VoltchZ</a>
                 <a href="blog" class="text-2xl font-bold py-2 <?php echo $active_page === 'blog' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Blog</a>
