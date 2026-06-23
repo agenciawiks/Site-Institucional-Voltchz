@@ -64,6 +64,13 @@ function get_db_connection() {
                 // Silencioso se der erro (ex: tabela ainda não criada)
             }
         }
+        
+        // Inicializa as novas tabelas e dados padrão para o Admin
+        try {
+            init_voltchz_admin_tables($pdo);
+        } catch (Exception $e) {
+            // Silencioso se houver algum erro transitório
+        }
     }
     return $pdo;
 }
@@ -340,7 +347,15 @@ function get_artigo_imagem($slug) {
 
 // Retorna a URL do WhatsApp para solicitação de orçamento
 function get_budget_url($produto, $variacao = null) {
-    $number = '5512981039845'; // WhatsApp padrão das configurações
+    $whatsapp_link = get_config('whatsapp_link', 'https://wa.me/5512981039845');
+    $number = '5512981039845';
+    if (!empty($whatsapp_link)) {
+        if (preg_match('/(?:wa\.me|api\.whatsapp\.com\/send\?phone=)(\d+)/', $whatsapp_link, $matches)) {
+            $number = $matches[1];
+        } elseif (preg_match('/^\+?\d+$/', preg_replace('/[\s\-\(\)]/', '', $whatsapp_link))) {
+            $number = preg_replace('/[^\d]/', '', $whatsapp_link);
+        }
+    }
     $brand = get_marca_by_id($produto['marcaId'])['nome'];
     
     $msg = "Olá! Gostaria de falar com a equipe técnica da VoltchZ Brasil.\n\n";
@@ -539,3 +554,276 @@ function generate_technical_svg($category, $name = '', $brand = '') {
     </svg>
     ";
 }
+
+// =====================================================================
+// SISTEMA ADMINISTRATIVO - INICIALIZADOR E HELPERS DE CONTEÚDO DINÂMICO
+// =====================================================================
+
+/**
+ * Inicializa a estrutura de tabelas do painel admin VoltchZ e popula com dados iniciais
+ */
+function init_voltchz_admin_tables($pdo) {
+    // 1. Tabela configuracoes
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `configuracoes` (
+        `chave` VARCHAR(100) PRIMARY KEY,
+        `valor` TEXT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed configuracoes se vazia
+    $countConfig = $pdo->query("SELECT COUNT(*) FROM configuracoes")->fetchColumn();
+    if ($countConfig == 0) {
+        $configs = [
+            'email_contato' => 'contato@voltchz.com.br',
+            'telefone_comercial' => '(12) 98103-9845',
+            'whatsapp_link' => 'https://wa.me/5512981039845',
+            'telefone_0800' => '0800 444 1044',
+            'whatsapp_suporte' => '(800) 444 1044',
+            'horario_suporte' => 'Seg a Sex - 8h às 22h',
+            'endereco' => 'Rua João Teixeira Netto, 72 - Jardim Aquarius, SJC - SP',
+            'instagram' => 'https://www.instagram.com/voltchz',
+            'linkedin' => 'https://www.linkedin.com/company/voltchz/'
+        ];
+        $stmt = $pdo->prepare("INSERT INTO configuracoes (chave, valor) VALUES (?, ?)");
+        foreach ($configs as $k => $v) {
+            $stmt->execute([$k, $v]);
+        }
+    }
+
+    // 2. Tabela portfolio
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `brand` VARCHAR(50) NOT NULL,
+        `model` VARCHAR(100) NOT NULL,
+        `location` VARCHAR(150) NOT NULL,
+        `description` TEXT NOT NULL,
+        `image` VARCHAR(255) NOT NULL,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed portfolio se vazia
+    $countPortfolio = $pdo->query("SELECT COUNT(*) FROM portfolio")->fetchColumn();
+    if ($countPortfolio == 0) {
+        $portfolio_items = [
+            ['byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'],
+            ['byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'],
+            ['byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'],
+            ['gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'],
+            ['gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'],
+            ['volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'],
+            ['volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'],
+            ['geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'],
+            ['geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'],
+            ['geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'],
+            ['porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'],
+            ['tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'],
+            ['bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'],
+            ['audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp']
+        ];
+        $stmt = $pdo->prepare("INSERT INTO portfolio (brand, model, location, description, image) VALUES (?, ?, ?, ?, ?)");
+        foreach ($portfolio_items as $item) {
+            $stmt->execute($item);
+        }
+    }
+
+    // 3. Tabela banners
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `banners` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `image` VARCHAR(255) NOT NULL,
+        `title` VARCHAR(255) NOT NULL,
+        `subtitle` VARCHAR(255) NOT NULL,
+        `button_text` VARCHAR(100) NOT NULL,
+        `button_link` VARCHAR(255) NOT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed banners se vazia
+    $countBanners = $pdo->query("SELECT COUNT(*) FROM banners")->fetchColumn();
+    if ($countBanners == 0) {
+        $banners = [
+            ['static/banner-rotativo-01webp.webp', 'Energia para o futuro, segurança no agora', 'A VoltchZ entrega a infraestrutura completa de carregamento elétrico com rigor técnico e suporte de engenharia.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 1, 1],
+            ['static/banner-rotativo-02.webp', 'Infraestrutura para frotas e condomínios', 'Gestão balanceada de carga e telemetria para empreendimentos de grande porte.', 'Falar com Engenheiro', 'https://wa.me/5512981039845', 2, 1],
+            ['static/banner-rotativo-03.webp', 'Projetos elétricos com engenharia, normas e segurança.', 'Nossas instalações seguem todas as normas técnicas (NBR 5410, 17019 e IEC 61851-1), para você carregar seu veículo com total confiança.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 3, 1],
+            ['static/banner-rotativo-04.webp', 'Estruture seu negócio com recarga de alta performance', 'Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.', 'Planejar Estação Comercial', 'contato', 4, 1]
+        ];
+        $stmt = $pdo->prepare("INSERT INTO banners (image, title, subtitle, button_text, button_link, sort_order, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        foreach ($banners as $b) {
+            $stmt->execute($b);
+        }
+    }
+
+    // 4. Tabela depoimentos
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `depoimentos` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `name` VARCHAR(150) NOT NULL,
+        `role_condo` VARCHAR(255) NOT NULL,
+        `testimonial` TEXT NOT NULL,
+        `image_avatar` VARCHAR(255) NULL,
+        `active` TINYINT DEFAULT 1
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed depoimentos se vazia
+    $countDepoimentos = $pdo->query("SELECT COUNT(*) FROM depoimentos")->fetchColumn();
+    if ($countDepoimentos == 0) {
+        $depoimentos = [
+            ['Thiago L.', 'Síndico do Condomínio Esplanada', 'A equipe da VoltchZ executou o projeto de infraestrutura de recarga do nosso condomínio de forma exemplar. Engenharia de ponta, documentação em dia e segurança total.', NULL, 1],
+            ['Marcelo G.', 'CEO da LogiExpress', 'Instalamos 4 carregadores rápidos para a nossa frota corporativa. O sistema de balanceamento de carga superou as expectativas, otimizando nossos custos operacionais.', NULL, 1]
+        ];
+        $stmt = $pdo->prepare("INSERT INTO depoimentos (name, role_condo, testimonial, image_avatar, active) VALUES (?, ?, ?, ?, ?)");
+        foreach ($depoimentos as $d) {
+            $stmt->execute($d);
+        }
+    }
+
+    // 5. Tabela faq
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `faq` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `question` VARCHAR(255) NOT NULL,
+        `answer` TEXT NOT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed faq se vazia
+    $countFaq = $pdo->query("SELECT COUNT(*) FROM faq")->fetchColumn();
+    if ($countFaq == 0) {
+        $faqs = [
+            ['1. Qual a potência ideal de carregador para uso residencial?', 'A maioria dos usuários utiliza carregadores a partir de 7 kW, que já oferecem boa velocidade. Em alguns casos, é possível usar 11 kW ou 22 kW, dependendo do veículo e da estrutura elétrica disponível.', 1, 1],
+            ['2. Qual o impacto do carregador na conta de energia?', 'O impacto depende da potência do carregador e da frequência de uso. Em condomínios, é possível fazer medição individualizada para que cada usuário pague apenas o que consome de forma justa.', 2, 1],
+            ['3. Posso usar a tomada comum da garagem para carregar?', 'Até é possível, mas não é recomendado. Tomadas comuns não suportam uso contínuo de alta carga, o que pode causar aquecimento e riscos. O ideal é um carregador dedicado (Wallbox).', 3, 1],
+            ['4. Quais normas técnicas preciso atender na instalação?', 'As principais são: NBR 17019, NBR 5410, NBR IEC 61851-1 e normas de segurança contra incêndio do Corpo de Bombeiros. Segui-las garante uma instalação segura e adequada.', 4, 1],
+            ['5. Qual a diferença entre carregador portátil e fixo?', 'O portátil é indicado para emergências ou uso ocasional, com menor potência. Já o Wallbox é fixo, mais seguro e oferece maior desempenho para o carregamento diário.', 5, 1],
+            ['6. O que acontece se eu não seguir as normas técnicas?', 'Pode gerar riscos como choques elétricos, incêndios e até perda de garantia do veículo ou equipamento. Seguir as normas é essencial para a segurança e durabilidade.', 6, 1],
+            ['7. Preciso de autorização para instalar no condomínio?', 'Sim. Normalmente é necessário comunicar o síndico e, em alguns casos, aprovação em assembleia, além de um estudo da capacidade elétrica do local.', 7, 1],
+            ['8. Posso instalar um carregador rápido DC no condomínio?', 'Sim, mas exige infraestrutura elétrica robusta (geralmente 380V trifásico), além de um projeto técnico específico de engenharia.', 8, 1],
+            ['9. O carregador pode ser compartilhado no condomínio?', 'Sim. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.', 9, 1],
+            ['10. Preciso contratar apenas empresas da montadora?', 'Não. O mais importante é que a instalação siga as normas técnicas. Isso garante segurança, independentemente da empresa ou marca do carregador.', 10, 1]
+        ];
+        $stmt = $pdo->prepare("INSERT INTO faq (question, answer, sort_order, active) VALUES (?, ?, ?, ?)");
+        foreach ($faqs as $f) {
+            $stmt->execute($f);
+        }
+    }
+}
+
+/**
+ * Retorna todas as configurações como array associativo
+ */
+function get_configs() {
+    static $cached_config = null;
+    if ($cached_config !== null) {
+        return $cached_config;
+    }
+    try {
+        $db = get_db_connection();
+        $stmt = $db->query("SELECT chave, valor FROM configuracoes");
+        $rows = $stmt->fetchAll();
+        $cached_config = [];
+        foreach ($rows as $r) {
+            $cached_config[$r['chave']] = $r['valor'];
+        }
+        return $cached_config;
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Puxa um valor específico de configuração
+ */
+function get_config($chave, $default = '') {
+    $configs = get_configs();
+    return isset($configs[$chave]) ? $configs[$chave] : $default;
+}
+
+/**
+ * Salva ou atualiza uma configuração
+ */
+function save_config($chave, $valor) {
+    try {
+        $db = get_db_connection();
+        $stmt = $db->prepare("INSERT INTO configuracoes (chave, valor) VALUES (?, ?) ON DUPLICATE KEY UPDATE valor = ?");
+        return $stmt->execute([$chave, $valor, $valor]);
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+/**
+ * Puxa itens de portfólio dinâmico
+ */
+function get_portfolio_items() {
+    try {
+        $db = get_db_connection();
+        $stmt = $db->query("SELECT * FROM portfolio ORDER BY id DESC");
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Puxa um item de portfólio específico
+ */
+function get_portfolio_item($id) {
+    try {
+        $db = get_db_connection();
+        $stmt = $db->prepare("SELECT * FROM portfolio WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+/**
+ * Retorna a lista de perguntas frequentes (FAQ)
+ */
+function get_faq($only_active = true) {
+    try {
+        $db = get_db_connection();
+        $sql = "SELECT * FROM faq";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY sort_order ASC, id ASC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Retorna os slides de banners ativos
+ */
+function get_banners($only_active = true) {
+    try {
+        $db = get_db_connection();
+        $sql = "SELECT * FROM banners";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY sort_order ASC, id ASC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Retorna os depoimentos de clientes
+ */
+function get_depoimentos($only_active = true) {
+    try {
+        $db = get_db_connection();
+        $sql = "SELECT * FROM depoimentos";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY id DESC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+

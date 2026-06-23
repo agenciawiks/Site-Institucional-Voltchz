@@ -5,7 +5,7 @@
 
 import { $ } from '../utils/dom.js';
 
-const PORTFOLIO_DATA = [
+const HARDCODED_PORTFOLIO_DATA = [
     {
         brand: 'byd',
         model: 'BYD Dolphin',
@@ -105,6 +105,17 @@ const PORTFOLIO_DATA = [
         image: 'static/clientes/cliente-30.webp'
     }
 ];
+
+const DB_PORTFOLIO = window.VOLTCHZ_PORTFOLIO_DB_DATA || [];
+const PORTFOLIO_DATA = DB_PORTFOLIO.length > 0 
+    ? DB_PORTFOLIO.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        location: item.location,
+        desc: item.description,
+        image: item.image
+      }))
+    : HARDCODED_PORTFOLIO_DATA;
 
 export const initPortfolioExpandido = () => {
     const grid = $('#portfolio-grid-expandido');

@@ -1,7 +1,5 @@
     <!-- ──────────────────────────────────────────
-       FLOATING ACTIONS (WHATSAPP)
-  ────────────────────────────────────────── -->
-    <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="fixed bottom-8 right-8 z-[90] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group" aria-label="Falar no WhatsApp">
+           <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="fixed bottom-8 right-8 z-[90] w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group" aria-label="Falar no WhatsApp">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
         </svg>
@@ -12,7 +10,7 @@
 
     <!-- ──────────────────────────────────────────
        FOOTER (RODAPÉ)
-  ────────────────────────────────────────── -->
+     ────────────────────────────────────────── -->
     <footer class="bg-brand-bg py-20 px-6 border-t border-white/10 relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -23,19 +21,19 @@
                         Infraestrutura de engenharia certificada para mobilidade elétrica. Segurança e inovação em cada recarga.
                     </p>
                     <div class="flex items-center gap-3">
-                        <a href="https://wa.me/5512981039845" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="WhatsApp">
+                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="WhatsApp">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                             </svg>
                         </a>
-                        <a href="https://www.instagram.com/voltchz" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="Instagram">
+                        <a href="<?php echo htmlspecialchars(get_config('instagram', 'https://www.instagram.com/voltchz')); ?>" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg>
                         </a>
-                        <a href="https://www.linkedin.com/company/voltchz/" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="LinkedIn">
+                        <a href="<?php echo htmlspecialchars(get_config('linkedin', 'https://www.linkedin.com/company/voltchz/')); ?>" target="_blank" class="p-2.5 bg-white/5 rounded-xl text-brand-muted hover:text-brand-green hover:bg-white/10 transition-all" aria-label="LinkedIn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                                 <rect x="2" y="9" width="4" height="12"></rect>
@@ -49,37 +47,50 @@
                 <div class="flex flex-col gap-6">
                     <h4 class="text-white font-bold text-sm uppercase tracking-widest">Contato</h4>
                     <div class="space-y-4">
-                        <a href="mailto:contato@voltchz.com.br" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+                        <?php $email = get_config('email_contato', 'contato@voltchz.com.br'); ?>
+                        <a href="mailto:<?php echo htmlspecialchars($email); ?>" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                                 <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg> contato@voltchz.com.br
+                            </svg> <?php echo htmlspecialchars($email); ?>
                         </a>
-                        <a href="https://wa.me/5512981039845" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+                        <?php 
+                        $tel_comercial = get_config('telefone_comercial', '(12) 98103-9845');
+                        $wa_link = get_config('whatsapp_link', 'https://wa.me/5512981039845');
+                        ?>
+                        <a href="<?php echo htmlspecialchars($wa_link); ?>" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg> (12) 98103-9845
+                            </svg> <?php echo htmlspecialchars($tel_comercial); ?>
                         </a>
                         
                         <!-- Suporte ao Motorista -->
                         <div class="pt-3 border-t border-white/5 space-y-3">
                             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-green block">Suporte ao Motorista</span>
-                            <a href="tel:08004441044" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+                            <?php 
+                            $tel_0800 = get_config('telefone_0800', '0800 444 1044'); 
+                            $clean_0800 = preg_replace('/\D/', '', $tel_0800);
+                            ?>
+                            <a href="tel:<?php echo $clean_0800; ?>" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                 </svg>
                                 <div class="flex flex-col">
-                                    <span class="font-bold text-white text-xs">0800 444 1044</span>
+                                    <span class="font-bold text-white text-xs"><?php echo htmlspecialchars($tel_0800); ?></span>
                                     <span class="text-[9px] text-brand-muted/60 uppercase tracking-wider">Atendimento 24/7</span>
                                 </div>
                             </a>
-                            <a href="https://wa.me/558004441044" target="_blank" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
+                            <?php 
+                            $ws_suporte = get_config('whatsapp_suporte', '(800) 444 1044'); 
+                            $wa_suporte_link = (strpos($ws_suporte, 'http') === 0) ? $ws_suporte : 'https://wa.me/55' . preg_replace('/\D/', '', $ws_suporte);
+                            ?>
+                            <a href="<?php echo htmlspecialchars($wa_suporte_link); ?>" target="_blank" class="flex items-center gap-3 text-brand-muted hover:text-white transition-colors text-sm">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                                 </svg>
                                 <div class="flex flex-col">
-                                    <span class="font-bold text-white text-xs">(800) 444 1044</span>
-                                    <span class="text-[9px] text-brand-muted/60 uppercase tracking-wider">Seg a Sex - 8h às 22h</span>
+                                    <span class="font-bold text-white text-xs"><?php echo htmlspecialchars($ws_suporte); ?></span>
+                                    <span class="text-[9px] text-brand-muted/60 uppercase tracking-wider"><?php echo htmlspecialchars(get_config('horario_suporte', 'Seg a Sex - 8h às 22h')); ?></span>
                                 </div>
                             </a>
                         </div>
@@ -89,7 +100,7 @@
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                                 <circle cx="12" cy="10" r="3"></circle>
                             </svg>
-                            <span>Rua João Teixeira Netto, 72<br>Jardim Aquarius, SJC - SP</span>
+                            <span><?php echo nl2br(htmlspecialchars(get_config('endereco', "Rua João Teixeira Netto, 72\nJardim Aquarius, SJC - SP"))); ?></span>
                         </div>
                     </div>
                 </div>

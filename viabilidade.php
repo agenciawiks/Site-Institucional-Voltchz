@@ -302,7 +302,7 @@ include "includes/header.php";
 
           <!-- CTA -->
           <div class="flex flex-col sm:flex-row gap-3 pt-1">
-            <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
+            <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center justify-center gap-2.5 bg-brand-green text-brand-bg font-bold py-3.5 px-7 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 text-[14px]">
               Solicitar Estudo de Viabilidade
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>

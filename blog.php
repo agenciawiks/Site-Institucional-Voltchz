@@ -233,7 +233,7 @@ include "includes/header.php";
         Elaboramos projetos elétricos robustos, estudos técnicos de viabilidade com ART e atuamos na adequação condominial completa perante a Lei 18.403.
       </p>
       <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
+        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer"
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
           Falar com Especialistas
         </a>

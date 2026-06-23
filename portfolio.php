@@ -132,7 +132,7 @@ include "includes/header.php";
       <p class="text-brand-muted text-base leading-relaxed mb-8">
         Fale com nosso time de engenharia para realizar a instalação segura do carregador na sua residência ou condomínio, com documentação completa.
       </p>
-      <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
+      <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer"
         class="inline-flex items-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
         Conversar no WhatsApp
       </a>
@@ -140,14 +140,15 @@ include "includes/header.php";
   </section>
 
 <?php
-// Escaneia a pasta de clientes dinamicamente
-$existing_images = glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE);
-if (!$existing_images) {
-    $existing_images = [];
-}
+// Escaneia as pastas de clientes e uploads dinamicamente
+$existing_images = array_merge(
+    glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: [],
+    glob('static/uploads/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: []
+);
 ?>
 <script>
     window.VOLTCHZ_EXISTING_IMAGES = <?php echo json_encode($existing_images); ?>;
+    window.VOLTCHZ_PORTFOLIO_DB_DATA = <?php echo json_encode(get_portfolio_items()); ?>;
 </script>
 
 <?php

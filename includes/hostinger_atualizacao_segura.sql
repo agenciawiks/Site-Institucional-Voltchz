@@ -1035,3 +1035,100 @@ REPLACE INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) 
 REPLACE INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) VALUES (38, 'Peso líquido', '260 kg', 558);
 REPLACE INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) VALUES (38, 'Cor', 'Cinza e preto', 559);
 
+-- =====================================================================
+-- VoltchZ Brasil - Estruturas Administrativas Dinâmicas (Atualização 2026)
+-- =====================================================================
+
+CREATE TABLE IF NOT EXISTS `configuracoes` (
+  `chave` VARCHAR(100) PRIMARY KEY,
+  `valor` TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `configuracoes` (`chave`, `valor`) VALUES 
+('email_contato', 'contato@voltchz.com.br'),
+('telefone_comercial', '(12) 98103-9845'),
+('whatsapp_link', 'https://wa.me/5512981039845'),
+('telefone_0800', '0800 444 1044'),
+('whatsapp_suporte', '(800) 444 1044'),
+('horario_suporte', 'Seg a Sex - 8h às 22h'),
+('endereco', 'Rua João Teixeira Netto, 72 - Jardim Aquarius, SJC - SP'),
+('instagram', 'https://www.instagram.com/voltchz'),
+('linkedin', 'https://www.linkedin.com/company/voltchz/');
+
+CREATE TABLE IF NOT EXISTS `portfolio` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `brand` VARCHAR(50) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `portfolio` (`id`, `brand`, `model`, `location`, `description`, `image`) VALUES
+(1, 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'),
+(2, 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'),
+(3, 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'),
+(4, 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'),
+(5, 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'),
+(6, 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'),
+(7, 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'),
+(8, 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'),
+(9, 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'),
+(10, 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'),
+(11, 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'),
+(12, 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'),
+(13, 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'),
+(14, 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp');
+
+CREATE TABLE IF NOT EXISTS `banners` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `image` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `subtitle` VARCHAR(255) NOT NULL,
+  `button_text` VARCHAR(100) NOT NULL,
+  `button_link` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `banners` (`id`, `image`, `title`, `subtitle`, `button_text`, `button_link`, `sort_order`, `active`) VALUES
+(1, 'static/banner-rotativo-01webp.webp', 'Energia para o futuro, segurança no agora', 'A VoltchZ entrega a infraestrutura completa de carregamento elétrico com rigor técnico e suporte de engenharia.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 1, 1),
+(2, 'static/banner-rotativo-02.webp', 'Infraestrutura para frotas e condomínios', 'Gestão balanceada de carga e telemetria para empreendimentos de grande porte.', 'Falar com Engenheiro', 'https://wa.me/5512981039845', 2, 1),
+(3, 'static/banner-rotativo-03.webp', 'Projetos elétricos com engenharia, normas e segurança.', 'Nossas instalações seguem todas as normas técnicas (NBR 5410, 17019 e IEC 61851-1), para você carregar seu veículo com total confiança.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 3, 1),
+(4, 'static/banner-rotativo-04.webp', 'Estruture seu negócio com recarga de alta performance', 'Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.', 'Planejar Estação Comercial', 'contato', 4, 1);
+
+CREATE TABLE IF NOT EXISTS `depoimentos` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(150) NOT NULL,
+  `role_condo` VARCHAR(255) NOT NULL,
+  `testimonial` TEXT NOT NULL,
+  `image_avatar` VARCHAR(255) NULL,
+  `active` TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `depoimentos` (`id`, `name`, `role_condo`, `testimonial`, `image_avatar`, `active`) VALUES
+(1, 'Thiago L.', 'Síndico do Condomínio Esplanada', 'A equipe da VoltchZ executou o projeto de infraestrutura de recarga do nosso condomínio de forma exemplar. Engenharia de ponta, documentação em dia e segurança total.', NULL, 1),
+(2, 'Marcelo G.', 'CEO da LogiExpress', 'Instalamos 4 carregadores rápidos para a nossa frota corporativa. O sistema de balanceamento de carga superou as expectativas, otimizando nossos custos operacionais.', NULL, 1);
+
+CREATE TABLE IF NOT EXISTS `faq` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `question` VARCHAR(255) NOT NULL,
+  `answer` TEXT NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT IGNORE INTO `faq` (`id`, `question`, `answer`, `sort_order`, `active`) VALUES
+(1, '1. Qual a potência ideal de carregador para uso residencial?', 'A maioria dos usuários utiliza carregadores a partir de 7 kW, que já oferecem boa velocidade. Em alguns casos, é possível usar 11 kW ou 22 kW, dependendo do veículo e da estrutura elétrica disponível.', 1, 1),
+(2, '2. Qual o impacto do carregador na conta de energia?', 'O impacto depende da potência do carregador e da frequência de uso. Em condomínios, é possível fazer medição individualizada para que cada usuário pague apenas o que consome de forma justa.', 2, 1),
+(3, '3. Posso usar a tomada comum da garagem para carregar?', 'Até é possível, mas não é recomendado. Tomadas comuns não suportam uso contínuo de alta carga, o que pode causar aquecimento e riscos. O ideal é um carregador dedicado (Wallbox).', 3, 1),
+(4, '4. Quais normas técnicas preciso atender na instalação?', 'As principais são: NBR 17019, NBR 5410, NBR IEC 61851-1 e normas de segurança contra incêndio do Corpo de Bombeiros. Segui-las garante uma instalação segura e adequada.', 4, 1),
+(5, '5. Qual a diferença entre carregador portátil e fixo?', 'O portátil é indicado para emergências ou uso ocasional, com menor potência. Já o Wallbox é fixo, mais seguro e oferece maior desempenho para o carregamento diário.', 5, 1),
+(6, '6. O que acontece se eu não seguir as normas técnicas?', 'Pode gerar riscos como choques elétricos, incêndios e até perda de garantia do veículo ou equipamento. Seguir as normas é essencial para a segurança e durabilidade.', 6, 1),
+(7, '7. Preciso de autorização para instalar no condomínio?', 'Sim. Normalmente é necessário comunicar o síndico e, em alguns casos, aprovação em assembleia, além de um estudo da capacidade elétrica do local.', 7, 1),
+(8, '8. Posso instalar um carregador rápido DC no condomínio?', 'Sim, mas exige infraestrutura elétrica robusta (geralmente 380V trifásico), além de um projeto técnico específico de engenharia.', 8, 1),
+(9, '9. O carregador pode ser compartilhado no condomínio?', 'Sim. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.', 9, 1],
+(10, '10. Preciso contratar apenas empresas da montadora?', 'Não. O mais importante é que a instalação siga as normas técnicas. Isso garante segurança, independentemente da empresa ou marca do carregador.', 10, 1);
+
+

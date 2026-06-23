@@ -1,20 +1,21 @@
+<?php
+require_once __DIR__ . '/db.php';
+$is_local_env = false;
+if (isset($_SERVER['HTTP_HOST'])) {
+    $host_env = $_SERVER['HTTP_HOST'];
+    if ($host_env === 'localhost' || $host_env === '127.0.0.1' || preg_match('/\.local$/', $host_env) || preg_match('/^192\.168\./', $host_env)) {
+        $is_local_env = true;
+    }
+}
+$base_dir = '/';
+if ($is_local_env) {
+    $base_dir = preg_replace('/[^\/]+\.php$/', '', $_SERVER['SCRIPT_NAME']);
+}
+?>
 <!doctype html>
 <html lang="pt-BR" class="h-full scroll-smooth">
 
 <head>
-    <?php
-    $is_local_env = false;
-    if (isset($_SERVER['HTTP_HOST'])) {
-        $host_env = $_SERVER['HTTP_HOST'];
-        if ($host_env === 'localhost' || $host_env === '127.0.0.1' || preg_match('/\.local$/', $host_env) || preg_match('/^192\.168\./', $host_env)) {
-            $is_local_env = true;
-        }
-    }
-    $base_dir = '/';
-    if ($is_local_env) {
-        $base_dir = preg_replace('/[^\/]+\.php$/', '', $_SERVER['SCRIPT_NAME']);
-    }
-    ?>
     <base href="<?php echo htmlspecialchars($base_dir); ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,7 +115,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-2 bg-brand-green text-brand-bg text-[13.5px] font-bold px-[18px] py-2 rounded-[9px] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap shadow-lg shadow-brand-green/10">
+                <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="hidden sm:flex items-center gap-2 bg-brand-green text-brand-bg text-[13.5px] font-bold px-[18px] py-2 rounded-[9px] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap shadow-lg shadow-brand-green/10">
                     Conversar com atendente
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -143,7 +144,7 @@
                 <a href="contato" class="text-2xl font-bold py-2 <?php echo $active_page === 'contato' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Contato</a>
 
                 <div class="pt-8 border-t border-white/10 mt-4">
-                    <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 rounded-2xl shadow-xl shadow-brand-green/20">
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 rounded-2xl shadow-xl shadow-brand-green/20">
                         Falar com Especialista
                     </a>
                 </div>

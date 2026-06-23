@@ -10,147 +10,101 @@ include "includes/header.php";
   ────────────────────────────────────────── -->
     <header id="hero-section" class="relative min-h-[92vh] overflow-hidden pt-[60px]">
         <div class="carousel-wrapper relative w-full h-full min-h-[92vh]">
-            <!-- Slide 1 -->
-            <div class="carousel-slide active" id="slide-0">
-                <picture class="carousel-slide-bg">
-                    <source srcset="static/banner-rotativo-01webp.webp" type="image/webp">
-                    <img src="static/banner-rotativo-01webp.webp" alt="Carregamento de Veículo Elétrico" class="w-full h-full object-cover">
-                </picture>
+            <?php 
+            $banners = get_banners(true);
+            foreach ($banners as $index => $b):
+                $is_active = ($index === 0);
+                $is_webp = (strtolower(pathinfo($b['image'], PATHINFO_EXTENSION)) === 'webp');
+                $button_link = $b['button_link'];
+                if ($button_link === 'contato') {
+                    $button_link = 'contato';
+                }
+            ?>
+            <!-- Slide <?php echo $index + 1; ?> -->
+            <div class="carousel-slide <?php echo $is_active ? 'active' : ''; ?>" id="slide-<?php echo $index; ?>">
+                <?php if ($is_webp): ?>
+                    <picture class="carousel-slide-bg">
+                        <source srcset="<?php echo htmlspecialchars($b['image']); ?>" type="image/webp">
+                        <img src="<?php echo htmlspecialchars($b['image']); ?>" alt="<?php echo htmlspecialchars($b['title']); ?>" class="w-full h-full object-cover">
+                    </picture>
+                <?php else: ?>
+                    <div class="carousel-slide-bg" style="background-image:url('<?php echo htmlspecialchars($b['image']); ?>')"></div>
+                <?php endif; ?>
                 <div class="absolute inset-0 bg-brand-bg/40"></div>
                 <div class="orb w-[420px] h-[420px] -top-20 -right-20 bg-brand-green/20"></div>
                 <div class="orb w-[300px] h-[300px] -bottom-20 -left-20 bg-brand-green/10"></div>
 
                 <div class="hero-content">
-                    <div class="mb-8 flex justify-center observe">
-                        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
-              <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span> Engenharia Certificada
-                        </span>
-                    </div>
-                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8 observe">
-                        Energia para o futuro,<br>
-                        <span class="text-brand-green">segurança no agora</span>
-                    </h1>
-                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-10 leading-relaxed observe">
-                        A VoltchZ entrega a infraestrutura completa de carregamento elétrico com rigor técnico e suporte de engenharia.
-                    </p>
-                    <div class="flex items-center justify-center gap-4 flex-wrap mb-16 observe">
-                        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
-              Solicitar Orçamento
-            </a>
-                        <a href="sobre" class="border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-10 rounded-2xl hover:bg-white/10 transition-all font-bold">
-              Saiba Mais
-            </a>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
-                        <div class="p-6 text-center border-b sm:border-b-0 sm:border-r border-white/5">
-                            <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                            <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Clientes Atendidos</div>
+                    <?php if ($index === 0): ?>
+                        <div class="mb-8 flex justify-center observe">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
+                                <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span> Engenharia Certificada
+                            </span>
                         </div>
-                        <div class="p-6 text-center border-r border-white/5">
-                            <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                            <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Instalações</div>
+                    <?php else: ?>
+                        <div class="mb-8 flex justify-center">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
+                                Diferenciais VoltchZ
+                            </span>
                         </div>
-                        <div class="p-6 text-center">
-                            <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                            <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Anos de Experiência</div>
-                        </div>
+                    <?php endif; ?>
+                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8 <?php echo $index === 0 ? 'observe' : ''; ?>">
+                        <?php echo $b['title']; ?>
+                    </h1>
+                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-10 leading-relaxed <?php echo $index === 0 ? 'observe' : ''; ?>">
+                        <?php echo htmlspecialchars($b['subtitle']); ?>
+                    </p>
+                    <div class="flex items-center justify-center gap-4 flex-wrap mb-16 <?php echo $index === 0 ? 'observe' : ''; ?>">
+                        <?php if (!empty($b['button_text'])): ?>
+                            <a href="<?php echo htmlspecialchars($button_link); ?>" <?php echo (strpos($button_link, 'http') === 0) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?> class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
+                                <?php echo htmlspecialchars($b['button_text']); ?>
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($index === 0): ?>
+                            <a href="sobre" class="border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-10 rounded-2xl hover:bg-white/10 transition-all font-bold">
+                                Saiba Mais
+                            </a>
+                        <?php endif; ?>
                     </div>
-                </div>
-            </div>
 
-            <!-- Slide 2 -->
-            <div class="carousel-slide" id="slide-1">
-                <div class="carousel-slide-bg" style="background-image:url('static/banner-rotativo-02.webp')">
-                </div>
-                <div class="absolute inset-0 bg-brand-bg/30"></div>
-                <div class="orb w-[300px] h-[300px] top-1/4 -right-20 bg-brand-green/15"></div>
-                <div class="hero-content">
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-8">
-            Setor Corporativo
-          </span>
-                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8">
-                        Infraestrutura para frotas<br>
-                        <span class="text-brand-green">e condomínios</span>
-                    </h1>
-                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-10 leading-relaxed">
-                        Gestão balanceada de carga e telemetria para empreendimentos de grande porte.
-                    </p>
-                    <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
-            Falar com Engenheiro
-          </a>
+                    <?php if ($index === 0): ?>
+                        <!-- Stats -->
+                        <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
+                            <div class="p-6 text-center border-b sm:border-b-0 sm:border-r border-white/5">
+                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Clientes Atendidos</div>
+                            </div>
+                            <div class="p-6 text-center border-r border-white/5">
+                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Instalações</div>
+                            </div>
+                            <div class="p-6 text-center">
+                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Anos de Experiência</div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-slide" id="slide-2">
-                <div class="carousel-slide-bg" style="background-image:url('static/banner-rotativo-03.webp')">
-                </div>
-                <div class="absolute inset-0 bg-brand-bg/30"></div>
-                <div class="orb w-[350px] h-[350px] bottom-0 -left-20 bg-brand-green/10"></div>
-                <div class="hero-content">
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-8">
-            Engenharia Legal
-          </span>
-                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8">
-                        Projetos elétricos com<br>
-                        <span class="text-brand-green">engenharia, normas e segurança.</span>
-                    </h1>
-                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-10 leading-relaxed">
-                        Nossas instalações seguem todas as normas técnicas (NBR 5410, 17019 e IEC 61851-1), para você carregar seu veículo com total confiança.
-                    </p>
-                    <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
-            Solicitar Orçamento
-          </a>
-                </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="carousel-slide" id="slide-3">
-                <picture class="carousel-slide-bg">
-                    <source srcset="static/banner-rotativo-04.webp" type="image/webp">
-                    <img src="static/banner-rotativo-04.webp" alt="Estações Comerciais" class="w-full h-full object-cover">
-                </picture>
-                <div class="absolute inset-0 bg-brand-bg/35"></div>
-                <div class="orb w-[400px] h-[400px] -top-20 right-1/4 bg-brand-green/10"></div>
-                <div class="hero-content">
-                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-8">
-            Estações Comerciais
-          </span>
-                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8">
-                        Estruture seu negócio com<br>
-                        <span class="text-brand-green">recarga de alta performance</span>
-                    </h1>
-                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[700px] mb-10 leading-relaxed">
-                        Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.
-                    </p>
-                    <a href="contato" class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
-            Planejar Estação Comercial
-          </a>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
             <!-- Controls -->
-            <button id="carousel-prev" class="absolute left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-brand-green/20 bg-brand-green/5 text-brand-green flex items-center justify-center hover:bg-brand-green/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green"
-                aria-label="Slide anterior">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-      </button>
-            <button id="carousel-next" class="absolute right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-brand-green/20 bg-brand-green/5 text-brand-green flex items-center justify-center hover:bg-brand-green/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green"
-                aria-label="Próximo slide">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
+            <button id="carousel-prev" class="absolute left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-brand-green/20 bg-brand-green/5 text-brand-green flex items-center justify-center hover:bg-brand-green/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green" aria-label="Slide anterior">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <button id="carousel-next" class="absolute right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full border border-brand-green/20 bg-brand-green/5 text-brand-green flex items-center justify-center hover:bg-brand-green/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-green" aria-label="Próximo slide">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
 
             <!-- Dots -->
             <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20" role="tablist" aria-label="Navegação do carrossel">
-                <button id="dot-0" class="carousel-dot active w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="true" role="tab" aria-label="Ir para slide 1"></button>
-                <button id="dot-1" class="carousel-dot w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="false" role="tab" aria-label="Ir para slide 2"></button>
-                <button id="dot-2" class="carousel-dot w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="false" role="tab" aria-label="Ir para slide 3"></button>
-                <button id="dot-3" class="carousel-dot w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="false" role="tab" aria-label="Ir para slide 4"></button>
+                <?php foreach ($banners as $index => $b): ?>
+                    <button id="dot-<?php echo $index; ?>" class="carousel-dot <?php echo $index === 0 ? 'active' : ''; ?> w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>" role="tab" aria-label="Ir para slide <?php echo $index + 1; ?>"></button>
+                <?php endforeach; ?>
             </div>
         </div>
     </header>
@@ -243,7 +197,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Produtos</span>
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Venda de Carregadores e Acessórios</h3>
                     <p class="text-slate-600 leading-relaxed text-[14.5px]">Curadoria de excelência com as marcas líderes do mercado.</p>
-                    <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">
             Falar com Especialista
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
               <polyline points="9 18 15 12 9 6"></polyline>
@@ -263,7 +217,7 @@ include "includes/header.php";
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Instalação e Manutenção</h3>
                     <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Metodologias
               especializadas</span> para <span class="font-bold">casas e condomínios</span>.</p>
-                    <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Solicitar
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Solicitar
             Orçamento</a>
                 </div>
 
@@ -294,7 +248,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Estratégia</span>
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Projetos e Consultoria</h3>
                     <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Planejamento elétrico</span> focado em <span class="font-bold">escalabilidade</span>.</p>
-                    <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Consultoria</a>
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Consultoria</a>
                 </div>
 
                 <!-- Análise -->
@@ -307,7 +261,7 @@ include "includes/header.php";
                     <span class="text-[11px] font-bold text-brand-green uppercase tracking-widest">Tecnologia</span>
                     <h3 class="text-xl font-bold text-[#1a1a24] mt-2 mb-3">Gestão de Cargas</h3>
                     <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Controle ativo</span> do <span class="font-bold">balanceamento</span> entre carregadores.</p>
-                    <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Saber
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Saber
             Mais</a>
                 </div>
 
@@ -331,7 +285,7 @@ include "includes/header.php";
                     <p class="text-slate-600 leading-relaxed text-[14.5px]"><span class="font-bold">Implementação</span> focado em
                         <span class="font-bold">mitigar o consumo</span> veicular.
                     </p>
-                    <a href="https://wa.me/5512981039845" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Orçamento</a>
+                    <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" class="inline-flex items-center gap-2 mt-7 text-[13px] font-bold text-brand-green border border-brand-green/20 px-5 py-2 rounded-xl hover:bg-brand-green/5 transition-colors">Orçamento</a>
                 </div>
             </div>
         </div>
@@ -481,7 +435,7 @@ include "includes/header.php";
                     <div class="p-6 sm:p-8 bg-white border border-slate-200 rounded-3xl shadow-xl shadow-brand-green/5">
                         <h3 class="text-lg sm:text-xl font-extrabold text-[#1a1a24] mb-3 sm:mb-4">Seu empreendimento pronto para a nova mobilidade</h3>
                         <p class="text-slate-600 text-sm sm:text-base mb-6">Entre em contato com a Voltchz e desenvolva um projeto preparado para o crescimento dos veículos elétricos.</p>
-                        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 w-full sm:w-auto">
+                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 w-full sm:w-auto">
               Solicitar Planejamento
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -716,7 +670,7 @@ include "includes/header.php";
               Ver Estudo Completo
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-                        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 border border-white/15 bg-white/5 text-brand-text font-bold py-3.5 px-7 rounded-2xl hover:bg-white/10 transition-all text-[14px]">
+                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 border border-white/15 bg-white/5 text-brand-text font-bold py-3.5 px-7 rounded-2xl hover:bg-white/10 transition-all text-[14px]">
               Solicitar Orçamento
             </a>
                     </div>
@@ -789,7 +743,7 @@ include "includes/header.php";
                     </div>
 
                     <div class="mt-12 flex flex-wrap gap-4">
-                        <a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
+                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
                             Falar com Engenheiro
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -909,6 +863,61 @@ include "includes/header.php";
     </div>
 
     <!-- ──────────────────────────────────────────
+       DEPOIMENTOS (CLIENT REVIEWS)
+  ────────────────────────────────────────── -->
+    <section id="depoimentos" class="bg-brand-bg py-24 px-6 relative overflow-hidden">
+        <div class="absolute -top-40 -left-40 w-80 h-80 bg-brand-green/5 rounded-full blur-3xl"></div>
+        <div class="max-w-[1200px] mx-auto relative z-10 text-center observe">
+            <span class="text-brand-green font-mono font-bold text-[12px] uppercase tracking-[0.2em] mb-4 block">Feedback</span>
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-16 leading-tight">
+                O que dizem os <span class="text-brand-green">nossos clientes</span>
+            </h2>
+
+            <?php 
+            $depoimentos_ativos = get_depoimentos(true);
+            if (empty($depoimentos_ativos)): 
+            ?>
+                <p class="text-brand-muted italic">Em breve, mais depoimentos de nossos clientes parceiros.</p>
+            <?php else: 
+                // Define as classes de grid dinâmicas com base no número de itens para manter harmonia visual
+                $count = count($depoimentos_ativos);
+                $grid_cols = "lg:grid-cols-3";
+                if ($count === 1) {
+                    $grid_cols = "max-w-md mx-auto";
+                } elseif ($count === 2) {
+                    $grid_cols = "md:grid-cols-2 max-w-3xl mx-auto";
+                } else {
+                    $grid_cols = "md:grid-cols-2 lg:grid-cols-3";
+                }
+            ?>
+                <div class="grid grid-cols-1 <?php echo $grid_cols; ?> gap-8 text-left mx-auto">
+                    <?php foreach ($depoimentos_ativos as $dep): ?>
+                        <div class="group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[32px] p-8 backdrop-blur-xl relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+                            <span class="absolute top-4 right-6 text-6xl font-serif text-brand-green opacity-10 select-none pointer-events-none">“</span>
+                            <p class="text-brand-text/90 text-[14.5px] italic leading-relaxed mb-8 relative z-10">
+                                <?php echo htmlspecialchars($dep['testimonial']); ?>
+                            </p>
+                            <div class="flex items-center gap-4 pt-4 border-t border-white/5">
+                                <?php if (!empty($dep['image_avatar'])): ?>
+                                    <img src="<?php echo htmlspecialchars($dep['image_avatar']); ?>" alt="<?php echo htmlspecialchars($dep['name']); ?>" class="w-11 h-11 rounded-full object-cover shrink-0">
+                                <?php else: ?>
+                                    <div class="w-11 h-11 rounded-full bg-brand-green/10 border border-brand-green/25 text-brand-green font-bold text-xs uppercase flex items-center justify-center shrink-0">
+                                        <?php echo htmlspecialchars(substr($dep['name'], 0, 2)); ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="min-w-0">
+                                    <h4 class="text-white font-bold text-[14.5px] truncate"><?php echo htmlspecialchars($dep['name']); ?></h4>
+                                    <p class="text-brand-muted text-xs truncate"><?php echo htmlspecialchars($dep['role_condo']); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
        FAQ & LEAD RÁPIDO
   ────────────────────────────────────────── -->
     <section id="duvidas" class="bg-brand-bg2 py-28 px-6">
@@ -919,142 +928,33 @@ include "includes/header.php";
                     <span class="text-brand-green font-mono font-bold text-[12px] mb-4 uppercase tracking-[0.2em] block">Dúvidas</span>
                     <h2 class="text-4xl font-extrabold text-white mb-10 tracking-tight">Perguntas Frequentes</h2>
                     <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">1. Qual a potência ideal de carregador para uso
-                  residencial?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                A maioria dos usuários utiliza carregadores a partir de <span class="font-bold text-white">7 kW</span>, que já oferecem boa velocidade. Em alguns casos, é possível usar <span class="font-bold text-white">11
-                  kW ou 22 kW</span>, dependendo do veículo e da estrutura elétrica disponível.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">2. Qual o impacto do carregador na conta de energia?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                O impacto depende da potência do carregador e da frequência de uso. Em condomínios, é possível fazer
-                                <span class="font-bold text-white">medição individualizada</span> para que cada usuário pague apenas o que consome de forma justa.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">3. Posso usar a tomada comum da garagem para carregar?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                Até é possível, mas <span class="font-bold text-white">não é recomendado</span>. Tomadas comuns não suportam uso contínuo de alta carga, o que pode causar aquecimento e riscos. O ideal é um <span class="font-bold text-brand-green">carregador dedicado (Wallbox)</span>.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">4. Quais normas técnicas preciso atender na
-                  instalação?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                As principais são: <span class="font-bold text-white">NBR 17019, NBR 5410, NBR IEC 61851-1</span> e normas de segurança contra incêndio do Corpo de Bombeiros. Segui-las garante uma instalação segura e adequada.
-                            </div>
-                        </div>
-
+                        <?php 
+                        $faq_items = get_faq(true);
+                        foreach ($faq_items as $f_item):
+                        ?>
                         <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
                             <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">5. Qual a diferença entre carregador portátil e fixo?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
+                                <span class="font-bold text-lg text-white"><?php echo htmlspecialchars($f_item['question']); ?></span>
+                                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
+                                  stroke="currentColor" stroke-width="2.5">
+                                  <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
                             <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                O portátil é indicado para emergências ou uso ocasional, com menor potência. Já o <span class="font-bold text-white">Wallbox</span> é fixo, mais seguro e oferece maior desempenho para o carregamento diário.
+                                <?php 
+                                echo nl2br(preg_replace(
+                                    '/(\*\*(.*?)\*\*)/', 
+                                    '<span class="font-bold text-white">$2</span>', 
+                                    preg_replace(
+                                        '/(\*(.*?)\*)/', 
+                                        '<span class="font-bold text-brand-green">$2</span>', 
+                                        htmlspecialchars($f_item['answer'])
+                                    )
+                                )); 
+                                ?>
                             </div>
                         </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">6. O que acontece se eu não seguir as normas técnicas?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                Pode gerar riscos como <span class="font-bold text-white">choques elétricos, incêndios</span> e até perda de garantia do veículo ou equipamento. Seguir as normas é essencial para a <span class="font-bold text-brand-green">segurança e durabilidade</span>.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">7. Preciso de autorização para instalar no condomínio?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                <span class="font-bold text-white">Sim</span>. Normalmente é necessário comunicar o síndico e, em alguns casos, aprovação em assembleia, além de um <span class="font-bold text-brand-green">estudo da capacidade
-                  elétrica</span> do local.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">8. Posso instalar um carregador rápido DC no
-                  condomínio?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                Sim, mas exige <span class="font-bold text-white">infraestrutura elétrica robusta</span> (geralmente 380V trifásico), além de um projeto técnico específico de engenharia.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">9. O carregador pode ser compartilhado no condomínio?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                <span class="font-bold text-white">Sim</span>. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.
-                            </div>
-                        </div>
-
-                        <div class="faq-item border border-white/5 rounded-3xl overflow-hidden transition-all bg-white/[0.02] hover:border-white/10">
-                            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left group">
-                <span class="font-bold text-lg text-white">10. Preciso contratar apenas empresas da montadora?</span>
-                <svg class="w-6 h-6 text-brand-green transition-transform duration-300" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-                            <div class="faq-answer px-6 pb-6 text-[15px] text-brand-muted leading-relaxed">
-                                <span class="font-bold text-white">Não</span>. O mais importante é que a instalação siga as <span class="font-bold text-brand-green">normas técnicas</span>. Isso garante segurança, independentemente da empresa ou marca
-                                do carregador.
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -1095,13 +995,13 @@ include "includes/header.php";
 
 
 <?php
-// Escaneia a pasta dinamicamente para detectar qualquer alteração/remoção de imagens
-$client_images = glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE);
-if ($client_images) {
-    natsort($client_images);
-    $client_images = array_values($client_images);
-} else {
-    $client_images = [];
+// Busca as imagens dos itens de portfólio dinâmico cadastrados no banco de dados
+$portfolio_items = get_portfolio_items();
+$client_images = [];
+foreach ($portfolio_items as $item) {
+    if (!empty($item['image'])) {
+        $client_images[] = $item['image'];
+    }
 }
 ?>
 <script>

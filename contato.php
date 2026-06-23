@@ -127,18 +127,19 @@ include "includes/header.php";
         </div>
         <div class="bg-slate-50 border border-slate-200 rounded-[28px] p-7">
           <h3 class="text-[#1a1a24] font-bold text-lg mb-3">Canais institucionais</h3>
-          <p><a href="mailto:contato@voltchz.com.br"
-              class="text-slate-600 hover:text-brand-green transition-colors font-medium">contato@voltchz.com.br</a></p>
-          <p><a href="https://wa.me/5512981039845" target="_blank" rel="noopener noreferrer"
-              class="text-slate-600 hover:text-brand-green transition-colors font-medium">(12) 98103-9845</a></p>
-          <p class="text-slate-600 mt-3">Rua João Teixeira Netto, 72<br>Jardim Aquarius, SJC - SP</p>
+          <?php $email = get_config('email_contato', 'contato@voltchz.com.br'); ?>
+          <p><a href="mailto:<?php echo htmlspecialchars($email); ?>"
+              class="text-slate-600 hover:text-brand-green transition-colors font-medium"><?php echo htmlspecialchars($email); ?></a></p>
+          <p><a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer"
+              class="text-slate-600 hover:text-brand-green transition-colors font-medium"><?php echo htmlspecialchars(get_config('telefone_comercial', '(12) 98103-9845')); ?></a></p>
+          <p class="text-slate-600 mt-3"><?php echo nl2br(htmlspecialchars(get_config('endereco', "Rua João Teixeira Netto, 72\nJardim Aquarius, SJC - SP"))); ?></p>
         </div>
         <div class="bg-slate-50 border border-slate-200 rounded-[28px] p-7">
           <h3 class="text-[#1a1a24] font-bold text-lg mb-3">Redes sociais</h3>
           <div class="flex items-center gap-4">
-            <a href="https://www.instagram.com/voltchz" target="_blank" rel="noopener noreferrer"
+            <a href="<?php echo htmlspecialchars(get_config('instagram', 'https://www.instagram.com/voltchz')); ?>" target="_blank" rel="noopener noreferrer"
               class="text-slate-600 hover:text-brand-green transition-colors font-medium">Instagram</a>
-            <a href="https://www.linkedin.com/company/voltchz/" target="_blank" rel="noopener noreferrer"
+            <a href="<?php echo htmlspecialchars(get_config('linkedin', 'https://www.linkedin.com/company/voltchz/')); ?>" target="_blank" rel="noopener noreferrer"
               class="text-slate-600 hover:text-brand-green transition-colors font-medium">LinkedIn</a>
           </div>
         </div>
