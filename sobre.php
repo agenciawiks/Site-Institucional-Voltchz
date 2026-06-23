@@ -183,8 +183,8 @@ include "includes/header.php";
   </section>
 
   <!-- ──────────────────────────────────────────
-       EQUIPAMENTOS SECTION (HARDWARE) (COMMENTED OUT)
-  ────────────────────────────────────────── 
+       EQUIPAMENTOS SECTION (HARDWARE)
+  ────────────────────────────────────────── -->
   <section id="equipamentos" class="bg-brand-bg2 py-24 px-6 relative overflow-hidden">
     <div class="orb w-[300px] h-[300px] top-1/2 -left-20 bg-brand-green/10"></div>
     <div class="max-w-[1200px] mx-auto relative z-10">
@@ -203,13 +203,9 @@ include "includes/header.php";
               class="text-brand-green font-bold text-xs uppercase tracking-widest border border-brand-green/30 px-3 py-1 rounded-full">Nacional</span>
           </div>
           <h3 class="text-2xl font-extrabold text-white mb-4">Intelbras</h3>
-          <p class="text-brand-muted leading-relaxed mb-8"><span class="font-bold text-white">Líder absoluta</span> em
+          <p class="text-brand-muted leading-relaxed"><span class="font-bold text-white">Líder absoluta</span> em
             segurança e referência em <span class="font-bold text-brand-green">carregadores inteligentes</span> para
             residências e condomínios.</p>
-          <div
-            class="rounded-2xl overflow-hidden aspect-video bg-black/40 border border-white/5 flex items-center justify-center">
-            <span class="text-white/20 font-bold uppercase tracking-tighter text-3xl">Intelbras EV</span>
-          </div>
         </div>
         <div
           class="group relative bg-white/5 border border-white/10 rounded-[40px] p-10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2">
@@ -217,13 +213,9 @@ include "includes/header.php";
               class="text-brand-green font-bold text-xs uppercase tracking-widest border border-brand-green/30 px-3 py-1 rounded-full">Performance</span>
           </div>
           <h3 class="text-2xl font-extrabold text-white mb-4">Incharge</h3>
-          <p class="text-brand-muted leading-relaxed mb-8"><span class="font-bold text-white">Soluções robustas</span>
+          <p class="text-brand-muted leading-relaxed"><span class="font-bold text-white">Soluções robustas</span>
             focadas em ambientes corporativos e <span class="font-bold text-brand-green">eletropostos</span> com alta
             velocidade de carregamento.</p>
-          <div
-            class="rounded-2xl overflow-hidden aspect-video bg-black/40 border border-white/5 flex items-center justify-center">
-            <span class="text-white/20 font-bold uppercase tracking-tighter text-3xl">Incharge Pro</span>
-          </div>
         </div>
         <div
           class="group relative bg-white/5 border border-white/10 rounded-[40px] p-10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-2">
@@ -231,18 +223,13 @@ include "includes/header.php";
               class="text-brand-green font-bold text-xs uppercase tracking-widest border border-brand-green/30 px-3 py-1 rounded-full">Global</span>
           </div>
           <h3 class="text-2xl font-extrabold text-white mb-4">E-Wolf</h3>
-          <p class="text-brand-muted leading-relaxed mb-8"><span class="font-bold text-white">Design premium</span> e
+          <p class="text-brand-muted leading-relaxed"><span class="font-bold text-white">Design premium</span> e
             tecnologia alemã para quem busca o máximo de <span class="font-bold text-brand-green">sofisticação</span> e
             integração solar.</p>
-          <div
-            class="rounded-2xl overflow-hidden aspect-video bg-black/40 border border-white/5 flex items-center justify-center">
-            <span class="text-white/20 font-bold uppercase tracking-tighter text-3xl">E-Wolf Elite</span>
-          </div>
         </div>
       </div>
     </div>
   </section>
-  -->
 
   <!-- ──────────────────────────────────────────
 
