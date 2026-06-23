@@ -186,11 +186,14 @@ include "includes/header.php";
   </section>
 
 <?php
-// Escaneia as pastas de clientes e uploads dinamicamente
-$existing_images = array_merge(
+// Escaneia as pastas de clientes e uploads dinamicamente e normaliza barras no Windows
+$raw_images = array_merge(
     glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: [],
     glob('static/uploads/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: []
 );
+$existing_images = array_map(function($path) {
+    return str_replace('\\', '/', $path);
+}, $raw_images);
 ?>
 <script>
     window.VOLTCHZ_EXISTING_IMAGES = <?php echo json_encode($existing_images); ?>;

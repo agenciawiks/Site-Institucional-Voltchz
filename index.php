@@ -995,13 +995,20 @@ include "includes/header.php";
 
 
 <?php
-// Busca as imagens dos itens de portfólio dinâmico cadastrados no banco de dados
-$portfolio_items = get_portfolio_items();
-$client_images = [];
-foreach ($portfolio_items as $item) {
-    if (!empty($item['image'])) {
-        $client_images[] = $item['image'];
-    }
+// Escaneia as pastas dinamicamente para detectar todas as imagens de instalações físicas existentes e normaliza barras no Windows
+$raw_images = array_merge(
+    glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: [],
+    glob('static/uploads/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: []
+);
+
+if ($raw_images) {
+    $dir_images = array_map(function($path) {
+        return str_replace('\\', '/', $path);
+    }, $raw_images);
+    natsort($dir_images);
+    $client_images = array_values($dir_images);
+} else {
+    $client_images = [];
 }
 ?>
 <script>
