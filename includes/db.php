@@ -336,7 +336,6 @@ function get_artigo_by_slug($slug) {
     return null;
 }
 
-// Retorna o caminho da imagem WebP correspondente ao artigo
 function get_artigo_imagem($slug) {
     $mapping = [
         'independencia-energetica-energia-solar-e-carregadores-evs' => 'solar panel electric car.webp',
@@ -348,6 +347,16 @@ function get_artigo_imagem($slug) {
         'a-importancia-do-disjuntor-certo-na-protecao-de-instalacoes-eletricas' => 'circuit breaker panel.webp',
         'a-escolha-certa-carregador-tipo-a-ac-ou-b-para-carros-eletricos' => 'electrical safety protection.webp',
         'lei-18403-carregadores-veiculos-eletricos-condominios' => 'apartment parking charging.webp',
+
+        // Slugs alternativos/antigos salvos no banco de dados
+        'lei-no-18403-o-que-muda-na-instalacao-de-carregadores-de-veiculos-eletricos-em-condominios' => 'apartment parking charging.webp',
+        'disjuntor-corretamente-dimensionado' => 'circuit breaker panel.webp',
+        'escolha-do-cabo-certo-na-instalacao-de-carregadores-para-veiculos-eletricos' => 'electrical cable installation.webp',
+        'seguranca-e-controle' => 'fleet electric vehicles.webp',
+        'segundo-a-abve-os-numeros-de-2023-indicam-uma-transformacao-no-mercado-de-veiculos-eletrificados-no-brasil' => 'electric vehicle market.webp',
+        'conveniencia' => 'ev charging hotel parking.webp',
+        'httpswwwinstagramcompc23mx5ytteigsheg1wcwe2b2jzc2dn' => 'electric car cost savings.webp',
+        'httpswwwinstagramcompc23nitktip6igshmwm5mwq5amvtzm9ndg' => 'solar panel electric car.webp',
     ];
 
     if (isset($mapping[$slug])) {

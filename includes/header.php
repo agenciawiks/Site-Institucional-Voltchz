@@ -8,7 +8,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
     }
 }
 $base_dir = '/';
-if ($is_local_env) {
+if (isset($_SERVER['SCRIPT_NAME'])) {
     $base_dir = preg_replace('/[^\/]+\.php$/', '', $_SERVER['SCRIPT_NAME']);
 }
 ?>
