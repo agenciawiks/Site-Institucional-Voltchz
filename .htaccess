@@ -1,5 +1,10 @@
 RewriteEngine On
 
+# 0. Redireciona qualquer URL que termine em /admin (que não seja a pasta física) para o painel administrativo
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} /admin/?$ [NC]
+RewriteRule ^(.*)admin/?$ admin/ [R=301,L]
+
 # 1. Redirecionamento 301 de URLs legadas de artigo.php?slug= para /slug
 # Detecta dinamicamente a pasta/subdiretório atual se houver
 RewriteCond %{THE_REQUEST} \s/+(.+/)?artigo\.php\?slug=([a-zA-Z0-9\-]+)\s [NC]

@@ -25,7 +25,8 @@ $produto = [
     'tipo' => '',
     'resumo' => '',
     'descricao' => '',
-    'imagem' => ''
+    'imagem' => '',
+    'sort_order' => 0
 ];
 $especificacoes = [];
 $diferenciais = [];
@@ -77,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $resumo = filter_input(INPUT_POST, 'resumo', FILTER_SANITIZE_SPECIAL_CHARS);
     $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_SPECIAL_CHARS);
     $imagem = filter_input(INPUT_POST, 'imagem', FILTER_SANITIZE_SPECIAL_CHARS);
+    $sort_order = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
 
     // Arrays dinâmicos enviados
     $post_spec_chaves = $_POST['spec_chave'] ?? [];
@@ -101,13 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($is_edit) {
                 // UPDATE do Produto
-                $stmtUp = $db->prepare("UPDATE produtos SET slug = ?, nome = ?, marca_id = ?, categoria_id = ?, potencia = ?, tensao = ?, aplicacao = ?, tipo = ?, resumo = ?, descricao = ?, imagem = ? WHERE id = ?");
-                $stmtUp->execute([$slug, $nome, $marca_id, $categoria_id, $potencia, $tensao, $aplicacao, $tipo, $resumo, $descricao, $imagem, $product_id]);
+                $stmtUp = $db->prepare("UPDATE produtos SET slug = ?, nome = ?, marca_id = ?, categoria_id = ?, potencia = ?, tensao = ?, aplicacao = ?, tipo = ?, resumo = ?, descricao = ?, imagem = ?, sort_order = ? WHERE id = ?");
+                $stmtUp->execute([$slug, $nome, $marca_id, $categoria_id, $potencia, $tensao, $aplicacao, $tipo, $resumo, $descricao, $imagem, $sort_order, $product_id]);
                 $prodId = $product_id;
             } else {
                 // INSERT do Produto
-                $stmtIn = $db->prepare("INSERT INTO produtos (slug, nome, marca_id, categoria_id, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmtIn->execute([$slug, $nome, $marca_id, $categoria_id, $potencia, $tensao, $aplicacao, $tipo, $resumo, $descricao, $imagem]);
+                $stmtIn = $db->prepare("INSERT INTO produtos (slug, nome, marca_id, categoria_id, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmtIn->execute([$slug, $nome, $marca_id, $categoria_id, $potencia, $tensao, $aplicacao, $tipo, $resumo, $descricao, $imagem, $sort_order]);
                 $prodId = $db->lastInsertId();
             }
 
@@ -168,7 +170,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'tipo' => $tipo,
                 'resumo' => $resumo,
                 'descricao' => $descricao,
-                'imagem' => $imagem
+                'imagem' => $imagem,
+                'sort_order' => $sort_order
             ];
             
             // Reconstrói especificações
@@ -226,7 +229,7 @@ admin_header($is_edit ? "Editar Produto" : "Cadastrar Novo Produto", "produtos")
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Categoria</label>
                         <select name="categoria_id" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
@@ -248,6 +251,11 @@ admin_header($is_edit ? "Editar Produto" : "Cadastrar Novo Produto", "produtos")
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Ordem de Exibição</label>
+                        <input type="number" name="sort_order" value="<?php echo htmlspecialchars($produto['sort_order'] ?? 0); ?>" required min="0" placeholder="ex: 0"
+                               class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
                     </div>
                 </div>
 

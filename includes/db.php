@@ -107,7 +107,7 @@ function get_produtos() {
     $db = get_db_connection();
     
     // Busca os produtos base
-    $stmt = $db->query("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem FROM produtos ORDER BY id ASC");
+    $stmt = $db->query("SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem, sort_order FROM produtos ORDER BY sort_order ASC, id ASC");
     $produtos = $stmt->fetchAll();
     
     foreach ($produtos as &$prod) {
@@ -139,7 +139,7 @@ function get_produtos() {
  */
 function get_filtered_produtos($marca = 'todos', $categoria = 'todos', $busca = '') {
     $db = get_db_connection();
-    $sql = "SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem FROM produtos WHERE 1=1";
+    $sql = "SELECT id, slug, nome, marca_id AS marcaId, categoria_id AS categoriaId, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem, sort_order FROM produtos WHERE 1=1";
     $params = [];
 
     if ($marca !== 'todos') {
@@ -161,7 +161,7 @@ function get_filtered_produtos($marca = 'todos', $categoria = 'todos', $busca = 
         $params[] = $searchVal;
     }
 
-    $sql .= " ORDER BY id ASC";
+    $sql .= " ORDER BY sort_order ASC, id ASC";
     $stmt = $db->prepare($sql);
     $stmt->execute($params);
     $produtos = $stmt->fetchAll();

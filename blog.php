@@ -60,7 +60,7 @@ include "includes/header.php";
       <div class="mb-12 border-b border-white/5 pb-8">
         <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Filtrar Temas</p>
         <div class="flex flex-wrap gap-2.5">
-          <a href="?categoria=todos&busca=<?php echo urlencode($busca_filter); ?>" 
+          <a href="blog?categoria=todos&busca=<?php echo urlencode($busca_filter); ?>" 
              class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $cat_filter === 'todos' ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
              Todos
           </a>
@@ -68,7 +68,7 @@ include "includes/header.php";
           $available_cats = ['Legislação', 'Segurança', 'Infraestrutura', 'Tecnologia'];
           foreach ($available_cats as $c):
           ?>
-            <a href="?categoria=<?php echo urlencode($c); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
+            <a href="blog?categoria=<?php echo urlencode($c); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
                class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $cat_filter === $c ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
                <?php echo htmlspecialchars($c); ?>
             </a>

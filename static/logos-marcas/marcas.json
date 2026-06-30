@@ -1,0 +1,373 @@
+[
+  {
+    "nome": "Acura",
+    "arquivo": "acura.svg",
+    "hex_cor": "#000000",
+    "slug": "acura",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/acura.svg"
+  },
+  {
+    "nome": "Aston Martin",
+    "arquivo": "astonmartin.svg",
+    "hex_cor": "#00665E",
+    "slug": "astonmartin",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/astonmartin.svg"
+  },
+  {
+    "nome": "Audi",
+    "arquivo": "audi.svg",
+    "hex_cor": "#BB0A30",
+    "slug": "audi",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/audi.svg"
+  },
+  {
+    "nome": "Bentley",
+    "arquivo": "bentley.svg",
+    "hex_cor": "#333333",
+    "slug": "bentley",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bentley.svg"
+  },
+  {
+    "nome": "BMW",
+    "arquivo": "bmw.svg",
+    "hex_cor": "#0066B1",
+    "slug": "bmw",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bmw.svg"
+  },
+  {
+    "nome": "Bugatti",
+    "arquivo": "bugatti.svg",
+    "hex_cor": "#000000",
+    "slug": "bugatti",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/bugatti.svg"
+  },
+  {
+    "nome": "Cadillac",
+    "arquivo": "cadillac.svg",
+    "hex_cor": "#000000",
+    "slug": "cadillac",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cadillac.svg"
+  },
+  {
+    "nome": "Chevrolet",
+    "arquivo": "chevrolet.svg",
+    "hex_cor": "#CD9834",
+    "slug": "chevrolet",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/chevrolet.svg"
+  },
+  {
+    "nome": "Chrysler",
+    "arquivo": "chrysler.svg",
+    "hex_cor": "#000000",
+    "slug": "chrysler",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/chrysler.svg"
+  },
+  {
+    "nome": "Citroën",
+    "arquivo": "citroen.svg",
+    "hex_cor": "#DA291C",
+    "slug": "citroen",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/citroen.svg"
+  },
+  {
+    "nome": "Dacia",
+    "arquivo": "dacia.svg",
+    "hex_cor": "#646B52",
+    "slug": "dacia",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/dacia.svg"
+  },
+  {
+    "nome": "DS Automobiles",
+    "arquivo": "dsautomobiles.svg",
+    "hex_cor": "#1D1717",
+    "slug": "dsautomobiles",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/dsautomobiles.svg"
+  },
+  {
+    "nome": "Ducati",
+    "arquivo": "ducati.svg",
+    "hex_cor": "#CC0000",
+    "slug": "ducati",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ducati.svg"
+  },
+  {
+    "nome": "Ferrari",
+    "arquivo": "ferrari.svg",
+    "hex_cor": "#D40000",
+    "slug": "ferrari",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ferrari.svg"
+  },
+  {
+    "nome": "Fiat",
+    "arquivo": "fiat.svg",
+    "hex_cor": "#941711",
+    "slug": "fiat",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fiat.svg"
+  },
+  {
+    "nome": "Ford",
+    "arquivo": "ford.svg",
+    "hex_cor": "#00274E",
+    "slug": "ford",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ford.svg"
+  },
+  {
+    "nome": "General Motors",
+    "arquivo": "generalmotors.svg",
+    "hex_cor": "#0170CE",
+    "slug": "generalmotors",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/generalmotors.svg"
+  },
+  {
+    "nome": "Honda",
+    "arquivo": "honda.svg",
+    "hex_cor": "#E40521",
+    "slug": "honda",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/honda.svg"
+  },
+  {
+    "nome": "Huawei",
+    "arquivo": "huawei.svg",
+    "hex_cor": "#FF0000",
+    "slug": "huawei",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/huawei.svg"
+  },
+  {
+    "nome": "Hyundai",
+    "arquivo": "hyundai.svg",
+    "hex_cor": "#002C5E",
+    "slug": "hyundai",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hyundai.svg"
+  },
+  {
+    "nome": "INFINITI",
+    "arquivo": "infiniti.svg",
+    "hex_cor": "#020B24",
+    "slug": "infiniti",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/infiniti.svg"
+  },
+  {
+    "nome": "Jeep",
+    "arquivo": "jeep.svg",
+    "hex_cor": "#000000",
+    "slug": "jeep",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/jeep.svg"
+  },
+  {
+    "nome": "Kia",
+    "arquivo": "kia.svg",
+    "hex_cor": "#05141F",
+    "slug": "kia",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/kia.svg"
+  },
+  {
+    "nome": "Koenigsegg",
+    "arquivo": "koenigsegg.svg",
+    "hex_cor": "#000000",
+    "slug": "koenigsegg",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/koenigsegg.svg"
+  },
+  {
+    "nome": "Lamborghini",
+    "arquivo": "lamborghini.svg",
+    "hex_cor": "#B6A272",
+    "slug": "lamborghini",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/lamborghini.svg"
+  },
+  {
+    "nome": "Mahindra",
+    "arquivo": "mahindra.svg",
+    "hex_cor": "#DD052B",
+    "slug": "mahindra",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mahindra.svg"
+  },
+  {
+    "nome": "Maserati",
+    "arquivo": "maserati.svg",
+    "hex_cor": "#0C2340",
+    "slug": "maserati",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/maserati.svg"
+  },
+  {
+    "nome": "Mazda",
+    "arquivo": "mazda.svg",
+    "hex_cor": "#101010",
+    "slug": "mazda",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mazda.svg"
+  },
+  {
+    "nome": "McLaren",
+    "arquivo": "mclaren.svg",
+    "hex_cor": "#FF0000",
+    "slug": "mclaren",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mclaren.svg"
+  },
+  {
+    "nome": "MG",
+    "arquivo": "mg.svg",
+    "hex_cor": "#FF0000",
+    "slug": "mg",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mg.svg"
+  },
+  {
+    "nome": "Mini",
+    "arquivo": "mini.svg",
+    "hex_cor": "#000000",
+    "slug": "mini",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mini.svg"
+  },
+  {
+    "nome": "Mitsubishi",
+    "arquivo": "mitsubishi.svg",
+    "hex_cor": "#E60012",
+    "slug": "mitsubishi",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mitsubishi.svg"
+  },
+  {
+    "nome": "Nissan",
+    "arquivo": "nissan.svg",
+    "hex_cor": "#C3002F",
+    "slug": "nissan",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nissan.svg"
+  },
+  {
+    "nome": "Opel",
+    "arquivo": "opel.svg",
+    "hex_cor": "#F7FF14",
+    "slug": "opel",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/opel.svg"
+  },
+  {
+    "nome": "Peugeot",
+    "arquivo": "peugeot.svg",
+    "hex_cor": "#000000",
+    "slug": "peugeot",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/peugeot.svg"
+  },
+  {
+    "nome": "Polestar",
+    "arquivo": "polestar.svg",
+    "hex_cor": "#000000",
+    "slug": "polestar",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/polestar.svg"
+  },
+  {
+    "nome": "Porsche",
+    "arquivo": "porsche.svg",
+    "hex_cor": "#B12B28",
+    "slug": "porsche",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/porsche.svg"
+  },
+  {
+    "nome": "Ram",
+    "arquivo": "ram.svg",
+    "hex_cor": "#000000",
+    "slug": "ram",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ram.svg"
+  },
+  {
+    "nome": "Renault",
+    "arquivo": "renault.svg",
+    "hex_cor": "#FFCC33",
+    "slug": "renault",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/renault.svg"
+  },
+  {
+    "nome": "Rimac Automobili",
+    "arquivo": "rimacautomobili.svg",
+    "hex_cor": "#0A222E",
+    "slug": "rimacautomobili",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/rimacautomobili.svg"
+  },
+  {
+    "nome": "Rolls-Royce",
+    "arquivo": "rollsroyce.svg",
+    "hex_cor": "#281432",
+    "slug": "rollsroyce",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/rollsroyce.svg"
+  },
+  {
+    "nome": "Saturn",
+    "arquivo": "saturn.svg",
+    "hex_cor": "#EB680B",
+    "slug": "saturn",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/saturn.svg"
+  },
+  {
+    "nome": "SEAT",
+    "arquivo": "seat.svg",
+    "hex_cor": "#33302E",
+    "slug": "seat",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/seat.svg"
+  },
+  {
+    "nome": "ŠKODA",
+    "arquivo": "skoda.svg",
+    "hex_cor": "#0E3A2F",
+    "slug": "skoda",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/skoda.svg"
+  },
+  {
+    "nome": "smart",
+    "arquivo": "smart.svg",
+    "hex_cor": "#D7E600",
+    "slug": "smart",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/smart.svg"
+  },
+  {
+    "nome": "Subaru",
+    "arquivo": "subaru.svg",
+    "hex_cor": "#013C74",
+    "slug": "subaru",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/subaru.svg"
+  },
+  {
+    "nome": "Suzuki",
+    "arquivo": "suzuki.svg",
+    "hex_cor": "#E30613",
+    "slug": "suzuki",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/suzuki.svg"
+  },
+  {
+    "nome": "Tata",
+    "arquivo": "tata.svg",
+    "hex_cor": "#486AAE",
+    "slug": "tata",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/tata.svg"
+  },
+  {
+    "nome": "Tesla",
+    "arquivo": "tesla.svg",
+    "hex_cor": "#CC0000",
+    "slug": "tesla",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/tesla.svg"
+  },
+  {
+    "nome": "Toyota",
+    "arquivo": "toyota.svg",
+    "hex_cor": "#EB0A1E",
+    "slug": "toyota",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/toyota.svg"
+  },
+  {
+    "nome": "Volkswagen",
+    "arquivo": "volkswagen.svg",
+    "hex_cor": "#151F5D",
+    "slug": "volkswagen",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/volkswagen.svg"
+  },
+  {
+    "nome": "Volvo",
+    "arquivo": "volvo.svg",
+    "hex_cor": "#003057",
+    "slug": "volvo",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/volvo.svg"
+  },
+  {
+    "nome": "Yamaha Motor",
+    "arquivo": "yamahamotorcorporation.svg",
+    "hex_cor": "#E60012",
+    "slug": "yamahamotorcorporation",
+    "url_cdn": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/yamahamotorcorporation.svg"
+  }
+]

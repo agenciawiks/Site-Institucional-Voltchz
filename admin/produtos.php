@@ -59,7 +59,7 @@ if (!empty($busca)) {
     $params[] = $searchVal;
 }
 
-$sql .= " ORDER BY p.id DESC";
+$sql .= " ORDER BY p.sort_order ASC, p.id DESC";
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $produtos = $stmt->fetchAll();
@@ -137,6 +137,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                 <thead>
                     <tr class="border-b border-white/5 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-bg/30">
                         <th class="py-3 px-4 rounded-l-xl">Produto</th>
+                        <th class="py-3 px-4">Ordem</th>
                         <th class="py-3 px-4">Marca</th>
                         <th class="py-3 px-4">Categoria</th>
                         <th class="py-3 px-4">Parâmetros Rápidos</th>
@@ -162,6 +163,9 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                                     <span class="block truncate font-bold text-white"><?php echo htmlspecialchars($prod['nome']); ?></span>
                                     <span class="block text-[11px] font-mono text-brand-muted/80">/<?php echo htmlspecialchars($prod['slug']); ?></span>
                                 </div>
+                            </td>
+                            <td class="py-4 px-4 text-xs font-mono font-bold text-brand-green">
+                                <?php echo htmlspecialchars($prod['sort_order'] ?? 0); ?>
                             </td>
                             <td class="py-4 px-4 text-xs font-medium">
                                 <?php echo htmlspecialchars($prod['marca_nome']); ?>

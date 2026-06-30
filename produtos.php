@@ -65,12 +65,12 @@ include "includes/header.php";
         <div>
           <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Categorias</p>
           <div class="flex flex-wrap gap-2">
-            <a href="?categoria=todos&marca=<?php echo urlencode($marca_filter); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
+            <a href="produtos?categoria=todos&marca=<?php echo urlencode($marca_filter); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
                class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $cat_filter === 'todos' ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
                Todos
             </a>
             <?php foreach (get_categorias() as $cat): ?>
-              <a href="?categoria=<?php echo urlencode($cat['id']); ?>&marca=<?php echo urlencode($marca_filter); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
+              <a href="produtos?categoria=<?php echo urlencode($cat['id']); ?>&marca=<?php echo urlencode($marca_filter); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
                  class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $cat_filter === $cat['id'] ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
                  <?php echo htmlspecialchars($cat['nome']); ?>
               </a>
@@ -82,12 +82,12 @@ include "includes/header.php";
         <div>
           <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green mb-3">Marcas</p>
           <div class="flex flex-wrap gap-2">
-            <a href="?categoria=<?php echo urlencode($cat_filter); ?>&marca=todos&busca=<?php echo urlencode($busca_filter); ?>" 
+            <a href="produtos?categoria=<?php echo urlencode($cat_filter); ?>&marca=todos&busca=<?php echo urlencode($busca_filter); ?>" 
                class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $marca_filter === 'todos' ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
                Todos
             </a>
             <?php foreach (get_marcas() as $b): ?>
-              <a href="?categoria=<?php echo urlencode($cat_filter); ?>&marca=<?php echo urlencode($b['id']); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
+              <a href="produtos?categoria=<?php echo urlencode($cat_filter); ?>&marca=<?php echo urlencode($b['id']); ?>&busca=<?php echo urlencode($busca_filter); ?>" 
                  class="px-4 py-2 text-xs font-bold rounded-xl border <?php echo $marca_filter === $b['id'] ? 'border-brand-green bg-brand-green text-brand-bg' : 'border-white/10 bg-white/5 text-brand-muted hover:bg-white/10 hover:border-white/20'; ?> transition-all uppercase tracking-wider">
                  <?php echo htmlspecialchars($b['nome']); ?>
               </a>

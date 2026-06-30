@@ -50,41 +50,83 @@ include "includes/header.php";
         <div class="mb-16 observe">
           <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green/60 text-center mb-8">Compatibilidade e Homologação Garantida</p>
           
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
-            <!-- BYD -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/byd.webp" class="h-14 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="BYD">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">BYD</span>
-            </div>
+          <style>
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 1.5rem 0;
+          }
+          /* Mask gradient fade on sides to look premium */
+          .marquee-container::before,
+          .marquee-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            z-index: 10;
+            pointer-events: none;
+          }
+          .marquee-container::before {
+            left: 0;
+            background: linear-gradient(to right, #090D14 10%, transparent 100%);
+          }
+          .marquee-container::after {
+            right: 0;
+            background: linear-gradient(to left, #090D14 10%, transparent 100%);
+          }
+          .marquee-track {
+            display: flex;
+            gap: 1.5rem; /* gap-6 */
+            width: max-content;
+            animation: marquee 90s linear infinite;
+          }
+          .marquee-track:hover {
+            animation-play-state: paused;
+          }
+          </style>
 
-            <!-- BMW -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/bmw.webp" class="h-14 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="BMW">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">BMW</span>
-            </div>
+          <?php
+          $marcas_json_path = 'static/logos-marcas/marcas.json';
+          $valid_marcas = [];
+          if (file_exists($marcas_json_path)) {
+              $marcas_data = json_decode(file_get_contents($marcas_json_path), true);
+              if (is_array($marcas_data)) {
+                  foreach ($marcas_data as $marca) {
+                      $file_path = 'static/logos-marcas/' . $marca['arquivo'];
+                      if (file_exists($file_path)) {
+                          $valid_marcas[] = $marca;
+                      }
+                  }
+              }
+          }
+          ?>
 
-            <!-- Tesla -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/tesla.webp" class="h-12 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="Tesla">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">Tesla</span>
-            </div>
-
-            <!-- Volvo -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/volvo.webp" class="h-12 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="Volvo">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">Volvo</span>
-            </div>
-
-            <!-- Geely -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/geely.webp" class="h-12 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="Geely">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">Geely</span>
-            </div>
-
-            <!-- Porsche -->
-            <div class="px-5 py-6 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center gap-3 hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group min-h-[140px]">
-              <img src="static/logos-marcas/porsche.webp" class="h-12 w-auto max-w-[90%] object-contain opacity-85 group-hover:opacity-100 transition-opacity" alt="Porsche">
-              <span class="text-[10px] font-bold tracking-wider uppercase text-white/50 group-hover:text-brand-green transition-colors">Porsche</span>
+          <div class="marquee-container">
+            <div class="marquee-track">
+              <?php
+              if (!empty($valid_marcas)) {
+                  // Print twice for seamless infinite scrolling loop
+                  for ($loop = 0; $loop < 2; $loop++) {
+                      foreach ($valid_marcas as $marca) {
+                          $nome = htmlspecialchars($marca['nome']);
+                          $arquivo = htmlspecialchars($marca['arquivo']);
+                          $file_path = 'static/logos-marcas/' . $arquivo;
+                          ?>
+                          <div class="relative shrink-0 w-44 h-28 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center hover:border-brand-green/30 hover:bg-white/[0.04] transition-all group overflow-hidden" title="<?php echo $nome; ?>">
+                            <img src="<?php echo $file_path; ?>" class="h-10 w-auto max-w-[80%] object-contain opacity-70 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 filter invert brightness-200" alt="<?php echo $nome; ?>">
+                            <span class="absolute bottom-3 left-2 right-2 text-[10px] font-bold tracking-wider uppercase text-brand-green opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 text-center truncate"><?php echo $nome; ?></span>
+                          </div>
+                          <?php
+                      }
+                  }
+              }
+              ?>
             </div>
           </div>
         </div>
