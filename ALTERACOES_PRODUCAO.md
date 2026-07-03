@@ -19,7 +19,7 @@ Este documento detalha todas as otimizações, correções e novos recursos impl
 
 ### 2. Separação de Produtos no Banco de Dados
 * **Divisão de Quadro de Proteção:** O "Quadro de Proteção E-Wolf 7.2 kW" foi subdividido em 4 produtos distintos (com/sem tomada, monofásico/bifásico e trifásico).
-* **Migração SQL:** Atualizados os scripts de banco de dados local (`includes/xampp_setup_completo.sql`) e produção (`includes/hostinger_atualizacao_segura.sql`), além do `db.json`.
+* **Migração SQL:** Atualizados os scripts de banco de dados local (`database/xampp_setup_completo.sql`) e produção (`database/hostinger_atualizacao_segura.sql`), além do `db.json`.
 
 ### 3. Remoção de Fundo de Imagens
 * **Transparência Premium:** Processamento com sucesso de 17 imagens de carregadores e pedestais (Intelbras e Incharge) removendo o fundo e otimizando a exibição no tema escuro.
@@ -64,7 +64,7 @@ Este documento detalha todas as otimizações, correções e novos recursos impl
 ---
 
 ## Estrutura de Arquivos Modificados / Adicionados
-* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `make_deploy.py`, `includes/xampp_setup_completo.sql`, `includes/hostinger_atualizacao_segura.sql`.
+* **Novos:** `portfolio.php`, `js/ui/portfolio-real.js`, `.htaccess`, `make_deploy.py`, `database/xampp_setup_completo.sql`, `database/hostinger_atualizacao_segura.sql`.
 * **Removidos:** `make_deploy.ps1`.
 * **Modificados:** `index.php`, `produtos.php`, `blog.php`, `artigo.php`, `viabilidade.php`, `sobre.php`, `includes/db.php`, `includes/header.php`, `includes/footer.php`, `js/config.js`, `js/main.js`, `js/pages/artigo.js`, `js/pages/blog.js`, `js/pages/produtos.js`, `js/pages/produto-detalhe.js`, `js/ui/navigation.js`.
 

@@ -13,9 +13,10 @@ def make_deploy():
         ".git",
         "public-html voltchz",
         "__pycache__",
-        "node_modules"
+        "node_modules",
+        "tools"
     }
-    
+
     exclude_files = {
         ".gitignore",
         ".gitattributes",
@@ -25,7 +26,9 @@ def make_deploy():
         "public-html voltchz.zip",
         "make_deploy.py",
         "make_deploy.ps1",
-        "scripts.js"
+        "tailwind.config.js",
+        "tailwind-src.css",
+        "build-css.bat"
     }
     
     exclude_extensions = {
