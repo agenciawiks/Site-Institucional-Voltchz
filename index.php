@@ -69,7 +69,7 @@ include "includes/header.php";
 
                     <?php if ($index === 0): ?>
                         <!-- Stats -->
-                        <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
+                        <div class="stats-grid w-full grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
                             <div class="p-6 text-center border-b sm:border-b-0 sm:border-r border-white/5">
                                 <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
                                 <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
