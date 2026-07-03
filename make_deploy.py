@@ -28,7 +28,13 @@ def make_deploy():
         "make_deploy.ps1",
         "tailwind.config.js",
         "tailwind-src.css",
-        "build-css.bat"
+        "build-css.bat",
+        "Thumbs.db",
+        "Thumbs.db:encryptable",
+        "ehthumbs.db",
+        "Desktop.ini",
+        ".DS_Store",
+        "package-lock.json"
     }
     
     exclude_extensions = {
