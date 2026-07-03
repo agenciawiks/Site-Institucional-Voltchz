@@ -72,15 +72,15 @@ include "includes/header.php";
                         <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
                             <div class="p-6 text-center border-b sm:border-b-0 sm:border-r border-white/5">
                                 <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Clientes Atendidos</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
                             </div>
                             <div class="p-6 text-center border-r border-white/5">
                                 <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Instalações</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
                             </div>
                             <div class="p-6 text-center">
                                 <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold">Anos de Experiência</div>
+                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -508,8 +508,17 @@ include "includes/header.php";
                         </div>
                     </div>
 
+                    <!-- Mobile drag hint -->
+                    <div class="flex sm:hidden items-center justify-center gap-2 text-[11px] text-white/60 font-semibold mb-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="animate-pulse">
+                            <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
+                        </svg>
+                        Arraste para o lado para ver o gráfico completo
+                    </div>
+
                     <!-- SVG Chart -->
                     <div class="w-full relative rounded-2xl bg-[#0a0a0f] border border-white/5 pb-2 pt-4 overflow-x-auto scrollbar-hide">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-10 sm:hidden bg-gradient-to-l from-[#0a0a0f] to-transparent rounded-r-2xl"></div>
                         <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" class="w-full h-auto min-w-[650px] sm:min-w-full min-h-[200px] sm:min-h-[280px]" role="img" aria-label="Gráfico de curva de carga elétrica">
               <defs>
                 <linearGradient id="greenFillNew" x1="0" y1="0" x2="0" y2="1">
@@ -805,11 +814,11 @@ include "includes/header.php";
     <section id="sobre" class="bg-white py-28 px-6 text-slate-900">
         <div class="max-w-[1200px] mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center observe">
-                <div class="relative group mb-20 lg:mb-0">
+                <div class="relative group mb-8 sm:mb-20 lg:mb-0">
                     <div class="rounded-[48px] overflow-hidden shadow-2xl shadow-brand-green/20">
                         <img src="static/bruno.webp" alt="Bruno, Fundador da VoltchZ" class="w-full transform group-hover:scale-105 transition-transform duration-700" loading="lazy" width="600" height="800">
                     </div>
-                    <div class="absolute -bottom-6 right-4 sm:-right-2 lg:-bottom-8 lg:-right-8 bg-slate-50 p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-2xl backdrop-blur-xl max-w-[240px] lg:max-w-[280px]">
+                    <div class="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:-right-2 lg:-bottom-8 lg:-right-8 bg-slate-50 p-6 lg:p-8 rounded-3xl border border-slate-200 shadow-2xl sm:backdrop-blur-xl sm:max-w-[240px] lg:max-w-[280px]">
                         <h4 class="text-brand-green font-extrabold text-xl mb-1">Bruno, CEO</h4>
                         <p class="text-[12px] text-slate-600 mb-4 font-mono font-semibold uppercase tracking-widest">ITA / INATEL / UNIFESP
                         </p>
