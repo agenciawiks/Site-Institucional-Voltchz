@@ -145,37 +145,73 @@ include "includes/header.php";
   <section id="diferenciais" class="py-24 px-6 bg-slate-50">
     <div
       class="max-w-[1000px] mx-auto overflow-hidden rounded-[40px] border border-slate-200 bg-white shadow-2xl shadow-slate-200/50 observe">
-      <table class="w-full text-left border-collapse">
-        <thead class="bg-brand-green/10">
-          <tr>
+      <table class="w-full text-left border-collapse block md:table">
+        <thead class="hidden md:table-header-group bg-brand-green/10">
+          <tr class="md:table-row">
             <th class="p-8 text-xl font-bold border-b border-slate-200 text-slate-900">Diferencial</th>
             <th class="p-8 text-xl font-bold border-b border-slate-200 text-brand-green">VoltchZ</th>
             <th class="p-8 text-xl font-bold border-b border-slate-200 text-slate-400">Mercado Comum</th>
           </tr>
         </thead>
-        <tbody class="text-slate-700">
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="p-8 font-medium">Responsável Técnico</td>
-            <td class="p-8 text-brand-green font-bold">Engenheiro especializado (ITA/Inatel/UNIFESP)</td>
-            <td class="p-8 text-slate-400">Mão de obra sem especialização</td>
+        <tbody class="block md:table-row-group text-slate-700">
+          <tr class="block md:table-row border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="block md:table-cell p-5 md:p-8 font-medium">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Diferencial</span>
+              Responsável Técnico
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 text-brand-green font-bold">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">VoltchZ</span>
+              Engenheiro especializado (ITA/Inatel/UNIFESP)
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 pb-6 md:pb-8 text-slate-400">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Mercado Comum</span>
+              Mão de obra sem especialização
+            </td>
           </tr>
 
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="p-8 font-medium">Documentação ART</td>
-            <td class="p-8 text-brand-green font-bold">Disponível conforme necessidade do projeto</td>
-            <td class="p-8 text-slate-400">Pouco utilizada</td>
+          <tr class="block md:table-row border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="block md:table-cell p-5 md:p-8 font-medium">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Diferencial</span>
+              Documentação ART
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 text-brand-green font-bold">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">VoltchZ</span>
+              Disponível conforme necessidade do projeto
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 pb-6 md:pb-8 text-slate-400">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Mercado Comum</span>
+              Pouco utilizada
+            </td>
           </tr>
 
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-            <td class="p-8 font-medium">Norma NBR 5410</td>
-            <td class="p-8 text-brand-green font-bold">Projeto dentro das normas técnicas</td>
-            <td class="p-8 text-slate-400">Execução sem padronização</td>
+          <tr class="block md:table-row border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="block md:table-cell p-5 md:p-8 font-medium">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Diferencial</span>
+              Norma NBR 5410
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 text-brand-green font-bold">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">VoltchZ</span>
+              Projeto dentro das normas técnicas
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 pb-6 md:pb-8 text-slate-400">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Mercado Comum</span>
+              Execução sem padronização
+            </td>
           </tr>
 
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="p-8 font-medium">Pós-Venda</td>
-            <td class="p-8 text-brand-green font-bold">Suporte técnico confiável</td>
-            <td class="p-8 text-slate-400">Atendimento limitado</td>
+          <tr class="block md:table-row hover:bg-slate-50 transition-colors">
+            <td class="block md:table-cell p-5 md:p-8 font-medium">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Diferencial</span>
+              Pós-Venda
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 text-brand-green font-bold">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">VoltchZ</span>
+              Suporte técnico confiável
+            </td>
+            <td class="block md:table-cell p-5 md:p-8 pt-0 md:pt-8 pb-6 md:pb-8 text-slate-400">
+              <span class="md:hidden block text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">Mercado Comum</span>
+              Atendimento limitado
+            </td>
           </tr>
         </tbody>
       </table>
