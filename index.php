@@ -509,8 +509,8 @@ include "includes/header.php";
                     </div>
 
                     <!-- Mobile drag hint -->
-                    <div class="flex sm:hidden items-center justify-center gap-2 text-[11px] text-white/60 font-semibold mb-2">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="animate-pulse">
+                    <div class="flex sm:hidden items-center justify-center gap-2 bg-brand-green/15 border border-brand-green/40 text-brand-green rounded-full px-4 py-2.5 mb-3 text-[13px] font-bold">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="swipe-hint-icon shrink-0">
                             <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
                         </svg>
                         Arraste para o lado para ver o gráfico completo
@@ -518,7 +518,7 @@ include "includes/header.php";
 
                     <!-- SVG Chart -->
                     <div class="w-full relative rounded-2xl bg-[#0a0a0f] border border-white/5 pb-2 pt-4 overflow-x-auto scrollbar-hide">
-                        <div class="pointer-events-none absolute inset-y-0 right-0 w-10 sm:hidden bg-gradient-to-l from-[#0a0a0f] to-transparent rounded-r-2xl"></div>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:hidden bg-gradient-to-l from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent rounded-r-2xl"></div>
                         <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" class="w-full h-auto min-w-[650px] sm:min-w-full min-h-[200px] sm:min-h-[280px]" role="img" aria-label="Gráfico de curva de carga elétrica">
               <defs>
                 <linearGradient id="greenFillNew" x1="0" y1="0" x2="0" y2="1">

@@ -354,6 +354,15 @@ body.menu-open {
   100% { transform: scale(2); opacity: 0; }
 }
 
+/* ── DICA DE ARRASTAR (GRÁFICOS COM SCROLL HORIZONTAL NO MOBILE) ── */
+@keyframes swipe-hint {
+  0%, 100% { transform: translateX(0); opacity: 0.55; }
+  50% { transform: translateX(8px); opacity: 1; }
+}
+.swipe-hint-icon {
+  animation: swipe-hint 1.3s ease-in-out infinite;
+}
+
 /* ── RESPONSIVIDADE ADICIONAL ── */
 @media (max-width: 768px) {
   section {
