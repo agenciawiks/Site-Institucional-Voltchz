@@ -130,9 +130,31 @@ include "includes/header.php";
         </div>
         <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
             <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg> NBR 15749, 7117, IEC 61643-1
+        </div>
+        <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
+            <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg> NR 10 certificado
+        </div>
+        <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
+            <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 14l9-5-9-5-9 5 9 5z" />
         <path d="M12 14l6.16-3.422A12.083 12.083 0 0122 19.5H2a12.083 12.083 0 013.84-8.922L12 14z" />
-      </svg> Eng. Elétrico Responsável
+      </svg> Engenheiro Eletricista Responsável
+        </div>
+        <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
+            <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <line x1="7" y1="8" x2="17" y2="8" />
+        <line x1="7" y1="12" x2="13" y2="12" />
+      </svg> CREA MG / SP
+        </div>
+        <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
+            <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg> PMP® certificado – PMI
         </div>
         <div class="flex items-center gap-2.5 px-7 py-4 border-r border-white/5 text-[12px] font-semibold text-brand-muted whitespace-nowrap snap-center shrink-0">
             <svg class="w-4.5 h-4.5 text-brand-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -435,13 +457,18 @@ include "includes/header.php";
                     <div class="p-6 sm:p-8 bg-white border border-slate-200 rounded-3xl shadow-xl shadow-brand-green/5">
                         <h3 class="text-lg sm:text-xl font-extrabold text-[#1a1a24] mb-3 sm:mb-4">Seu empreendimento pronto para a nova mobilidade</h3>
                         <p class="text-slate-600 text-sm sm:text-base mb-6">Entre em contato com a Voltchz e desenvolva um projeto preparado para o crescimento dos veículos elétricos.</p>
-                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 w-full sm:w-auto">
-              Solicitar Planejamento
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-brand-green text-brand-bg font-bold py-4 px-8 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 w-full sm:w-auto">
+                                Solicitar Planejamento
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                    <polyline points="12 5 19 12 12 19" />
+                                </svg>
+                            </a>
+                            <a href="construtora.php" class="inline-flex items-center justify-center gap-3 border border-slate-300 hover:border-slate-400 bg-transparent text-slate-800 font-bold py-4 px-8 rounded-2xl hover:bg-slate-50 transition-all w-full sm:w-auto">
+                                Soluções & Portfólio
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -516,56 +543,6 @@ include "includes/header.php";
                         Arraste para o lado para ver o gráfico completo
                     </div>
 
-                    <!-- SVG Chart -->
-                    <div class="w-full relative rounded-2xl bg-[#0a0a0f] border border-white/5 pb-2 pt-4 overflow-x-auto scrollbar-hide">
-                        <div class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:hidden bg-gradient-to-l from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent rounded-r-2xl"></div>
-                        <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet" class="w-full h-auto min-w-[650px] sm:min-w-full min-h-[200px] sm:min-h-[280px]" role="img" aria-label="Gráfico de curva de carga elétrica">
-              <defs>
-                <linearGradient id="greenFillNew" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/>
-                  <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-
-              <!-- Y-axis labels -->
-              <text x="35" y="15" text-anchor="end" font-size="12" fill="#a1a1aa">kVA</text>
-              <text x="35" y="55" text-anchor="end" font-size="12" fill="#a1a1aa">160</text>
-              <text x="35" y="130" text-anchor="end" font-size="12" fill="#a1a1aa">120</text>
-              <text x="35" y="205" text-anchor="end" font-size="12" fill="#a1a1aa">80</text>
-              <text x="35" y="280" text-anchor="end" font-size="12" fill="#a1a1aa">40</text>
-              <text x="35" y="355" text-anchor="end" font-size="12" fill="#a1a1aa">0</text>
-
-              <!-- Grid lines (horizontal) -->
-              <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
-                <line x1="50" y1="50" x2="750" y2="50"/>
-                <line x1="50" y1="125" x2="750" y2="125"/>
-                <line x1="50" y1="200" x2="750" y2="200"/>
-                <line x1="50" y1="275" x2="750" y2="275"/>
-                <line x1="50" y1="350" x2="750" y2="350"/>
-              </g>
-
-              <!-- X-axis labels -->
-              <g font-size="12" fill="#a1a1aa" text-anchor="middle">
-                <text x="60" y="380">13/03</text><text x="60" y="395">00:00</text>
-                <text x="128" y="380">14/03</text><text x="128" y="395">00:00</text>
-                <text x="196" y="380">15/03</text><text x="196" y="395">00:00</text>
-                <text x="264" y="380">16/03</text><text x="264" y="395">00:00</text>
-                <text x="332" y="380">17/03</text><text x="332" y="395">00:00</text>
-                <text x="400" y="380">18/03</text><text x="400" y="395">00:00</text>
-                <text x="468" y="380">19/03</text><text x="468" y="395">00:00</text>
-                <text x="536" y="380">20/03</text><text x="536" y="395">00:00</text>
-                <text x="604" y="380">21/03</text><text x="604" y="395">00:00</text>
-                <text x="672" y="380">22/03</text><text x="672" y="395">00:00</text>
-                <text x="740" y="380">23/03</text><text x="740" y="395">00:00</text>
-              </g>
-
-              <!-- Green fill area -->
-              <path d="M 60.0,320.9 L 61.4,320.2 L 62.7,314.2 L 64.1,318.5 L 65.5,298.2 L 66.8,316.0 L 68.2,297.2 L 69.5,290.0 L 70.9,268.0 L 72.3,267.5 L 73.6,250.2 L 75.0,264.8 L 76.4,279.9 L 77.7,296.7 L 79.1,299.4 L 80.4,315.4 L 81.8,304.2 L 83.2,319.4 L 84.5,315.4 L 85.9,310.9 L 87.3,299.4 L 88.6,311.0 L 90.0,315.3 L 91.3,298.6 L 92.7,307.9 L 94.1,286.3 L 95.4,298.1 L 96.8,308.9 L 98.2,302.7 L 99.5,298.7 L 100.9,310.2 L 102.2,304.5 L 103.6,317.6 L 105.0,310.1 L 106.3,310.2 L 107.7,302.9 L 109.1,309.8 L 110.4,305.5 L 111.8,304.8 L 113.1,306.2 L 114.5,300.0 L 115.9,304.4 L 117.2,307.2 L 118.6,296.7 L 120.0,307.0 L 121.3,305.9 L 122.7,313.3 L 124.0,321.0 L 125.4,307.7 L 126.8,318.5 L 128.1,306.5 L 129.5,304.7 L 130.9,309.5 L 132.2,317.4 L 133.6,310.0 L 134.9,312.4 L 136.3,311.1 L 137.7,295.5 L 139.0,284.1 L 140.4,278.3 L 141.8,272.8 L 143.1,285.5 L 144.5,285.3 L 145.9,306.0 L 147.2,307.7 L 148.6,317.0 L 149.9,307.5 L 151.3,307.7 L 152.7,303.9 L 154.0,306.1 L 155.4,295.4 L 156.8,300.5 L 158.1,301.2 L 159.5,302.4 L 160.8,290.9 L 162.2,291.5 L 163.6,283.5 L 164.9,300.4 L 166.3,300.6 L 167.7,319.3 L 169.0,312.8 L 170.4,315.4 L 171.7,316.7 L 173.1,313.1 L 174.5,308.3 L 175.8,306.0 L 177.2,295.7 L 178.6,289.5 L 179.9,277.0 L 181.3,256.8 L 182.6,251.9 L 184.0,260.8 L 185.4,283.0 L 186.7,286.0 L 188.1,306.2 L 189.5,304.5 L 190.8,308.4 L 192.2,302.7 L 193.5,317.0 L 194.9,313.0 L 196.3,307.8 L 197.6,315.6 L 199.0,315.3 L 200.4,309.3 L 201.7,301.7 L 203.1,301.2 L 204.4,307.5 L 205.8,299.1 L 207.2,306.0 L 208.5,308.4 L 209.9,308.9 L 211.3,315.4 L 212.6,303.7 L 214.0,312.7 L 215.4,306.7 L 216.7,308.7 L 218.1,317.8 L 219.4,309.5 L 220.8,303.0 L 222.2,301.0 L 223.5,311.5 L 224.9,309.1 L 226.3,284.7 L 227.6,283.8 L 229.0,271.4 L 230.3,262.8 L 231.7,281.2 L 233.1,297.2 L 234.4,304.8 L 235.8,302.7 L 237.2,306.1 L 238.5,301.8 L 239.9,307.7 L 241.2,303.2 L 242.6,308.3 L 244.0,314.1 L 245.3,303.7 L 246.7,316.6 L 248.1,305.8 L 249.4,297.5 L 250.8,303.4 L 252.1,312.2 L 253.5,307.1 L 254.9,307.7 L 256.2,312.3 L 257.6,303.6 L 259.0,314.9 L 260.3,316.7 L 261.7,312.4 L 263.0,318.1 L 264.4,315.8 L 265.8,314.4 L 267.1,304.3 L 268.5,318.1 L 269.9,310.4 L 271.2,312.5 L 272.6,288.8 L 273.9,280.8 L 275.3,282.8 L 276.7,263.8 L 278.0,268.2 L 279.4,276.3 L 280.8,287.2 L 282.1,293.9 L 283.5,295.8 L 284.8,305.9 L 286.2,307.8 L 287.6,306.9 L 288.9,311.4 L 290.3,303.6 L 291.7,298.6 L 293.0,312.7 L 294.4,296.2 L 295.8,294.6 L 297.1,289.4 L 298.5,288.9 L 299.8,299.2 L 301.2,300.5 L 302.6,313.5 L 303.9,309.2 L 305.3,299.3 L 306.7,304.8 L 308.0,310.4 L 309.4,310.4 L 310.7,301.8 L 312.1,315.6 L 313.5,309.4 L 314.8,285.6 L 316.2,285.5 L 317.6,269.3 L 318.9,271.3 L 320.3,283.1 L 321.6,285.1 L 323.0,302.0 L 324.4,302.1 L 325.7,298.1 L 327.1,315.3 L 328.5,303.5 L 329.8,320.7 L 331.2,314.1 L 332.5,312.5 L 333.9,306.3 L 335.3,318.6 L 336.6,310.2 L 338.0,311.4 L 339.4,297.8 L 340.7,318.4 L 342.1,311.4 L 343.4,296.2 L 344.8,300.3 L 346.2,287.8 L 347.5,309.8 L 348.9,308.3 L 350.3,318.0 L 351.6,303.8 L 353.0,299.7 L 354.3,314.3 L 355.7,309.7 L 357.1,314.2 L 358.4,305.5 L 359.8,305.3 L 361.2,303.0 L 362.5,285.2 L 363.9,278.2 L 365.3,259.1 L 366.6,269.7 L 368.0,268.6 L 369.3,293.7 L 370.7,306.4 L 372.1,302.9 L 373.4,299.5 L 374.8,294.4 L 376.2,291.3 L 377.5,261.0 L 378.9,249.2 L 380.2,249.0 L 381.6,262.2 L 383.0,287.3 L 384.3,286.5 L 385.7,304.0 L 387.1,304.2 L 388.4,301.6 L 389.8,307.4 L 391.1,315.6 L 392.5,308.4 L 393.9,298.8 L 395.2,308.6 L 396.6,313.8 L 398.0,304.9 L 399.3,313.2 L 400.7,309.6 L 402.0,314.7 L 403.4,313.3 L 404.8,306.6 L 406.1,305.8 L 407.5,310.0 L 408.9,317.9 L 410.2,321.0 L 411.6,309.2 L 412.9,299.7 L 414.3,299.5 L 415.7,293.4 L 417.0,294.7 L 418.4,274.5 L 419.8,271.5 L 421.1,275.6 L 422.5,289.6 L 423.8,292.7 L 425.2,299.4 L 426.6,312.1 L 427.9,310.7 L 429.3,301.7 L 430.7,320.6 L 432.0,304.3 L 433.4,314.3 L 434.7,307.0 L 436.1,319.8 L 437.5,311.2 L 438.8,305.1 L 440.2,307.0 L 441.6,312.3 L 442.9,303.3 L 444.3,301.6 L 445.7,293.2 L 447.0,283.8 L 448.4,288.9 L 449.7,281.3 L 451.1,304.9 L 452.5,296.1 L 453.8,319.7 L 455.2,303.5 L 456.6,309.6 L 457.9,321.0 L 459.3,300.8 L 460.6,299.1 L 462.0,298.4 L 463.4,298.1 L 464.7,291.1 L 466.1,282.4 L 467.5,272.2 L 468.8,264.1 L 470.2,272.7 L 471.5,294.7 L 472.9,307.6 L 474.3,309.7 L 475.6,308.3 L 477.0,296.6 L 478.4,284.8 L 479.7,263.6 L 481.1,253.7 L 482.4,254.9 L 483.8,271.9 L 485.2,273.5 L 486.5,294.1 L 487.9,312.7 L 489.3,309.9 L 490.6,305.2 L 492.0,304.7 L 493.3,317.9 L 494.7,309.0 L 496.1,298.1 L 497.4,309.4 L 498.8,314.9 L 500.2,300.6 L 501.5,299.7 L 502.9,302.7 L 504.2,294.3 L 505.6,314.7 L 507.0,305.4 L 508.3,301.2 L 509.7,307.3 L 511.1,314.7 L 512.4,320.1 L 513.8,305.1 L 515.2,302.5 L 516.5,308.8 L 517.9,300.1 L 519.2,282.6 L 520.6,263.4 L 522.0,266.2 L 523.3,256.3 L 524.7,282.2 L 526.1,295.0 L 527.4,303.4 L 528.8,306.8 L 530.1,296.1 L 531.5,307.0 L 532.9,320.8 L 534.2,319.0 L 535.6,313.2 L 537.0,320.2 L 538.3,309.3 L 539.7,315.1 L 541.0,302.7 L 542.4,303.5 L 543.8,301.3 L 545.1,309.6 L 546.5,312.3 L 547.9,304.5 L 549.2,311.9 L 550.6,315.0 L 551.9,312.4 L 553.3,314.2 L 554.7,300.4 L 556.0,302.4 L 557.4,318.6 L 558.8,320.1 L 560.1,304.2 L 561.5,312.3 L 562.8,318.8 L 564.2,298.8 L 565.6,290.2 L 566.9,283.7 L 568.3,269.8 L 569.7,256.3 L 571.0,262.4 L 572.4,284.8 L 573.7,292.2 L 575.1,291.0 L 576.5,310.7 L 577.8,303.2 L 579.2,304.1 L 580.6,304.9 L 581.9,305.4 L 583.3,312.2 L 584.6,296.7 L 586.0,298.9 L 587.4,280.4 L 588.7,259.6 L 590.1,256.2 L 591.5,266.2 L 592.8,267.9 L 594.2,282.4 L 595.6,296.8 L 596.9,313.0 L 598.3,302.5 L 599.6,305.7 L 601.0,318.1 L 602.4,310.0 L 603.7,320.6 L 605.1,318.0 L 606.5,315.2 L 607.8,307.1 L 609.2,314.5 L 610.5,300.4 L 611.9,295.2 L 613.3,315.9 L 614.6,314.0 L 616.0,295.8 L 617.4,289.8 L 618.7,290.7 L 620.1,300.1 L 621.4,302.8 L 622.8,314.8 L 624.2,314.0 L 625.5,300.2 L 626.9,309.8 L 628.3,316.1 L 629.6,299.9 L 631.0,317.8 L 632.3,309.6 L 633.7,295.9 L 635.1,287.1 L 636.4,269.5 L 637.8,252.3 L 639.2,263.6 L 640.5,275.6 L 641.9,295.2 L 643.2,297.7 L 644.6,298.5 L 646.0,308.6 L 647.3,305.2 L 648.7,309.2 L 650.1,302.8 L 651.4,307.9 L 652.8,304.4 L 654.1,299.3 L 655.5,291.9 L 656.9,280.6 L 658.2,269.0 L 659.6,265.6 L 661.0,275.5 L 662.3,286.1 L 663.7,294.0 L 665.1,311.8 L 666.4,303.1 L 667.8,305.1 L 669.1,319.4 L 670.5,321.9 L 671.9,317.9 L 673.2,304.7 L 674.6,306.7 L 676.0,318.6 L 677.3,300.7 L 678.7,316.0 L 680.0,306.1 L 681.4,298.5 L 682.8,274.4 L 684.1,263.8 L 685.5,265.5 L 686.9,276.9 L 688.2,274.3 L 689.6,292.6 L 690.9,299.0 L 692.3,306.1 L 693.7,305.4 L 695.0,317.0 L 696.4,315.7 L 697.8,308.3 L 699.1,302.0 L 700.5,306.8 L 701.8,318.0 L 703.2,311.1 L 704.6,303.5 L 705.9,285.4 L 707.3,300.3 L 708.7,304.0 L 710.0,310.1 L 711.4,296.5 L 712.7,301.3 L 714.1,316.4 L 715.5,308.8 L 716.8,310.8 L 718.2,301.0 L 719.6,311.8 L 720.9,305.6 L 722.3,306.1 L 723.6,291.3 L 725.0,278.3 L 726.4,276.4 L 727.7,283.2 L 729.1,294.8 L 730.5,291.6 L 731.8,300.1 L 733.2,311.1 L 734.5,316.8 L 735.9,311.0 L 737.3,316.0 L 738.6,321.3 L 740.0,309.2 L 740,350 L 60,350 Z" fill="url(#greenFillNew)"/>
-              <!-- Green line -->
-              <path d="M 60.0,320.9 L 61.4,320.2 L 62.7,314.2 L 64.1,318.5 L 65.5,298.2 L 66.8,316.0 L 68.2,297.2 L 69.5,290.0 L 70.9,268.0 L 72.3,267.5 L 73.6,250.2 L 75.0,264.8 L 76.4,279.9 L 77.7,296.7 L 79.1,299.4 L 80.4,315.4 L 81.8,304.2 L 83.2,319.4 L 84.5,315.4 L 85.9,310.9 L 87.3,299.4 L 88.6,311.0 L 90.0,315.3 L 91.3,298.6 L 92.7,307.9 L 94.1,286.3 L 95.4,298.1 L 96.8,308.9 L 98.2,302.7 L 99.5,298.7 L 100.9,310.2 L 102.2,304.5 L 103.6,317.6 L 105.0,310.1 L 106.3,310.2 L 107.7,302.9 L 109.1,309.8 L 110.4,305.5 L 111.8,304.8 L 113.1,306.2 L 114.5,300.0 L 115.9,304.4 L 117.2,307.2 L 118.6,296.7 L 120.0,307.0 L 121.3,305.9 L 122.7,313.3 L 124.0,321.0 L 125.4,307.7 L 126.8,318.5 L 128.1,306.5 L 129.5,304.7 L 130.9,309.5 L 132.2,317.4 L 133.6,310.0 L 134.9,312.4 L 136.3,311.1 L 137.7,295.5 L 139.0,284.1 L 140.4,278.3 L 141.8,272.8 L 143.1,285.5 L 144.5,285.3 L 145.9,306.0 L 147.2,307.7 L 148.6,317.0 L 149.9,307.5 L 151.3,307.7 L 152.7,303.9 L 154.0,306.1 L 155.4,295.4 L 156.8,300.5 L 158.1,301.2 L 159.5,302.4 L 160.8,290.9 L 162.2,291.5 L 163.6,283.5 L 164.9,300.4 L 166.3,300.6 L 167.7,319.3 L 169.0,312.8 L 170.4,315.4 L 171.7,316.7 L 173.1,313.1 L 174.5,308.3 L 175.8,306.0 L 177.2,295.7 L 178.6,289.5 L 179.9,277.0 L 181.3,256.8 L 182.6,251.9 L 184.0,260.8 L 185.4,283.0 L 186.7,286.0 L 188.1,306.2 L 189.5,304.5 L 190.8,308.4 L 192.2,302.7 L 193.5,317.0 L 194.9,313.0 L 196.3,307.8 L 197.6,315.6 L 199.0,315.3 L 200.4,309.3 L 201.7,301.7 L 203.1,301.2 L 204.4,307.5 L 205.8,299.1 L 207.2,306.0 L 208.5,308.4 L 209.9,308.9 L 211.3,315.4 L 212.6,303.7 L 214.0,312.7 L 215.4,306.7 L 216.7,308.7 L 218.1,317.8 L 219.4,309.5 L 220.8,303.0 L 222.2,301.0 L 223.5,311.5 L 224.9,309.1 L 226.3,284.7 L 227.6,283.8 L 229.0,271.4 L 230.3,262.8 L 231.7,281.2 L 233.1,297.2 L 234.4,304.8 L 235.8,302.7 L 237.2,306.1 L 238.5,301.8 L 239.9,307.7 L 241.2,303.2 L 242.6,308.3 L 244.0,314.1 L 245.3,303.7 L 246.7,316.6 L 248.1,305.8 L 249.4,297.5 L 250.8,303.4 L 252.1,312.2 L 253.5,307.1 L 254.9,307.7 L 256.2,312.3 L 257.6,303.6 L 259.0,314.9 L 260.3,316.7 L 261.7,312.4 L 263.0,318.1 L 264.4,315.8 L 265.8,314.4 L 267.1,304.3 L 268.5,318.1 L 269.9,310.4 L 271.2,312.5 L 272.6,288.8 L 273.9,280.8 L 275.3,282.8 L 276.7,263.8 L 278.0,268.2 L 279.4,276.3 L 280.8,287.2 L 282.1,293.9 L 283.5,295.8 L 284.8,305.9 L 286.2,307.8 L 287.6,306.9 L 288.9,311.4 L 290.3,303.6 L 291.7,298.6 L 293.0,312.7 L 294.4,296.2 L 295.8,294.6 L 297.1,289.4 L 298.5,288.9 L 299.8,299.2 L 301.2,300.5 L 302.6,313.5 L 303.9,309.2 L 305.3,299.3 L 306.7,304.8 L 308.0,310.4 L 309.4,310.4 L 310.7,301.8 L 312.1,315.6 L 313.5,309.4 L 314.8,285.6 L 316.2,285.5 L 317.6,269.3 L 318.9,271.3 L 320.3,283.1 L 321.6,285.1 L 323.0,302.0 L 324.4,302.1 L 325.7,298.1 L 327.1,315.3 L 328.5,303.5 L 329.8,320.7 L 331.2,314.1 L 332.5,312.5 L 333.9,306.3 L 335.3,318.6 L 336.6,310.2 L 338.0,311.4 L 339.4,297.8 L 340.7,318.4 L 342.1,311.4 L 343.4,296.2 L 344.8,300.3 L 346.2,287.8 L 347.5,309.8 L 348.9,308.3 L 350.3,318.0 L 351.6,303.8 L 353.0,299.7 L 354.3,314.3 L 355.7,309.7 L 357.1,314.2 L 358.4,305.5 L 359.8,305.3 L 361.2,303.0 L 362.5,285.2 L 363.9,278.2 L 365.3,259.1 L 366.6,269.7 L 368.0,268.6 L 369.3,293.7 L 370.7,306.4 L 372.1,302.9 L 373.4,299.5 L 374.8,294.4 L 376.2,291.3 L 377.5,261.0 L 378.9,249.2 L 380.2,249.0 L 381.6,262.2 L 383.0,287.3 L 384.3,286.5 L 385.7,304.0 L 387.1,304.2 L 388.4,301.6 L 389.8,307.4 L 391.1,315.6 L 392.5,308.4 L 393.9,298.8 L 395.2,308.6 L 396.6,313.8 L 398.0,304.9 L 399.3,313.2 L 400.7,309.6 L 402.0,314.7 L 403.4,313.3 L 404.8,306.6 L 406.1,305.8 L 407.5,310.0 L 408.9,317.9 L 410.2,321.0 L 411.6,309.2 L 412.9,299.7 L 414.3,299.5 L 415.7,293.4 L 417.0,294.7 L 418.4,274.5 L 419.8,271.5 L 421.1,275.6 L 422.5,289.6 L 423.8,292.7 L 425.2,299.4 L 426.6,312.1 L 427.9,310.7 L 429.3,301.7 L 430.7,320.6 L 432.0,304.3 L 433.4,314.3 L 434.7,307.0 L 436.1,319.8 L 437.5,311.2 L 438.8,305.1 L 440.2,307.0 L 441.6,312.3 L 442.9,303.3 L 444.3,301.6 L 445.7,293.2 L 447.0,283.8 L 448.4,288.9 L 449.7,281.3 L 451.1,304.9 L 452.5,296.1 L 453.8,319.7 L 455.2,303.5 L 456.6,309.6 L 457.9,321.0 L 459.3,300.8 L 460.6,299.1 L 462.0,298.4 L 463.4,298.1 L 464.7,291.1 L 466.1,282.4 L 467.5,272.2 L 468.8,264.1 L 470.2,272.7 L 471.5,294.7 L 472.9,307.6 L 474.3,309.7 L 475.6,308.3 L 477.0,296.6 L 478.4,284.8 L 479.7,263.6 L 481.1,253.7 L 482.4,254.9 L 483.8,271.9 L 485.2,273.5 L 486.5,294.1 L 487.9,312.7 L 489.3,309.9 L 490.6,305.2 L 492.0,304.7 L 493.3,317.9 L 494.7,309.0 L 496.1,298.1 L 497.4,309.4 L 498.8,314.9 L 500.2,300.6 L 501.5,299.7 L 502.9,302.7 L 504.2,294.3 L 505.6,314.7 L 507.0,305.4 L 508.3,301.2 L 509.7,307.3 L 511.1,314.7 L 512.4,320.1 L 513.8,305.1 L 515.2,302.5 L 516.5,308.8 L 517.9,300.1 L 519.2,282.6 L 520.6,263.4 L 522.0,266.2 L 523.3,256.3 L 524.7,282.2 L 526.1,295.0 L 527.4,303.4 L 528.8,306.8 L 530.1,296.1 L 531.5,307.0 L 532.9,320.8 L 534.2,319.0 L 535.6,313.2 L 537.0,320.2 L 538.3,309.3 L 539.7,315.1 L 541.0,302.7 L 542.4,303.5 L 543.8,301.3 L 545.1,309.6 L 546.5,312.3 L 547.9,304.5 L 549.2,311.9 L 550.6,315.0 L 551.9,312.4 L 553.3,314.2 L 554.7,300.4 L 556.0,302.4 L 557.4,318.6 L 558.8,320.1 L 560.1,304.2 L 561.5,312.3 L 562.8,318.8 L 564.2,298.8 L 565.6,290.2 L 566.9,283.7 L 568.3,269.8 L 569.7,256.3 L 571.0,262.4 L 572.4,284.8 L 573.7,292.2 L 575.1,291.0 L 576.5,310.7 L 577.8,303.2 L 579.2,304.1 L 580.6,304.9 L 581.9,305.4 L 583.3,312.2 L 584.6,296.7 L 586.0,298.9 L 587.4,280.4 L 588.7,259.6 L 590.1,256.2 L 591.5,266.2 L 592.8,267.9 L 594.2,282.4 L 595.6,296.8 L 596.9,313.0 L 598.3,302.5 L 599.6,305.7 L 601.0,318.1 L 602.4,310.0 L 603.7,320.6 L 605.1,318.0 L 606.5,315.2 L 607.8,307.1 L 609.2,314.5 L 610.5,300.4 L 611.9,295.2 L 613.3,315.9 L 614.6,314.0 L 616.0,295.8 L 617.4,289.8 L 618.7,290.7 L 620.1,300.1 L 621.4,302.8 L 622.8,314.8 L 624.2,314.0 L 625.5,300.2 L 626.9,309.8 L 628.3,316.1 L 629.6,299.9 L 631.0,317.8 L 632.3,309.6 L 633.7,295.9 L 635.1,287.1 L 636.4,269.5 L 637.8,252.3 L 639.2,263.6 L 640.5,275.6 L 641.9,295.2 L 643.2,297.7 L 644.6,298.5 L 646.0,308.6 L 647.3,305.2 L 648.7,309.2 L 650.1,302.8 L 651.4,307.9 L 652.8,304.4 L 654.1,299.3 L 655.5,291.9 L 656.9,280.6 L 658.2,269.0 L 659.6,265.6 L 661.0,275.5 L 662.3,286.1 L 663.7,294.0 L 665.1,311.8 L 666.4,303.1 L 667.8,305.1 L 669.1,319.4 L 670.5,321.9 L 671.9,317.9 L 673.2,304.7 L 674.6,306.7 L 676.0,318.6 L 677.3,300.7 L 678.7,316.0 L 680.0,306.1 L 681.4,298.5 L 682.8,274.4 L 684.1,263.8 L 685.5,265.5 L 686.9,276.9 L 688.2,274.3 L 689.6,292.6 L 690.9,299.0 L 692.3,306.1 L 693.7,305.4 L 695.0,317.0 L 696.4,315.7 L 697.8,308.3 L 699.1,302.0 L 700.5,306.8 L 701.8,318.0 L 703.2,311.1 L 704.6,303.5 L 705.9,285.4 L 707.3,300.3 L 708.7,304.0 L 710.0,310.1 L 711.4,296.5 L 712.7,301.3 L 714.1,316.4 L 715.5,308.8 L 716.8,310.8 L 718.2,301.0 L 719.6,311.8 L 720.9,305.6 L 722.3,306.1 L 723.6,291.3 L 725.0,278.3 L 726.4,276.4 L 727.7,283.2 L 729.1,294.8 L 730.5,291.6 L 731.8,300.1 L 733.2,311.1 L 734.5,316.8 L 735.9,311.0 L 737.3,316.0 L 738.6,321.3 L 740.0,309.2" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linejoin="round"/>
-
-              <!-- Orange dashed limit line at ~152.4 kVA (y=64.25) -->
-              <line x1="50" y1="64.25" x2="750" y2="64.25" stroke="#f97316" stroke-width="2" stroke-dasharray="8,6"/>
               <!-- Limit box on right -->
               <rect x="670" y="50" width="80" height="28" rx="6" fill="#0a0a0f" stroke="#f97316" stroke-width="1"/>
               <text x="710" y="69" text-anchor="middle" font-size="12" font-weight="bold" fill="#f97316">152,40 kVA</text>
@@ -692,6 +669,117 @@ include "includes/header.php";
     <div class="voltage-line"></div>
 
     <!-- ──────────────────────────────────────────
+       SPDA SECTION (SISTEMA DE PROTEÇÃO CONTRA DESCARGAS ATMOSFÉRICAS)
+    ────────────────────────────────────────── -->
+    <section id="spda" class="relative bg-brand-bg py-20 px-6 overflow-hidden border-b border-white/5">
+        <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:24px_24px] opacity-60"></div>
+        <div class="max-w-[1200px] mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center observe">
+                
+                <!-- Left: Text and scope -->
+                <div>
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+                        <span class="w-1.5 h-1.5 bg-brand-green rounded-full"></span> Engenharia de Proteção Ativa
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+                        Projeto e Inspeção de<br>
+                        <span class="text-brand-green">Sistemas SPDA</span>
+                    </h2>
+                    <p class="text-brand-muted text-lg leading-relaxed mb-8">
+                        Garantimos a segurança absoluta de condomínios, indústrias e infraestruturas de recarga antes e durante toda a operação, avaliando a conformidade normativa dos sistemas de proteção contra raios e aterramento.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                        <div class="p-5 bg-white/5 border border-white/5 rounded-2xl">
+                            <h4 class="text-white font-bold mb-2 flex items-center gap-2 text-sm sm:text-base">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                Escopo de Inspeção
+                            </h4>
+                            <p class="text-[13px] text-brand-muted leading-relaxed">
+                                Avaliação rigorosa dos subsistemas de captação, descida e aterramento, com identificação precisa e indicação em planta baixa de todos os pontos medidos.
+                            </p>
+                        </div>
+                        <div class="p-5 bg-white/5 border border-white/5 rounded-2xl">
+                            <h4 class="text-white font-bold mb-2 flex items-center gap-2 text-sm sm:text-base">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg>
+                                Relatório Técnico e ART
+                            </h4>
+                            <p class="text-[13px] text-brand-muted leading-relaxed">
+                                Elaboração de Relatório Técnico detalhado, contendo tabela com valores das medições, fotografias de não-conformidades e fornecimento da ART.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845')); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2.5 bg-brand-green text-brand-bg font-bold py-3.5 px-7 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-brand-green/20 text-[14px]">
+                            Agendar Diagnóstico Técnico
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Norms and checklist -->
+                <div class="p-6 sm:p-8 bg-[#0a0a0f] border border-white/5 rounded-3xl overflow-hidden shadow-2xl relative">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand-green/5 rounded-full blur-2xl"></div>
+                    
+                    <h4 class="text-white font-extrabold text-xl mb-6">Referências Normativas e Ensaios</h4>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-3">
+                            <span class="px-2 py-0.5 rounded bg-brand-green/10 text-brand-green text-[10px] font-mono font-bold mt-1 uppercase">NBR 5419</span>
+                            <div>
+                                <h5 class="text-white text-[14px] font-semibold">Proteção contra descargas atmosféricas</h5>
+                                <p class="text-[12px] text-brand-muted">Vistoria de integridade física dos captores e condutores de descida.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="px-2 py-0.5 rounded bg-brand-green/10 text-brand-green text-[10px] font-mono font-bold mt-1 uppercase">NBR 15749</span>
+                            <div>
+                                <h5 class="text-white text-[14px] font-semibold">Medição de resistência de aterramento</h5>
+                                <p class="text-[12px] text-brand-muted">Ensaio de impedância da malha com equipamentos certificados de alta precisão.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="px-2 py-0.5 rounded bg-brand-green/10 text-brand-green text-[10px] font-mono font-bold mt-1 uppercase">NBR 7117</span>
+                            <div>
+                                <h5 class="text-white text-[14px] font-semibold">Resistividade e estratificação do solo</h5>
+                                <p class="text-[12px] text-brand-muted">Análise geológica para dimensionamento e adequação de malhas de aterramento.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="px-2 py-0.5 rounded bg-brand-green/10 text-brand-green text-[10px] font-mono font-bold mt-1 uppercase">IEC 61643-1</span>
+                            <div>
+                                <h5 class="text-white text-[14px] font-semibold">Dispositivos de Proteção contra Surtos (DPS)</h5>
+                                <p class="text-[12px] text-brand-muted">Verificação e dimensionamento da coordenação de DPS na baixa tensão.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="px-2 py-0.5 rounded bg-brand-green/10 text-brand-green text-[10px] font-mono font-bold mt-1 uppercase">NR 10</span>
+                            <div>
+                                <h5 class="text-white text-[14px] font-semibold">Segurança em instalações e serviços em eletricidade</h5>
+                                <p class="text-[12px] text-brand-muted">Conformidade e procedimentos de segurança elétrica de acordo com o MTE.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-brand-green/5 border border-brand-green/10 rounded-2xl">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-brand-green animate-pulse"></span>
+                            <span class="text-[13px] font-bold text-brand-green uppercase tracking-wider">Metodologia VoltchZ</span>
+                        </div>
+                        <p class="text-[12px] text-brand-muted leading-relaxed">
+                            Nossa entrega inclui reunião técnica de apresentação de resultados com equipe de segurança do trabalho do contratante, além da entrega de diagramas unifilares atualizados e mapeamento georreferenciado das medições.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="voltage-line"></div>
+
+    <!-- ──────────────────────────────────────────
        CLIENTS SLIDER (PORTFÓLIO DE INSTALAÇÕES)
   ────────────────────────────────────────── -->
     <section id="clientes" class="bg-brand-bg py-24 sm:py-32 px-6 relative overflow-hidden text-white">
@@ -759,11 +847,11 @@ include "includes/header.php";
                                 <polyline points="12 5 19 12 12 19" />
                             </svg>
                         </a>
-                        <a href="portfolio" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-8 rounded-2xl hover:bg-white/10 transition-all font-bold">
-                            Ver Portfólio Completo
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="6 9 12 15 18 9" />
-                            </svg>
+                        <a href="portfolio.php" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
+                            Portfólio Residencial
+                        </a>
+                        <a href="condominio.php" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
+                            Portfólio Condomínio
                         </a>
                     </div>
                 </div>

@@ -51,14 +51,14 @@ if ($is_edit) {
 // Processa o form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo = $_POST['tipo'] ?? 'veiculo';
-    $model = filter_input(INPUT_POST, 'model', FILTER_SANITIZE_SPECIAL_CHARS);
-    $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_SPECIAL_CHARS);
-    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_SPECIAL_CHARS);
-    $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_SPECIAL_CHARS);
+    $model = trim($_POST['model'] ?? '');
+    $location = trim($_POST['location'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $image = trim($_POST['image'] ?? '');
     
     // Processamento da marca
-    if ($tipo === 'condominio') {
-        $brand = 'condominio';
+    if ($tipo === 'condominio' || $tipo === 'construtora' || $tipo === 'eletroposto') {
+        $brand = $tipo;
     } else {
         $brand_selected = $_POST['brand'] ?? '';
         if ($brand_selected === 'new') {
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($brand) || empty($model) || empty($location) || empty($image)) {
-        $error_message = "Marca/Tipo, Nome do Projeto/Modelo, Localização e Imagem são campos obrigatórios.";
+        $error_message = "Marca/Tipo, Nome do Projeto/Modelo, Localização e Imagens são campos obrigatórios.";
     } else {
         try {
             if ($is_edit) {
@@ -116,27 +116,29 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
                 <select id="tipo-select" name="tipo" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
                     <option value="veiculo" <?php echo ($portfolio['tipo'] === 'veiculo') ? 'selected' : ''; ?>>Residencial (Veículo/Montadora)</option>
                     <option value="condominio" <?php echo ($portfolio['tipo'] === 'condominio') ? 'selected' : ''; ?>>Infraestrutura Coletiva (Condomínio)</option>
+                    <option value="construtora" <?php echo ($portfolio['tipo'] === 'construtora') ? 'selected' : ''; ?>>Infraestrutura Coletiva (Construtora)</option>
+                    <option value="eletroposto" <?php echo ($portfolio['tipo'] === 'eletroposto') ? 'selected' : ''; ?>>Comercial & Eletroposto</option>
                 </select>
             </div>
 
             <!-- BRAND SELECT & NEW INPUT -->
-            <div id="brand-selection-block" class="<?php echo ($portfolio['tipo'] === 'condominio') ? 'hidden' : ''; ?>">
+            <div id="brand-selection-block" class="<?php echo ($portfolio['tipo'] === 'condominio' || $portfolio['tipo'] === 'construtora' || $portfolio['tipo'] === 'eletroposto') ? 'hidden' : ''; ?>">
                 <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Marca do Veículo</label>
-                <select id="brand-select" name="brand" class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30" <?php echo ($portfolio['tipo'] !== 'condominio') ? 'required' : ''; ?>>
+                <select id="brand-select" name="brand" class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30" <?php echo ($portfolio['tipo'] !== 'condominio' && $portfolio['tipo'] !== 'construtora' && $portfolio['tipo'] !== 'eletroposto') ? 'required' : ''; ?>>
                     <option value="">Selecione uma marca existente...</option>
                     <?php foreach ($existing_brands as $eb): 
-                        if ($eb === 'condominio') continue;
+                        if ($eb === 'condominio' || $eb === 'construtora' || $eb === 'eletroposto') continue;
                     ?>
                         <option value="<?php echo htmlspecialchars($eb); ?>" <?php echo ($portfolio['brand'] === $eb) ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars(strtoupper($eb)); ?>
                         </option>
                     <?php endforeach; ?>
-                    <option value="new" <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
+                    <option value="new" <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto' && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
                 </select>
 
-                <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
+                <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto' && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
                     <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Nome da Nova Marca (Slug/Letras Minúsculas)</label>
-                    <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars($portfolio['brand'] !== 'condominio' ? $portfolio['brand'] : ''); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
+                    <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars(($portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto') ? $portfolio['brand'] : ''); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
                            class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
                 </div>
             </div>
@@ -168,18 +170,20 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green border-b border-white/5 pb-3">Imagem Real</h3>
 
             <div>
-                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Foto da Instalação / Carregador</label>
-                <div class="flex gap-2">
-                    <input type="text" id="portfolio-image" name="image" value="<?php echo htmlspecialchars($portfolio['image']); ?>" required placeholder="ex: static/clientes/cliente-5.webp"
-                           class="flex-1 bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
-                    <input type="file" id="portfolio-file-input" class="hidden" accept="image/*">
-                    <button type="button" onclick="triggerUpload('portfolio-file-input', 'portfolio-image', 'portfolio-preview')" class="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold px-4 rounded-xl text-xs transition-all">
-                        Upload
-                    </button>
+                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Fotos da Instalação / Carregador</label>
+                <input type="hidden" id="portfolio-image" name="image" value="<?php echo htmlspecialchars($portfolio['image']); ?>" required>
+                
+                <!-- Grade de Imagens Adicionadas -->
+                <div id="images-grid" class="grid grid-cols-2 gap-3 mb-4">
+                    <!-- Gerado dinamicamente via JS -->
                 </div>
-                <div id="portfolio-preview-container" class="mt-3 p-2 bg-brand-bg3/25 border border-white/5 rounded-xl inline-block <?php echo empty($portfolio['image']) ? 'hidden' : ''; ?>">
-                    <img id="portfolio-preview" src="<?php echo !empty($portfolio['image']) ? '../' . $portfolio['image'] : ''; ?>" class="max-h-32 rounded-lg object-contain">
-                </div>
+
+                <input type="file" id="portfolio-file-input" class="hidden" accept="image/*" multiple>
+                <button type="button" onclick="triggerMultipleUpload()" class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4.5 h-4.5 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                    Fazer Upload de Fotos
+                </button>
+                <p class="text-[10px] text-brand-muted/50 mt-2">Você pode enviar mais de uma foto para criar um carrossel de fotos no site.</p>
             </div>
         </div>
 
@@ -206,7 +210,7 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
 
     if (tipoSelect && brandBlock && select) {
         tipoSelect.addEventListener('change', function() {
-            if (this.value === 'condominio') {
+            if (this.value === 'condominio' || this.value === 'construtora' || this.value === 'eletroposto') {
                 brandBlock.classList.add('hidden');
                 select.required = false;
                 brandNewInput.required = false;
@@ -233,47 +237,82 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
         });
     }
 
-    function triggerUpload(fileInputId, textInputId, previewImgId) {
-        const fileInput = document.getElementById(fileInputId);
+    // Gerenciador de múltiplas imagens
+    const imageInput = document.getElementById('portfolio-image');
+    const imagesGrid = document.getElementById('images-grid');
+    let imagesList = imageInput.value ? imageInput.value.split(',').filter(Boolean) : [];
+
+    function renderImagesGrid() {
+        imagesGrid.innerHTML = '';
+        if (imagesList.length === 0) {
+            imagesGrid.innerHTML = '<div class="col-span-2 text-[11px] text-brand-muted/40 italic py-4 text-center border border-dashed border-white/5 rounded-xl">Nenhuma imagem enviada</div>';
+            return;
+        }
+
+        imagesList.forEach((img, idx) => {
+            const card = document.createElement('div');
+            card.className = 'relative aspect-square bg-brand-bg3/40 border border-white/5 rounded-xl overflow-hidden p-1 flex items-center justify-center';
+            card.innerHTML = `
+                <img src="../${img}" class="max-h-full max-w-full rounded-lg object-cover">
+                <button type="button" onclick="removeImageIndex(${idx})" class="absolute top-1.5 right-1.5 bg-red-500/80 hover:bg-red-500 text-white p-1 rounded-lg transition-colors cursor-pointer" title="Remover imagem">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+            imagesGrid.appendChild(card);
+        });
+    }
+
+    window.removeImageIndex = function(idx) {
+        imagesList.splice(idx, 1);
+        imageInput.value = imagesList.join(',');
+        renderImagesGrid();
+    };
+
+    window.triggerMultipleUpload = function() {
+        const fileInput = document.getElementById('portfolio-file-input');
         fileInput.click();
         
         fileInput.onchange = function() {
             if (fileInput.files.length === 0) return;
             
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-            
+            const files = Array.from(fileInput.files);
             const btn = fileInput.nextElementSibling;
-            const originalText = btn.textContent;
-            btn.textContent = 'Enviando...';
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Enviando...';
             btn.disabled = true;
-            
-            fetch('upload.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                btn.textContent = originalText;
+
+            let uploadPromises = files.map(file => {
+                const formData = new FormData();
+                formData.append('file', file);
+                return fetch('upload.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        imagesList.push(data.path);
+                    } else {
+                        alert(data.message || 'Erro ao fazer upload de uma das imagens.');
+                    }
+                })
+                .catch(() => {
+                    alert('Erro na comunicação com o servidor para uma das imagens.');
+                });
+            });
+
+            Promise.all(uploadPromises).then(() => {
+                btn.innerHTML = originalText;
                 btn.disabled = false;
-                
-                if (data.success) {
-                    document.getElementById(textInputId).value = data.path;
-                    const previewImg = document.getElementById(previewImgId);
-                    previewImg.src = '../' + data.path;
-                    previewImg.parentElement.classList.remove('hidden');
-                } else {
-                    alert(data.message || 'Erro ao fazer upload.');
-                }
-            })
-            .catch(err => {
-                btn.textContent = originalText;
-                btn.disabled = false;
-                alert('Erro na comunicação com o servidor.');
+                imageInput.value = imagesList.join(',');
+                renderImagesGrid();
+                fileInput.value = ''; // Reset file input
             });
         };
-    }
+    };
+
+    // Inicializa a grade de imagens
+    renderImagesGrid();
 </script>
 
 <?php

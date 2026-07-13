@@ -147,34 +147,70 @@ export const initPortfolioExpandido = () => {
     const tabsContainer = $('#portfolio-tabs-expandido');
     if (!gridVeiculos) return;
 
-    // Filtra itens cujo arquivo de imagem não existe na pasta
-    const existingImages = window.VOLTCHZ_EXISTING_IMAGES || [];
-    const activeData = existingImages.length > 0
-        ? PORTFOLIO_DATA.filter(item => existingImages.includes(item.image))
-        : PORTFOLIO_DATA;
+    // Não filtra por existência física da imagem no disco para evitar que projetos sumam em deploys
+    const activeData = PORTFOLIO_DATA;
 
     const veiculosData = activeData.filter(item => item.tipo === 'veiculo');
-    const condosData = activeData.filter(item => item.tipo === 'condominio');
+    const condosData = activeData.filter(item => item.tipo === 'condominio' || item.tipo === 'construtora');
 
     // Helper para criar o card HTML
     const createCardElement = (item) => {
         const card = document.createElement('div');
         card.className = 'fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
         
-        card.innerHTML = `
-            <!-- Imagem da Instalação -->
-            <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer">
-                <img src="${item.image}" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+        const imgs = item.image.split(',').map(s => s.trim()).filter(Boolean);
+        const hasMultiple = imgs.length > 1;
+        const firstImg = imgs[0] || '';
+
+        let imageHtml = '';
+        if (hasMultiple) {
+            imageHtml = `
+            <!-- Carrossel de Imagens -->
+            <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 group/carousel">
+                <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
+                    ${imgs.map((src, i) => `
+                        <div class="w-full h-full flex-shrink-0 cursor-pointer relative" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${src}' } }))">
+                            <img src="${src}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model} - Foto ${i+1}" class="w-full h-full object-cover">
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <!-- Setas de navegação -->
+                <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg>
+                </button>
+                <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+                </button>
+
+                <!-- Indicadores (bullets) -->
+                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/30 px-2 py-1 rounded-full backdrop-blur-md border border-white/5">
+                    ${imgs.map((_, i) => `
+                        <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 transition-all ${i === 0 ? 'bg-brand-green w-3' : ''}"></span>
+                    `).join('')}
+                </div>
+            </div>
+            `;
+        } else {
+            imageHtml = `
+            <!-- Imagem Única -->
+            <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${firstImg}' } }))">
+                <img src="${firstImg}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
                 </div>
             </div>
+            `;
+        }
+
+        card.innerHTML = `
+            ${imageHtml}
 
             <!-- Conteúdo -->
             <div class="flex-grow flex flex-col">
                 <div class="flex items-center justify-between gap-4 mb-2">
                     <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green">
-                        ${item.tipo === 'condominio' ? 'CONDOMÍNIO' : (item.brand.toUpperCase() === 'GEELY' ? 'GRUPO GEELY' : item.brand.toUpperCase())}
+                        ${item.tipo === 'condominio' ? 'CONDOMÍNIO' : (item.tipo === 'construtora' ? 'CONSTRUTORA' : (item.brand.toUpperCase() === 'GEELY' ? 'GRUPO GEELY' : item.brand.toUpperCase()))}
                     </span>
                     <span class="text-[9px] font-mono text-white/45 truncate max-w-[150px]">
                         ${item.location.split(',')[0]}
@@ -199,10 +235,38 @@ export const initPortfolioExpandido = () => {
             </div>
         `;
 
-        // Clique na imagem para lightbox
-        card.querySelector('img').parentNode.addEventListener('click', () => {
-            window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: item.image } }));
-        });
+        if (hasMultiple) {
+            let activeIdx = 0;
+            const container = card.querySelector('.carousel-images-container');
+            const indicators = card.querySelectorAll('.carousel-indicator');
+            const prevBtn = card.querySelector('.carousel-prev-btn');
+            const nextBtn = card.querySelector('.carousel-next-btn');
+
+            const updateCarousel = () => {
+                container.style.transform = `translateX(-${activeIdx * 100}%)`;
+                indicators.forEach((ind, i) => {
+                    if (i === activeIdx) {
+                        ind.classList.add('bg-brand-green', 'w-3');
+                        ind.classList.remove('bg-white/40');
+                    } else {
+                        ind.classList.remove('bg-brand-green', 'w-3');
+                        ind.classList.add('bg-white/40');
+                    }
+                });
+            };
+
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                activeIdx = (activeIdx === 0) ? imgs.length - 1 : activeIdx - 1;
+                updateCarousel();
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                activeIdx = (activeIdx === imgs.length - 1) ? 0 : activeIdx + 1;
+                updateCarousel();
+            });
+        }
 
         return card;
     };

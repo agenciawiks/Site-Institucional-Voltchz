@@ -67,17 +67,17 @@ if ($is_edit) {
 
 // Processa envio do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
+    $nome = trim($_POST['nome'] ?? '');
     $slug = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_POST['slug'] ?? '')));
     $marca_id = $_POST['marca_id'] ?? '';
     $categoria_id = $_POST['categoria_id'] ?? '';
-    $potencia = filter_input(INPUT_POST, 'potencia', FILTER_SANITIZE_SPECIAL_CHARS);
-    $tensao = filter_input(INPUT_POST, 'tensao', FILTER_SANITIZE_SPECIAL_CHARS);
-    $aplicacao = filter_input(INPUT_POST, 'aplicacao', FILTER_SANITIZE_SPECIAL_CHARS);
-    $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
-    $resumo = filter_input(INPUT_POST, 'resumo', FILTER_SANITIZE_SPECIAL_CHARS);
-    $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_SPECIAL_CHARS);
-    $imagem = filter_input(INPUT_POST, 'imagem', FILTER_SANITIZE_SPECIAL_CHARS);
+    $potencia = trim($_POST['potencia'] ?? '');
+    $tensao = trim($_POST['tensao'] ?? '');
+    $aplicacao = trim($_POST['aplicacao'] ?? '');
+    $tipo = trim($_POST['tipo'] ?? '');
+    $resumo = trim($_POST['resumo'] ?? '');
+    $descricao = trim($_POST['descricao'] ?? '');
+    $imagem = trim($_POST['imagem'] ?? '');
     $sort_order = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
 
     // Arrays dinâmicos enviados
