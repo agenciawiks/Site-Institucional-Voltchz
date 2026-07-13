@@ -41,3 +41,5 @@ package-lock.json
 
 # ── ESPECÍFICOS DO PROJETO ──
 # Adicione aqui arquivos que não devem ser versionados mas que são específicos deste repo
+db_config.php
+includes/db_config.php
