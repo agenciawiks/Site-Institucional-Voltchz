@@ -1033,9 +1033,8 @@ include "includes/header.php";
         
         <!-- Smart hardware rendering mock -->
         <div class="relative bg-white border border-slate-200 p-8 rounded-[32px] shadow-xl flex flex-col items-center justify-center observe">
-          <div class="w-32 h-32 rounded-3xl bg-[#0a0a0f] flex items-center justify-center shadow-lg relative mb-6">
-            <span class="text-white font-bold tracking-widest text-lg">VoltchZ</span>
-            <span class="absolute bottom-2 text-brand-green text-[9px] font-mono uppercase tracking-widest">SMARTER</span>
+          <div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+            <img src="static/voltchz-smarter.png" alt="VoltchZ Smarter Device" class="w-full h-full object-contain rounded-3xl drop-shadow-xl hover:scale-105 transition-transform duration-300">
           </div>
           <div class="text-center max-w-sm">
             <h4 class="text-slate-800 font-black text-xl mb-2">VoltchZ Smarter</h4>

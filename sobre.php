@@ -1,5 +1,5 @@
 <?php
-$page_title = "Sobre Nós — VoltchZ Brasil";
+$page_title = "Sobre — VoltchZ Brasil";
 $page_desc = "Conheça a história, missão e os diferenciais da VoltchZ Brasil, líder em infraestrutura de recarga para veículos elétricos.";
 $current_page = "sobre";
 $additional_head = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">';
