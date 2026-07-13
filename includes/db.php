@@ -21,7 +21,7 @@ if ($is_local) {
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('DB_NAME', 'voltchz_db');
+    define('DB_NAME', 'voltchz');
 } else {
     // Tenta carregar as credenciais de produção de um arquivo separado.
     // Isso evita que suas credenciais sejam sobrescritas em cada upload de ZIP para a Hostinger.
@@ -71,6 +71,17 @@ function get_db_connection() {
         } catch (Exception $e) {
             try {
                 $pdo->exec("ALTER TABLE portfolio ADD COLUMN tipo VARCHAR(30) DEFAULT 'veiculo' AFTER id");
+            } catch (Exception $e2) {
+                // Silencioso se der erro (ex: tabela ainda não criada)
+            }
+        }
+
+        // Auto-migração da coluna sort_order na tabela produtos se necessário
+        try {
+            $pdo->query("SELECT sort_order FROM produtos LIMIT 1");
+        } catch (Exception $e) {
+            try {
+                $pdo->exec("ALTER TABLE produtos ADD COLUMN sort_order INT DEFAULT 0 AFTER imagem");
             } catch (Exception $e2) {
                 // Silencioso se der erro (ex: tabela ainda não criada)
             }
@@ -667,11 +678,31 @@ function init_voltchz_admin_tables($pdo) {
             ['static/banner-rotativo-01webp.webp', 'Energia para o futuro, segurança no agora', 'A VoltchZ entrega a infraestrutura completa de carregamento elétrico com rigor técnico e suporte de engenharia.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 1, 1],
             ['static/banner-rotativo-02.webp', 'Infraestrutura para frotas e condomínios', 'Gestão balanceada de carga e telemetria para empreendimentos de grande porte.', 'Falar com Engenheiro', 'https://wa.me/5512981039845', 2, 1],
             ['static/banner-rotativo-03.webp', 'Projetos elétricos com engenharia, normas e segurança.', 'Nossas instalações seguem todas as normas técnicas (NBR 5410, 17019 e IEC 61851-1), para você carregar seu veículo com total confiança.', 'Solicitar Orçamento', 'https://wa.me/5512981039845', 3, 1],
-            ['static/banner-rotativo-04.webp', 'Estruture seu negócio com recarga de alta performance', 'Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.', 'Planejar Estação Comercial', 'contato', 4, 1]
+            ['static/banner-rotativo-04.webp', 'Estruture seu negócio com recarga de alta performance', 'Projetamos infraestrutura rápida e escalável para redes comerciais, eletropostos e operações corporativas, com inteligência de carga, gestão contínua e experiência premium para seus clientes.', 'Planejar Estação Comercial', 'contato', 4, 1],
+            ['static/banner-solar.webp', 'Energia Solar Inteligente', 'Integre geração própria de energia solar ao seu carregamento de veículo elétrico para máxima economia.', 'Simular Economia', 'https://wa.me/5512981039845', 5, 1],
+            ['static/banner-intelbras.webp', 'Carregadores Intelbras Homologados', 'Linha completa de carregadores Intelbras instalada com a garantia técnica da VoltchZ.', 'Ver Modelos Intelbras', 'https://wa.me/5512981039845', 6, 1],
+            ['static/banner-app.webp', 'Aplicativo VoltchZ App', 'Controle e gerencie suas recargas, consumo e telemetria na palma da mão.', 'Conhecer o App', 'https://wa.me/5512981039845', 7, 1],
+            ['static/banner-spda.webp', 'Projeto e Inspeção de SPDA', 'Engenharia antes da instalação. Segurança durante toda a operação. A VoltchZ avalia SPDA, aterramento, capacidade elétrica, proteções e conformidade normativa antes da implantação da infraestrutura de recarga. Mais segurança para o condomínio, moradores e equipamentos.', 'Agendar Diagnóstico Técnico', 'https://wa.me/5512981039845', 8, 1]
         ];
         $stmt = $pdo->prepare("INSERT INTO banners (image, title, subtitle, button_text, button_link, sort_order, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
         foreach ($banners as $b) {
             $stmt->execute($b);
+        }
+    } else {
+        // Garantir que os novos banners sejam inseridos caso a tabela já tenha sido criada com os 4 antigos
+        $novosBanners = [
+            ['static/banner-solar.webp', 'Energia Solar Inteligente', 'Integre geração própria de energia solar ao seu carregamento de veículo elétrico para máxima economia.', 'Simular Economia', 'https://wa.me/5512981039845', 5, 1],
+            ['static/banner-intelbras.webp', 'Carregadores Intelbras Homologados', 'Linha completa de carregadores Intelbras instalada com a garantia técnica da VoltchZ.', 'Ver Modelos Intelbras', 'https://wa.me/5512981039845', 6, 1],
+            ['static/banner-app.webp', 'Aplicativo VoltchZ App', 'Controle e gerencie suas recargas, consumo e telemetria na palma da mão.', 'Conhecer o App', 'https://wa.me/5512981039845', 7, 1],
+            ['static/banner-spda.webp', 'Projeto e Inspeção de SPDA', 'Engenharia antes da instalação. Segurança durante toda a operação. A VoltchZ avalia SPDA, aterramento, capacidade elétrica, proteções e conformidade normativa antes da implantação da infraestrutura de recarga. Mais segurança para o condomínio, moradores e equipamentos.', 'Agendar Diagnóstico Técnico', 'https://wa.me/5512981039845', 8, 1]
+        ];
+        $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM banners WHERE title = ?");
+        $stmtInsert = $pdo->prepare("INSERT INTO banners (image, title, subtitle, button_text, button_link, sort_order, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        foreach ($novosBanners as $nb) {
+            $stmtCheck->execute([$nb[1]]);
+            if ($stmtCheck->fetchColumn() == 0) {
+                $stmtInsert->execute($nb);
+            }
         }
     }
 
