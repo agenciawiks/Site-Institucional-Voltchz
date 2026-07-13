@@ -1,0 +1,241 @@
+<?php
+require_once "includes/db.php";
+$page_title = "Soluções de Recarga para Condomínios — VoltchZ Brasil";
+$page_desc = "Projetos elétricos condomíniais homologados, adequação técnica de prumadas, barramentos blindados e gestão inteligente de recarga com rateio e OCPP.";
+$current_page = "condominio";
+include "includes/header.php";
+?>
+
+  <!-- HERO CONDOMÍNIOS -->
+  <header class="relative pt-32 pb-20 overflow-hidden bg-brand-bg2">
+    <div class="absolute inset-0 opacity-20">
+      <div class="orb w-[500px] h-[500px] -top-30 -right-30 bg-brand-green/20"></div>
+    </div>
+    <div class="max-w-[1200px] mx-auto px-6 relative z-10 text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-5">
+        Gestão e Infraestrutura Coletiva
+      </span>
+      <h1 class="text-[clamp(32px,5.5vw,56px)] font-extrabold leading-tight tracking-tighter mb-6 text-white">
+        Recarga Veicular Inteligente<br>
+        <span class="text-brand-green">para Condomínios</span>
+      </h1>
+      <p class="text-lg text-brand-muted max-w-3xl mx-auto leading-relaxed">
+        Soluções completas de engenharia para viabilizar carregamento em condomínios residenciais e comerciais, com segurança regulamentada, controle individualizado de custos e proteção patrimonial.
+      </p>
+    </div>
+  </header>
+
+  <!-- DIFERENCIAIS / DORES -->
+  <section class="py-20 px-6 bg-brand-bg relative z-10 border-t border-white/5">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- CARD 1 -->
+        <div class="bg-white/[0.02] border border-white/5 p-8 rounded-3xl hover:border-brand-green/20 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-brand-green/10 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-3">Medição e Rateio Individual</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Plataformas integradas para controle preciso de consumo de energia de cada morador. Facilidade para a administração do condomínio realizar o rateio justo nas despesas mensais.
+          </p>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="bg-white/[0.02] border border-white/5 p-8 rounded-3xl hover:border-brand-green/20 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-brand-green/10 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-3">Gerenciamento de Carga (OCPP)</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Evite sobrecargas na rede do edifício. O balanceamento de carga local (Smart Charging) distribui a energia disponível de forma dinâmica e inteligente entre os veículos conectados.
+          </p>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="bg-white/[0.02] border border-white/5 p-8 rounded-3xl hover:border-brand-green/20 transition-all duration-300">
+          <div class="w-12 h-12 rounded-2xl bg-brand-green/10 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-3">Laudos de Viabilidade & ART</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Projetos acompanhados por engenharia certificada. Oferecemos estudo preliminar de capacidade elétrica do transformador, projeto executivo detalhado e entrega da Anotação de Responsabilidade Técnica (ART).
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFÓLIO DE CONDOMÍNIOS -->
+  <section class="py-16 px-6 bg-brand-bg relative z-10 border-t border-white/5">
+    <div class="max-w-[1200px] mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green/60 block mb-2">Casos de Sucesso</span>
+        <h2 class="text-3xl font-extrabold text-white">Nossas Instalações em Condomínios</h2>
+        <p class="text-sm text-brand-muted mt-3">Confira alguns dos projetos executados e homologados pela VoltchZ na região.</p>
+      </div>
+
+      <!-- Grid de Projetos -->
+      <div id="condominios-grid-page" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injetado via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA ÁREA -->
+  <section class="relative bg-brand-bg3 py-20 px-6 border-t border-white/5 overflow-hidden z-10">
+    <div class="max-w-[800px] mx-auto text-center relative z-10">
+      <h2 class="text-3xl font-extrabold tracking-tight mb-6">
+        Quer viabilizar a recarga no seu condomínio?
+      </h2>
+      <p class="text-brand-muted text-base leading-relaxed mb-8 font-normal">
+        Nossa equipe realiza o estudo de viabilidade técnica gratuito para avaliar o transformador e apresentar o projeto adequado para a assembleia dos moradores.
+      </p>
+      <a href="<?php echo htmlspecialchars(get_config('whatsapp_link', 'https://wa.me/5512981039845?text=Ola!%20Gostaria%20de%20um%20projeto%20de%20carregamento%20para%20meu%20condominio.')); ?>" target="_blank" rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-brand-green text-brand-bg font-extrabold px-8 py-4 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
+        Agendar Estudo de Viabilidade
+      </a>
+    </div>
+  </section>
+
+<?php
+$raw_images = array_merge(
+    glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: [],
+    glob('static/uploads/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: []
+);
+$existing_images = array_map(function($path) {
+    return str_replace('\\', '/', $path);
+}, $raw_images);
+?>
+
+<script>
+    const EXISTING_IMAGES = <?php echo json_encode($existing_images); ?>;
+    const DB_PORTFOLIO = <?php echo json_encode(get_portfolio_items()); ?>;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("condominios-grid-page");
+        if (!grid) return;
+
+        const portfolioData = DB_PORTFOLIO.map(item => ({
+            tipo: item.tipo || (item.brand === 'condominio' ? 'condominio' : 'veiculo'),
+            brand: item.brand,
+            model: item.model,
+            location: item.location,
+            desc: item.description,
+            image: item.image
+        }));
+
+        const filtered = portfolioData.filter(item => {
+            return item.tipo === 'condominio' && item.image;
+        });
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-16 bg-white/[0.02] border border-white/5 border-dashed rounded-3xl">
+                    <p class="text-brand-muted text-sm italic">Nenhum projeto de condomínio cadastrado no momento.</p>
+                </div>
+            `;
+            return;
+        }
+
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
+            
+            const imgs = item.image.split(',').map(s => s.trim()).filter(Boolean);
+            const hasMultiple = imgs.length > 1;
+            const firstImg = imgs[0] || '';
+
+            let imageHtml = '';
+            if (hasMultiple) {
+                imageHtml = `
+                <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 group/carousel">
+                    <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
+                        ${imgs.map((src, i) => `
+                            <div class="w-full h-full flex-shrink-0 cursor-pointer relative" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${src}' } }))">
+                                <img src="${src}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model} - Foto ${i+1}" class="w-full h-full object-cover">
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg>
+                    </button>
+                    <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
+                    </button>
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/30 px-2 py-1 rounded-full backdrop-blur-md border border-white/5">
+                        ${imgs.map((_, i) => `
+                            <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 transition-all ${i === 0 ? 'bg-brand-green w-3' : ''}"></span>
+                        `).join('')}
+                    </div>
+                </div>
+                `;
+            } else {
+                imageHtml = `
+                <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${firstImg}' } }))">
+                    <img src="${firstImg}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
+                    </div>
+                </div>
+                `;
+            }
+
+            card.innerHTML = `
+                ${imageHtml}
+                <div class="flex-grow flex flex-col">
+                    <div class="flex items-center justify-between gap-4 mb-2">
+                        <span class="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-brand-green">CONDOMÍNIO</span>
+                        <span class="text-[9px] font-mono text-white/45 truncate max-w-[150px]">${item.location.split(',')[0]}</span>
+                    </div>
+                    <h3 class="text-base font-bold text-white mb-2 leading-snug group-hover:text-brand-green transition-colors">${item.model}</h3>
+                    <p class="text-brand-muted text-[12px] leading-relaxed mb-2 flex-grow">${item.desc}</p>
+                    <div class="text-[10px] text-white/40 flex items-center gap-1.5 mt-auto pt-2 border-t border-white/5">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                        <span class="truncate">${item.location}</span>
+                    </div>
+                </div>
+            `;
+
+            grid.appendChild(card);
+
+            if (hasMultiple) {
+                let activeIdx = 0;
+                const container = card.querySelector('.carousel-images-container');
+                const indicators = card.querySelectorAll('.carousel-indicator');
+                const prevBtn = card.querySelector('.carousel-prev-btn');
+                const nextBtn = card.querySelector('.carousel-next-btn');
+
+                const updateCarousel = () => {
+                    container.style.transform = `translateX(-${activeIdx * 100}%)`;
+                    indicators.forEach((ind, i) => {
+                        if (i === activeIdx) {
+                            ind.classList.add('bg-brand-green', 'w-3');
+                            ind.classList.remove('bg-white/40');
+                        } else {
+                            ind.classList.remove('bg-brand-green', 'w-3');
+                            ind.classList.add('bg-white/40');
+                        }
+                    });
+                };
+
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    activeIdx = (activeIdx === 0) ? imgs.length - 1 : activeIdx - 1;
+                    updateCarousel();
+                });
+
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    activeIdx = (activeIdx === imgs.length - 1) ? 0 : activeIdx + 1;
+                    updateCarousel();
+                });
+            }
+        });
+    });
+</script>
+
+<?php
+include "includes/footer.php";
+?>

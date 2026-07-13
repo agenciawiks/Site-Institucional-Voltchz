@@ -26,6 +26,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
+// Ação de Atualização de Ordenação via AJAX
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_sort_order') {
+    header('Content-Type: application/json');
+    $ids = $_POST['ids'] ?? [];
+    if (is_array($ids)) {
+        try {
+            $db->beginTransaction();
+            $stmt = $db->prepare("UPDATE produtos SET sort_order = ? WHERE id = ?");
+            foreach ($ids as $index => $id) {
+                $stmt->execute([$index + 1, $id]);
+            }
+            $db->commit();
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            $db->rollBack();
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'IDs inválidos.']);
+    }
+    exit;
+}
+
 // Filtros e Busca
 $busca = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
 $filtro_cat = filter_input(INPUT_GET, 'categoria', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'todos';
@@ -136,8 +159,9 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
             <table class="w-full text-left text-sm text-brand-muted">
                 <thead>
                     <tr class="border-b border-white/5 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-bg/30">
-                        <th class="py-3 px-4 rounded-l-xl">Produto</th>
-                        <th class="py-3 px-4">Ordem</th>
+                        <th class="py-3 px-2 rounded-l-xl w-12 text-center">Ordem</th>
+                        <th class="py-3 px-4">Produto</th>
+                        <th class="py-3 px-4">Posição</th>
                         <th class="py-3 px-4">Marca</th>
                         <th class="py-3 px-4">Categoria</th>
                         <th class="py-3 px-4">Parâmetros Rápidos</th>
@@ -148,7 +172,10 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                     <?php foreach ($produtos as $prod): 
                         $img = !empty($prod['imagem']) ? '../' . $prod['imagem'] : '';
                     ?>
-                        <tr class="hover:bg-white/[0.01] transition-colors">
+                        <tr draggable="true" data-id="<?php echo $prod['id']; ?>" class="hover:bg-white/[0.01] transition-colors cursor-default select-none">
+                            <td class="py-4 px-2 text-center drag-handle cursor-grab active:cursor-grabbing text-brand-muted/40 hover:text-white">
+                                <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"></path></svg>
+                            </td>
                             <td class="py-4 px-4 font-semibold text-white flex items-center gap-3">
                                 <?php if (!empty($prod['imagem'])): ?>
                                     <div class="w-10 h-10 rounded-lg bg-brand-bg3 border border-white/5 overflow-hidden shrink-0 flex items-center justify-center">
@@ -164,7 +191,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                                     <span class="block text-[11px] font-mono text-brand-muted/80">/<?php echo htmlspecialchars($prod['slug']); ?></span>
                                 </div>
                             </td>
-                            <td class="py-4 px-4 text-xs font-mono font-bold text-brand-green">
+                            <td class="py-4 px-4 text-xs font-mono font-bold text-brand-green sort-order-cell">
                                 <?php echo htmlspecialchars($prod['sort_order'] ?? 0); ?>
                             </td>
                             <td class="py-4 px-4 text-xs font-medium">
@@ -205,6 +232,65 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+    const tbody = document.querySelector('tbody');
+    let dragEl;
+
+    tbody.addEventListener('dragstart', (e) => {
+        // Apenas permite drag se clicou ou arrastou o handle
+        if (!e.target.closest('.drag-handle')) {
+            e.preventDefault();
+            return;
+        }
+        dragEl = e.target.closest('tr');
+        e.dataTransfer.effectAllowed = 'move';
+        dragEl.classList.add('opacity-40');
+    });
+
+    tbody.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const targetRow = e.target.closest('tr');
+        if (targetRow && targetRow !== dragEl) {
+            const rect = targetRow.getBoundingClientRect();
+            const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+            tbody.insertBefore(dragEl, next ? targetRow.nextSibling : targetRow);
+        }
+    });
+
+    tbody.addEventListener('dragend', () => {
+        if (!dragEl) return;
+        dragEl.classList.remove('opacity-40');
+        
+        // Coleta nova ordem
+        const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
+        const ids = rows.map(row => row.getAttribute('data-id'));
+
+        // Envia via AJAX
+        const formData = new FormData();
+        formData.append('action', 'update_sort_order');
+        ids.forEach(id => formData.append('ids[]', id));
+
+        fetch('produtos.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Atualiza visualmente o número da ordem na tabela
+                rows.forEach((row, index) => {
+                    row.querySelector('.sort-order-cell').textContent = index + 1;
+                });
+            } else {
+                alert(data.message || 'Erro ao atualizar a ordenação.');
+            }
+        })
+        .catch(() => {
+            alert('Erro de comunicação com o servidor.');
+        });
+    });
+</script>
 
 <?php 
 admin_footer();
