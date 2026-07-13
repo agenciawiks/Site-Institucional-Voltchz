@@ -918,6 +918,278 @@ include "includes/header.php";
     </div>
   </section>
 
+  <!-- ──────────────────────────────────────────
+       SECTION 6.1: SMART CHARGING & LOAD BALANCING (DARK)
+  ────────────────────────────────────────── -->
+  <section id="smart-charging" class="relative overflow-hidden bg-brand-bg py-20 px-6 border-t border-white/5">
+    <div class="absolute inset-0 opacity-10">
+      <div class="orb w-[500px] h-[500px] -top-30 -left-30 bg-brand-green/20"></div>
+    </div>
+    <div class="container-wide relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="observe">
+          <span class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-6">
+            Gestão Inteligente de Energia
+          </span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+            Smart Charging &<br>
+            <span class="text-brand-green">Balanceamento Dinâmico de Carga</span>
+          </h2>
+          <p class="text-brand-muted text-base sm:text-lg leading-relaxed mb-8">
+            Evite sobrecargas e economize na conta de energia. Nosso sistema de Smart Charging faz o gerenciamento dinâmico inteligente, distribuindo a potência elétrica disponível em tempo real entre os veículos conectados.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-base mb-1">Balanceamento Dinâmico de Carga</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">
+                  Ajusta automaticamente a potência das recargas conforme o consumo geral do local, mantendo a instalação elétrica segura e estável.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-base mb-1">Integração com Geração Renovável</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">
+                  Aproveite ao máximo a energia solar produzida no local para carregar os veículos, gerando mais economia e sustentabilidade real.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-base mb-1">Experiência de Carregamento Estável</h4>
+                <p class="text-brand-muted text-sm leading-relaxed">
+                  Sem picos indesejados ou desligamento forçado do disjuntor geral do condomínio ou da sua empresa.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Load Balancing Diagram Placeholder/Render -->
+        <div class="relative bg-white/[0.02] border border-white/5 p-8 rounded-[32px] overflow-hidden observe">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-brand-green/10 rounded-full blur-2xl"></div>
+          <h4 class="text-white font-bold text-lg mb-6 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-green animate-pulse"></span>
+            Simulação de Carga Dinâmica
+          </h4>
+          
+          <div class="space-y-6">
+            <div>
+              <div class="flex justify-between text-xs text-brand-muted mb-2">
+                <span>Capacidade Geral do Prédio</span>
+                <span class="text-white font-mono">150 kW</span>
+              </div>
+              <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+                <div class="h-full bg-brand-green rounded-full" style="width: 75%;"></div>
+              </div>
+            </div>
+
+            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+              <div class="flex justify-between text-xs text-white font-bold mb-1">
+                <span>Carregador 01 (BYD Dolphin)</span>
+                <span class="text-brand-green font-mono">7.4 kW (Ativo)</span>
+              </div>
+              <p class="text-[11px] text-brand-muted leading-relaxed">Potência máxima alocada. Sem conflito de rede.</p>
+            </div>
+
+            <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
+              <div class="flex justify-between text-xs text-white font-bold mb-1">
+                <span>Carregador 02 (GWM Ora 03)</span>
+                <span class="text-brand-green font-mono">7.4 kW (Ativo)</span>
+              </div>
+              <p class="text-[11px] text-brand-muted leading-relaxed">Demanda monitorada e estabilizada de forma automática.</p>
+            </div>
+
+            <div class="p-4 bg-brand-green/5 rounded-2xl border border-brand-green/10">
+              <div class="flex justify-between text-xs text-white font-bold mb-1">
+                <span>Carregador 03 (Volvo EX30)</span>
+                <span class="text-orange-400 font-mono">4.2 kW (Limitado Temporariamente)</span>
+              </div>
+              <p class="text-[11px] text-brand-muted leading-relaxed">Limitado dinamicamente para não ultrapassar a potência limite de segurança da instalação.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       SECTION 6.2: VOLTCHZ SMARTER (LIGHT)
+  ────────────────────────────────────────── -->
+  <section id="smarter" class="relative overflow-hidden bg-[#f5f5f7] py-20 px-6 border-t border-white/5">
+    <div class="container-wide relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Smart hardware rendering mock -->
+        <div class="relative bg-white border border-slate-200 p-8 rounded-[32px] shadow-xl flex flex-col items-center justify-center observe">
+          <div class="w-32 h-32 rounded-3xl bg-[#0a0a0f] flex items-center justify-center shadow-lg relative mb-6">
+            <span class="text-white font-bold tracking-widest text-lg">VoltchZ</span>
+            <span class="absolute bottom-2 text-brand-green text-[9px] font-mono uppercase tracking-widest">SMARTER</span>
+          </div>
+          <div class="text-center max-w-sm">
+            <h4 class="text-slate-800 font-black text-xl mb-2">VoltchZ Smarter</h4>
+            <p class="text-slate-500 text-xs leading-relaxed">
+              O "Chromecast dos Carregadores". Um dispositivo versátil projetado para habilitar funções inteligentes em carregadores analógicos comuns.
+            </p>
+          </div>
+          <div class="grid grid-cols-3 gap-3 w-full mt-8">
+            <div class="p-3 bg-slate-50 rounded-xl text-center border border-slate-100">
+              <div class="text-slate-800 font-bold text-xs">Conexão</div>
+              <p class="text-slate-400 text-[10px]">Wi-Fi / 4G</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl text-center border border-slate-100">
+              <div class="text-slate-800 font-bold text-xs">Instalação</div>
+              <p class="text-slate-400 text-[10px]">Plug & Play</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl text-center border border-slate-100">
+              <div class="text-slate-800 font-bold text-xs">Suporte</div>
+              <p class="text-slate-400 text-[10px]">Universal</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="observe">
+          <span class="inline-block px-4 py-1.5 rounded-full border border-slate-300 bg-slate-100 text-[11px] text-slate-700 font-bold tracking-widest uppercase font-mono mb-6">
+            Hardware Opcional Inteligente
+          </span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0a0a0f] tracking-tight leading-tight mb-6">
+            VoltchZ Smarter:<br>
+            <span class="text-brand-green">O Chromecast dos Carregadores</span>
+          </h2>
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
+            Possui um carregador de outra marca ou analógico que não tem conectividade? O **VoltchZ Smarter** transforma carregadores comuns em equipamentos conectados à internet e controláveis pelo App.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-2">
+              <span class="font-bold text-slate-800 text-sm">Habilita Funções Inteligentes</span>
+              <p class="text-slate-500 text-xs leading-relaxed">Transforma carregadores comuns em carregadores conectados em minutos.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <span class="font-bold text-slate-800 text-sm">Coleta de Dados Precisa</span>
+              <p class="text-slate-500 text-xs leading-relaxed">Coleta dados em tempo real para monitorar o consumo, potência e histórico de carga.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <span class="font-bold text-slate-800 text-sm">Compatibilidade Garantida</span>
+              <p class="text-slate-500 text-xs leading-relaxed">Funciona com praticamente qualquer carregador do mercado nacional ou importado.</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <span class="font-bold text-slate-800 text-sm">Controle no App</span>
+              <p class="text-slate-500 text-xs leading-relaxed">Gerencie e inicie a recarga do seu carregador antigo pelo celular.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────
+       SECTION 6.3: PLATAFORMA DE GESTÃO WEB (DARK)
+  ────────────────────────────────────────── -->
+  <section id="plataforma-gestao" class="relative overflow-hidden bg-brand-bg3 py-20 px-6 border-t border-white/5">
+    <div class="container-wide relative z-10">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16 observe">
+        <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green/60 block mb-2">Painel Administrativo Completo</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Plataforma VoltchZ de Gestão Corporativa</h2>
+        <p class="text-sm text-brand-muted mt-3">Para condomínios, construtoras, frotas e comércios. Monitore, monetize e gerencie tudo a partir de um único painel web.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Card 1: Controle total -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="18" cy="18" r="3"/><path d="M20 20l2 2"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">Controle Total dos Equipamentos</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Monitore e gerencie remotamente os carregadores conectados à sua rede, garantindo segurança e eficiência na operação.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Gestao financeira -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><line x1="12" y1="4" x2="12" y2="20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">Gestão Financeira Completa</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Monetize e acompanhe todas as transações realizadas nas estações de recarga, com split de pagamentos e repasses automáticos aos parceiros.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Suporte dedicado -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">Suporte Dedicado</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Conte com nossa equipe especializada para monitorar anomalias, resolver dúvidas e atender aos usuários do eletroposto.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: White Label -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">White Label</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Personalize a plataforma com a identidade visual da sua construtora ou condomínio, alinhando a solução aos objetivos específicos do seu negócio.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 5: Balanceamento de carga -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">Controle de Balanceamento</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Habilite regras para que o sistema jamais ultrapasse os limites estabelecidos de potência elétrica instalada do condomínio.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 6: Comunicacao direta -->
+        <div class="bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-3xl p-6 transition-all duration-300 flex flex-col gap-4 observe-stagger">
+          <div class="w-10 h-10 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div>
+            <h4 class="text-white font-bold text-base mb-1">Comunicação Direta com Usuários</h4>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              Envie notificações push, alertas importantes ou habilite vouchers de desconto aos motoristas diretamente pela plataforma VoltchZ.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- ──────────────────────────────────────────
        SECTION 7: FLUXO DE USO (DARK)
