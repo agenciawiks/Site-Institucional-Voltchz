@@ -197,7 +197,7 @@ function admin_header($title = "Painel Administrativo", $active_menu = "dashboar
 
         <!-- MAIN MAIN -->
         <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-brand-bg">
-            <div class="max-w-6xl mx-auto space-y-8">
+            <div class="max-w-[1300px] mx-auto space-y-8">
 <?php
 }
 

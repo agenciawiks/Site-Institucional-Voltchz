@@ -156,7 +156,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
         </div>
     <?php else: ?>
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm text-brand-muted">
+            <table class="w-full min-w-[1000px] text-left text-sm text-brand-muted">
                 <thead>
                     <tr class="border-b border-white/5 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-bg/30">
                         <th class="py-3 px-2 rounded-l-xl w-12 text-center">Ordem</th>
@@ -172,23 +172,25 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                     <?php foreach ($produtos as $prod): 
                         $img = !empty($prod['imagem']) ? '../' . $prod['imagem'] : '';
                     ?>
-                        <tr draggable="true" data-id="<?php echo $prod['id']; ?>" class="hover:bg-white/[0.01] transition-colors cursor-default select-none">
+                        <tr data-id="<?php echo $prod['id']; ?>" class="hover:bg-white/[0.01] transition-colors cursor-default select-none">
                             <td class="py-4 px-2 text-center drag-handle cursor-grab active:cursor-grabbing text-brand-muted/40 hover:text-white">
                                 <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"></path></svg>
                             </td>
-                            <td class="py-4 px-4 font-semibold text-white flex items-center gap-3">
-                                <?php if (!empty($prod['imagem'])): ?>
-                                    <div class="w-10 h-10 rounded-lg bg-brand-bg3 border border-white/5 overflow-hidden shrink-0 flex items-center justify-center">
-                                        <img src="<?php echo htmlspecialchars($img); ?>" alt="" class="w-full h-full object-cover">
+                            <td class="py-4 px-4 font-semibold text-white">
+                                <div class="flex items-center gap-3">
+                                    <?php if (!empty($prod['imagem'])): ?>
+                                        <div class="w-10 h-10 rounded-lg bg-brand-bg3 border border-white/5 overflow-hidden shrink-0 flex items-center justify-center">
+                                            <img src="<?php echo htmlspecialchars($img); ?>" alt="" class="w-full h-full object-cover">
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="w-10 h-10 rounded-lg bg-brand-green/10 border border-brand-green/20 text-brand-green flex items-center justify-center shrink-0 font-mono text-xs font-bold">
+                                            ⚡
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="min-w-0">
+                                        <span class="block truncate font-bold text-white"><?php echo htmlspecialchars($prod['nome']); ?></span>
+                                        <span class="block text-[11px] font-mono text-brand-muted/80">/<?php echo htmlspecialchars($prod['slug']); ?></span>
                                     </div>
-                                <?php else: ?>
-                                    <div class="w-10 h-10 rounded-lg bg-brand-green/10 border border-brand-green/20 text-brand-green flex items-center justify-center shrink-0 font-mono text-xs font-bold">
-                                        ⚡
-                                    </div>
-                                <?php endif; ?>
-                                <div class="min-w-0">
-                                    <span class="block truncate font-bold text-white"><?php echo htmlspecialchars($prod['nome']); ?></span>
-                                    <span class="block text-[11px] font-mono text-brand-muted/80">/<?php echo htmlspecialchars($prod['slug']); ?></span>
                                 </div>
                             </td>
                             <td class="py-4 px-4 text-xs font-mono font-bold text-brand-green sort-order-cell">
@@ -210,7 +212,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                                     <div class="text-[11px]"><strong class="text-white">Tensão:</strong> <?php echo htmlspecialchars($prod['tensao']); ?></div>
                                 <?php endif; ?>
                             </td>
-                            <td class="py-4 px-4 text-right">
+                            <td class="py-4 px-4 text-right whitespace-nowrap">
                                 <div class="flex justify-end items-center gap-2">
                                     <a href="produto-form.php?id=<?php echo $prod['id']; ?>" class="p-2 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:text-white text-brand-muted transition-all" title="Editar">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg>
@@ -237,8 +239,27 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
     const tbody = document.querySelector('tbody');
     let dragEl;
 
+    // Habilita arrastar somente quando o clique inicial for no drag-handle
+    tbody.addEventListener('mousedown', (e) => {
+        const handle = e.target.closest('.drag-handle');
+        if (handle) {
+            const tr = handle.closest('tr');
+            if (tr) {
+                tr.setAttribute('draggable', 'true');
+            }
+        }
+    });
+
+    // Desabilita arrastar se o mouse subir sem arrastar
+    tbody.addEventListener('mouseup', (e) => {
+        const tr = e.target.closest('tr');
+        if (tr) {
+            tr.removeAttribute('draggable');
+        }
+    });
+
     tbody.addEventListener('dragstart', (e) => {
-        // Apenas permite drag se clicou ou arrastou o handle
+        // Se por algum motivo o dragstart disparar sem o atributo draggable (ou fora do handle), cancela
         if (!e.target.closest('.drag-handle')) {
             e.preventDefault();
             return;
@@ -261,6 +282,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
     tbody.addEventListener('dragend', () => {
         if (!dragEl) return;
         dragEl.classList.remove('opacity-40');
+        dragEl.removeAttribute('draggable'); // Garante que o tr não continue draggable após soltar
         
         // Coleta nova ordem
         const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
