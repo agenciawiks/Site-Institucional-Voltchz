@@ -172,7 +172,7 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
                     <?php foreach ($produtos as $prod): 
                         $img = !empty($prod['imagem']) ? '../' . $prod['imagem'] : '';
                     ?>
-                        <tr data-id="<?php echo $prod['id']; ?>" class="hover:bg-white/[0.01] transition-colors cursor-default select-none">
+                        <tr draggable="true" data-id="<?php echo $prod['id']; ?>" class="hover:bg-white/[0.01] transition-colors cursor-default select-none">
                             <td class="py-4 px-2 text-center drag-handle cursor-grab active:cursor-grabbing text-brand-muted/40 hover:text-white">
                                 <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"></path></svg>
                             </td>
@@ -238,29 +238,20 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
 <script>
     const tbody = document.querySelector('tbody');
     let dragEl;
+    let dragInitiatedFromHandle = false;
 
-    // Habilita arrastar somente quando o clique inicial for no drag-handle
+    // Detecta se o clique inicial para arrastar ocorreu no handle
     tbody.addEventListener('mousedown', (e) => {
-        const handle = e.target.closest('.drag-handle');
-        if (handle) {
-            const tr = handle.closest('tr');
-            if (tr) {
-                tr.setAttribute('draggable', 'true');
-            }
-        }
-    });
-
-    // Desabilita arrastar se o mouse subir sem arrastar
-    tbody.addEventListener('mouseup', (e) => {
-        const tr = e.target.closest('tr');
-        if (tr) {
-            tr.removeAttribute('draggable');
+        if (e.target.closest('.drag-handle')) {
+            dragInitiatedFromHandle = true;
+        } else {
+            dragInitiatedFromHandle = false;
         }
     });
 
     tbody.addEventListener('dragstart', (e) => {
-        // Se por algum motivo o dragstart disparar sem o atributo draggable (ou fora do handle), cancela
-        if (!e.target.closest('.drag-handle')) {
+        // Se o arrasto não começou pelo handle, impede a ação
+        if (!dragInitiatedFromHandle) {
             e.preventDefault();
             return;
         }
@@ -280,9 +271,9 @@ admin_header("Gerenciar Catálogo de Produtos", "produtos");
     });
 
     tbody.addEventListener('dragend', () => {
+        dragInitiatedFromHandle = false;
         if (!dragEl) return;
         dragEl.classList.remove('opacity-40');
-        dragEl.removeAttribute('draggable'); // Garante que o tr não continue draggable após soltar
         
         // Coleta nova ordem
         const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
