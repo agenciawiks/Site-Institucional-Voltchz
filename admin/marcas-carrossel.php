@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Gerenciamento de Logomarcas do Carrossel (Portfólio)
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $success_message = '';
@@ -54,10 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } elseif ($file['size'] > 2 * 1024 * 1024) {
                 $error_message = "O arquivo de logo excede o limite máximo de 2MB.";
             } else {
-                $upload_dir = __DIR__ . '/../static/uploads/marcas/';
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0755, true);
-                }
+                $upload_dir = uploads_persistent_subdir('marcas');
 
                 $new_filename = 'logo_' . $slug . '_' . time() . '.' . $extension;
                 $dest_path = $upload_dir . $new_filename;
@@ -95,13 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if ($m['slug'] === $slug_to_delete) {
                 $found = true;
                 // Se o arquivo estiver em uploads, deleta fisicamente
-                $arquivo = $m['arquivo'];
-                if (strpos($arquivo, 'static/uploads/') === 0) {
-                    $physical_path = __DIR__ . '/../' . $arquivo;
-                    if (file_exists($physical_path)) {
-                        @unlink($physical_path);
-                    }
-                }
+                uploads_delete($m['arquivo']);
             } else {
                 $updated_list[] = $m;
             }

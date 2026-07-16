@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Upload Seguro de Arquivos de Imagem
  */
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../includes/uploads.php';
 
 // Garantir que a sessão esteja ativa e o usuário esteja logado
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -50,10 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sub_dir = $type . 's/';
     }
 
-    $upload_dir = __DIR__ . '/../static/uploads/' . $sub_dir;
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0755, true);
-    }
+    $upload_dir = uploads_persistent_subdir($sub_dir);
 
     // Nome único para evitar conflito de arquivos com o mesmo nome
     $safe_name = preg_replace('/[^a-z0-9]/', '', strtolower(trim($file_info['filename'])));
@@ -69,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } else {
         header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'message' => 'Erro ao salvar o arquivo. Verifique as permissões da pasta static/uploads.']);
+        echo json_encode(['success' => false, 'message' => 'Erro ao salvar o arquivo. Verifique as permissões da pasta de uploads persistente.']);
         exit;
     }
 }

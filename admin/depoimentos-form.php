@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Cadastrar / Editar Depoimento
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -52,8 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             if ($is_edit) {
+                $old_image_avatar = $depoimento['image_avatar'] ?? '';
+
                 $stmtUp = $db->prepare("UPDATE depoimentos SET name = ?, role_condo = ?, testimonial = ?, image_avatar = ?, active = ? WHERE id = ?");
                 $stmtUp->execute([$name, $role_condo, $testimonial, $image_avatar ?: null, $active, $depoimento_id]);
+
+                // Remove fisicamente o avatar antigo se ele foi trocado/removido
+                if (!empty($old_image_avatar) && $old_image_avatar !== $image_avatar) {
+                    uploads_delete($old_image_avatar);
+                }
             } else {
                 $stmtIn = $db->prepare("INSERT INTO depoimentos (name, role_condo, testimonial, image_avatar, active) VALUES (?, ?, ?, ?, ?)");
                 $stmtIn->execute([$name, $role_condo, $testimonial, $image_avatar ?: null, $active]);

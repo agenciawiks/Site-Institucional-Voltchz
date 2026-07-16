@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Cadastrar / Editar Item do Portfólio
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -73,8 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             if ($is_edit) {
+                $old_images = array_filter(array_map('trim', explode(',', $portfolio['image'] ?? '')));
+
                 $stmtUp = $db->prepare("UPDATE portfolio SET tipo = ?, brand = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
                 $stmtUp->execute([$tipo, $brand, $model, $location, $description, $image, $portfolio_id]);
+
+                // Remove fisicamente as imagens antigas que saíram da lista (trocadas ou removidas)
+                $new_images = array_filter(array_map('trim', explode(',', $image)));
+                foreach (array_diff($old_images, $new_images) as $removed_image) {
+                    uploads_delete($removed_image);
+                }
             } else {
                 $stmtIn = $db->prepare("INSERT INTO portfolio (tipo, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmtIn->execute([$tipo, $brand, $model, $location, $description, $image]);

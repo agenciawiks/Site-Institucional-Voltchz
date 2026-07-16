@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Escrever / Editar Artigo do Blog
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -122,9 +123,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($is_edit) {
+                $old_imagem = $artigo['imagem'] ?? '';
+
                 $stmtUp = $db->prepare("UPDATE artigos SET slug = ?, titulo = ?, categoria = ?, resumo = ?, autor = ?, cargo = ?, data_publicacao = ?, tempo_leitura = ?, svg_metadata_category = ?, svg_metadata_title = ?, svg_metadata_subtitle = ?, imagem = ? WHERE id = ?");
                 $stmtUp->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle, $imagem, $artigo_id]);
                 $artId = $artigo_id;
+
+                // Remove fisicamente a imagem de capa antiga se ela foi trocada/removida
+                if (!empty($old_imagem) && $old_imagem !== $imagem) {
+                    uploads_delete($old_imagem);
+                }
             } else {
                 $stmtIn = $db->prepare("INSERT INTO artigos (slug, titulo, categoria, resumo, autor, cargo, data_publicacao, tempo_leitura, svg_metadata_category, svg_metadata_title, svg_metadata_subtitle, imagem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmtIn->execute([$slug, $titulo, $categoria, $resumo, $autor, $cargo, $data_publicacao, $tempo_leitura, $svg_metadata_category, $svg_metadata_title, $svg_metadata_subtitle, $imagem]);

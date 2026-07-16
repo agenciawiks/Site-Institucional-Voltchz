@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Cadastrar / Editar Produto
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -102,10 +103,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($is_edit) {
+                $old_imagem = $produto['imagem'] ?? '';
+
                 // UPDATE do Produto
                 $stmtUp = $db->prepare("UPDATE produtos SET slug = ?, nome = ?, marca_id = ?, categoria_id = ?, potencia = ?, tensao = ?, aplicacao = ?, tipo = ?, resumo = ?, descricao = ?, imagem = ?, sort_order = ? WHERE id = ?");
                 $stmtUp->execute([$slug, $nome, $marca_id, $categoria_id, $potencia, $tensao, $aplicacao, $tipo, $resumo, $descricao, $imagem, $sort_order, $product_id]);
                 $prodId = $product_id;
+
+                // Remove fisicamente a imagem antiga se ela foi trocada/removida
+                if ($old_imagem !== '' && $old_imagem !== $imagem) {
+                    uploads_delete($old_imagem);
+                }
             } else {
                 // INSERT do Produto
                 $stmtIn = $db->prepare("INSERT INTO produtos (slug, nome, marca_id, categoria_id, potencia, tensao, aplicacao, tipo, resumo, descricao, imagem, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

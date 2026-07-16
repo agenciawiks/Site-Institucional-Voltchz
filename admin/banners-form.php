@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Cadastrar / Editar Banner da Home
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -56,8 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             if ($is_edit) {
+                $old_image = $banner['image'] ?? '';
+
                 $stmtUp = $db->prepare("UPDATE banners SET image = ?, title = ?, subtitle = ?, button_text = ?, button_link = ?, sort_order = ?, active = ? WHERE id = ?");
                 $stmtUp->execute([$image, $title, $subtitle, $button_text, $button_link, $sort_order, $active, $banner_id]);
+
+                // Remove fisicamente a imagem antiga se ela foi trocada/removida
+                if ($old_image !== '' && $old_image !== $image) {
+                    uploads_delete($old_image);
+                }
             } else {
                 $stmtIn = $db->prepare("INSERT INTO banners (image, title, subtitle, button_text, button_link, sort_order, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmtIn->execute([$image, $title, $subtitle, $button_text, $button_link, $sort_order, $active]);

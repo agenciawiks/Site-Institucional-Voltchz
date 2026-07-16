@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Gerenciamento de Depoimentos de Clientes
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -25,11 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $stmt->execute([$depoimento_id]);
 
             // Se for arquivo em static/uploads/, deleta fisicamente
-            if (!empty($avatar_image) && strpos($avatar_image, 'static/uploads/') === 0) {
-                $physical_path = __DIR__ . '/../' . $avatar_image;
-                if (file_exists($physical_path)) {
-                    @unlink($physical_path);
-                }
+            if (!empty($avatar_image)) {
+                uploads_delete($avatar_image);
             }
 
             $success_message = "Depoimento excluído com sucesso.";

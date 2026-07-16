@@ -3,6 +3,7 @@
  * VoltchZ Brasil - Gerenciamento de Portfólio (Instalações Reais)
  */
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/uploads.php';
 require_once __DIR__ . '/layout.php';
 
 $db = get_db_connection();
@@ -25,11 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $stmt->execute([$portfolio_id]);
 
             // Se for arquivo em static/uploads/, deleta fisicamente para economizar espaço
-            if (!empty($image_path) && strpos($image_path, 'static/uploads/') === 0) {
-                $physical_path = __DIR__ . '/../' . $image_path;
-                if (file_exists($physical_path)) {
-                    @unlink($physical_path);
-                }
+            if (!empty($image_path)) {
+                uploads_delete($image_path);
             }
 
             $success_message = "Item do portfólio excluído com sucesso.";

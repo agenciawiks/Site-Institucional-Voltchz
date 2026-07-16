@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Se o arquivo pedido não existir fisicamente aqui (ou seja, não está versionado
+# no Git), busca no armazenamento persistente fora do public_html via serve-upload.php.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ /static/serve-upload.php?f=$1 [L,QSA]
