@@ -188,7 +188,7 @@ export const initStatsCarousel = () => {
         left: currentActive * width,
         behavior: 'smooth'
       });
-    }, 3500); // Roda a cada 3.5 segundos
+    }, 2500); // Roda a cada 2.5 segundos
   };
 
   const stopAutoplay = () => {
