@@ -67,23 +67,25 @@ include "includes/header.php";
                         <?php endif; ?>
                     </div>
 
-                        <!-- Stats -->
-                        <div class="stats-container w-full max-w-[620px] mx-auto observe">
-                            <div class="stats-grid w-full flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory scrollbar-hide bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md" style="touch-action: pan-y;">
-                                <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
-                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
-                                </div>
-                                <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
-                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
-                                </div>
-                                <div class="w-full flex-shrink-0 snap-center p-6 text-center sm:w-auto sm:flex-shrink">
-                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                        <?php if ($index === 0): ?>
+                            <!-- Stats -->
+                            <div class="stats-container w-full max-w-[620px] mx-auto observe">
+                                <div class="stats-grid w-full flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory scrollbar-hide bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md" style="touch-action: pan-y;">
+                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
+                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
+                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
+                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
+                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center sm:w-auto sm:flex-shrink">
+                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
+                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>

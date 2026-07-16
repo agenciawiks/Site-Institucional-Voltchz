@@ -307,10 +307,14 @@ include "includes/header.php";
           }
 
           foreach ($portfolio_items as $item): 
-            $tipo = strtolower($item['tipo'] ?? 'veiculo');
+            $tipo = trim($item['tipo'] ?? '');
+            if ($tipo === '') {
+                $tipo = 'veiculo';
+            }
+            $tipo = strtolower($tipo);
             if ($tipo !== 'veiculo') continue;
 
-            $imgs = array_filter(array_map('trim', explode(',', $item['image'])));
+            $imgs = array_filter(array_map('trim', explode(',', $item['image'] ?? '')));
             $hasMultiple = count($imgs) > 1;
             $firstImg = reset($imgs) ?: '';
             $brand = strtolower($item['brand']);
