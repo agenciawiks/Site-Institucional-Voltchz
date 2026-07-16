@@ -40,18 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     quickLeadForm.addEventListener('submit', (e) => handleLeadSubmission(e, 'whatsapp'));
   }
 
-  // 4. Logos de Clientes (Injeção dinâmica)
-  const logosContainer = $('#logos-container');
-  if (logosContainer) {
-    CONFIG.ASSETS.LOGOS.forEach((src, idx) => {
-      const card = document.createElement('div');
-      card.className = 'logo-card';
-      card.innerHTML = `
-        <img src="${src}" alt="Logo Cliente ${idx + 1}" loading="lazy" decoding="async" class="w-auto object-contain">
-      `;
-      logosContainer.appendChild(card);
-    });
-  }
+
 
   console.log('VoltchZ: Sistema inicializado com sucesso.');
 });

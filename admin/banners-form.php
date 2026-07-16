@@ -184,7 +184,7 @@ admin_header($is_edit ? "Editar Banner" : "Cadastrar Novo Banner", "banners");
             btn.textContent = 'Enviando...';
             btn.disabled = true;
             
-            fetch('upload.php', {
+            fetch('upload.php?type=banner', {
                 method: 'POST',
                 body: formData
             })

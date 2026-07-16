@@ -166,7 +166,7 @@ admin_header($is_edit ? "Editar Depoimento" : "Cadastrar Depoimento", "depoiment
             btn.textContent = 'Enviando...';
             btn.disabled = true;
             
-            fetch('upload.php', {
+            fetch('upload.php?type=depoimento', {
                 method: 'POST',
                 body: formData
             })

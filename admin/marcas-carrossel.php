@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } elseif ($file['size'] > 2 * 1024 * 1024) {
                 $error_message = "O arquivo de logo excede o limite máximo de 2MB.";
             } else {
-                $upload_dir = __DIR__ . '/../static/uploads/';
+                $upload_dir = __DIR__ . '/../static/uploads/marcas/';
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0755, true);
                 }
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     // Adiciona ao JSON
                     $nova_marca = [
                         'nome' => $nome,
-                        'arquivo' => 'static/uploads/' . $new_filename,
+                        'arquivo' => 'static/uploads/marcas/' . $new_filename,
                         'hex_cor' => $hex_cor,
                         'slug' => $slug,
                         'url_cdn' => ''
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $error_message = "Erro ao atualizar a lista de marcas no JSON.";
                     }
                 } else {
-                    $error_message = "Erro ao mover o arquivo de upload para a pasta static/uploads.";
+                    $error_message = "Erro ao mover o arquivo de upload para a pasta static/uploads/marcas/.";
                 }
             }
         }

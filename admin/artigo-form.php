@@ -399,7 +399,7 @@ admin_header($is_edit ? "Editar Artigo" : "Escrever Novo Artigo", "blog");
             btn.textContent = 'Enviando...';
             btn.disabled = true;
             
-            fetch('upload.php', {
+            fetch('upload.php?type=blog', {
                 method: 'POST',
                 body: formData
             })

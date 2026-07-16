@@ -43,7 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $upload_dir = __DIR__ . '/../static/uploads/';
+    $type = $_REQUEST['type'] ?? '';
+    $allowed_types = ['portfolio', 'produto', 'blog', 'banner', 'depoimento', 'marca'];
+    $sub_dir = '';
+    if (in_array($type, $allowed_types)) {
+        $sub_dir = $type . 's/';
+    }
+
+    $upload_dir = __DIR__ . '/../static/uploads/' . $sub_dir;
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755, true);
     }
@@ -57,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Content-Type: application/json');
         echo json_encode([
             'success' => true,
-            'path' => 'static/uploads/' . $new_filename
+            'path' => 'static/uploads/' . $sub_dir . $new_filename
         ]);
         exit;
     } else {

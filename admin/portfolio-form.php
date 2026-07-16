@@ -284,7 +284,7 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
             let uploadPromises = files.map(file => {
                 const formData = new FormData();
                 formData.append('file', file);
-                return fetch('upload.php', {
+                return fetch('upload.php?type=portfolio', {
                     method: 'POST',
                     body: formData
                 })

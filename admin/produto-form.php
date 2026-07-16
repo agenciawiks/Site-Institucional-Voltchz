@@ -451,7 +451,7 @@ admin_header($is_edit ? "Editar Produto" : "Cadastrar Novo Produto", "produtos")
             btn.textContent = 'Enviando...';
             btn.disabled = true;
             
-            fetch('upload.php', {
+            fetch('upload.php?type=produto', {
                 method: 'POST',
                 body: formData
             })

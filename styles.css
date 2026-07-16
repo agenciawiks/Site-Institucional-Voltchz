@@ -379,3 +379,22 @@ body.menu-open {
     border-radius: 20px;
   }
 }
+
+/* ── OTIMIZAÇÃO DE PERFORMANCE (BACKDROP-BLUR CAP) ── */
+/* Reduz o raio do desfoque de fundo para economizar processamento gráfico (GPU/CPU) em computadores antigos */
+.backdrop-blur-xl {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+.backdrop-blur-lg {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+.backdrop-blur-md {
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
