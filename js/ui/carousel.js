@@ -173,12 +173,11 @@ export const initStatsCarousel = () => {
   const grid = $('.stats-grid');
   if (!grid) return;
 
-  const dots = $$('.stats-dot');
-  if (dots.length === 0) return;
+  const totalSlides = grid.children.length;
+  if (totalSlides <= 1) return;
 
   let autoplayInterval;
   let currentActive = 0;
-  const totalSlides = dots.length;
 
   const startAutoplay = () => {
     stopAutoplay();
@@ -202,19 +201,7 @@ export const initStatsCarousel = () => {
   grid.addEventListener('scroll', () => {
     const width = grid.clientWidth;
     const scrollLeft = grid.scrollLeft;
-    // Calcula o slide ativo baseado no scroll
-    const activeIdx = Math.round(scrollLeft / width);
-    currentActive = activeIdx;
-
-    dots.forEach((dot, idx) => {
-      if (idx === activeIdx) {
-        dot.classList.add('active', 'bg-brand-green');
-        dot.classList.remove('bg-white/40');
-      } else {
-        dot.classList.remove('active', 'bg-brand-green');
-        dot.classList.add('bg-white/40');
-      }
-    });
+    currentActive = Math.round(scrollLeft / width);
   }, { passive: true });
 
   // Evita propagação dos gestos de touch para o carrossel de fundo (Hero)
@@ -231,15 +218,4 @@ export const initStatsCarousel = () => {
   // Pausa autoplay quando o mouse estiver em cima (desktop)
   grid.addEventListener('mouseenter', stopAutoplay);
   grid.addEventListener('mouseleave', startAutoplay);
-
-  // Evento de clique nos dots para rolar até o slide correspondente
-  dots.forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      const width = grid.clientWidth;
-      grid.scrollTo({
-        left: idx * width,
-        behavior: 'smooth'
-      });
-    });
-  });
 };
