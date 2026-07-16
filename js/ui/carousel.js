@@ -165,3 +165,42 @@ export const initHeroCarousel = () => {
     dot.addEventListener('click', () => heroCarousel.goTo(i));
   });
 };
+
+/**
+ * Inicializa o mini carrossel de estatísticas no mobile
+ */
+export const initStatsCarousel = () => {
+  const grid = $('.stats-grid');
+  if (!grid) return;
+
+  const dots = $$('.stats-dot');
+  if (dots.length === 0) return;
+
+  grid.addEventListener('scroll', () => {
+    const width = grid.clientWidth;
+    const scrollLeft = grid.scrollLeft;
+    // Calcula o slide ativo baseado no scroll
+    const activeIdx = Math.round(scrollLeft / width);
+
+    dots.forEach((dot, idx) => {
+      if (idx === activeIdx) {
+        dot.classList.add('active', 'bg-brand-green');
+        dot.classList.remove('bg-white/40');
+      } else {
+        dot.classList.remove('active', 'bg-brand-green');
+        dot.classList.add('bg-white/40');
+      }
+    });
+  }, { passive: true });
+
+  // Evento de clique nos dots para rolar até o slide correspondente
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      const width = grid.clientWidth;
+      grid.scrollTo({
+        left: idx * width,
+        behavior: 'smooth'
+      });
+    });
+  });
+};

@@ -5,7 +5,7 @@
 import { CONFIG } from './config.js';
 import { $, $$ } from './utils/dom.js';
 import { handleLeadSubmission } from './utils/forms.js';
-import { initHeroCarousel, initClientsCarousel } from './ui/carousel.js';
+import { initHeroCarousel, initClientsCarousel, initStatsCarousel } from './ui/carousel.js';
 import { initLightbox } from './ui/lightbox.js';
 import { initNavigation } from './ui/navigation.js';
 import { initFaq, initIntersections } from './ui/animations.js';
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initHeroCarousel();
   initClientsCarousel();
+  initStatsCarousel();
   initPortfolioExpandido();
   initLightbox();
   initFaq();

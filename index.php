@@ -67,23 +67,29 @@ include "includes/header.php";
                         <?php endif; ?>
                     </div>
 
-                    <?php if ($index === 0): ?>
                         <!-- Stats -->
-                        <div class="stats-grid w-full grid grid-cols-1 sm:grid-cols-3 bg-white/5 border border-white/10 rounded-3xl overflow-hidden max-w-[620px] backdrop-blur-md observe">
-                            <div class="p-6 text-center border-b sm:border-b-0 sm:border-r border-white/5">
-                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
+                        <div class="stats-container w-full max-w-[620px] mx-auto observe">
+                            <div class="stats-grid w-full flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory scrollbar-hide bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
+                                <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
+                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
+                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
+                                </div>
+                                <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
+                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
+                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
+                                </div>
+                                <div class="w-full flex-shrink-0 snap-center p-6 text-center sm:w-auto sm:flex-shrink">
+                                    <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
+                                    <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                                </div>
                             </div>
-                            <div class="p-6 text-center border-r border-white/5">
-                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
-                            </div>
-                            <div class="p-6 text-center">
-                                <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                                <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                            <!-- Indicators (dots) for Mobile stats slider -->
+                            <div class="flex sm:hidden justify-center gap-2 mt-3" aria-hidden="true">
+                                <button class="stats-dot active w-2 h-2 rounded-full bg-brand-green border border-white/10 transition-all" aria-label="Ir para estatística 1"></button>
+                                <button class="stats-dot w-2 h-2 rounded-full bg-white/40 border border-white/10 transition-all" aria-label="Ir para estatística 2"></button>
+                                <button class="stats-dot w-2 h-2 rounded-full bg-white/40 border border-white/10 transition-all" aria-label="Ir para estatística 3"></button>
                             </div>
                         </div>
-                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
