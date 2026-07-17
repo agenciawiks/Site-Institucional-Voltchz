@@ -52,38 +52,7 @@ export const initNavigation = () => {
     };
   }
 
-  /**
-   * Encontre um Eletroposto Dropdown
-   */
-  const setupDropdown = (btnId, menuId, iconId, wrapperId) => {
-    const btn = $(`#${btnId}`);
-    const menu = $(`#${menuId}`);
-    const icon = $(`#${iconId}`);
-    const wrapper = $(`#${wrapperId}`);
 
-    if (!btn || !menu) return;
-
-    const toggle = (forceClose = false) => {
-      const isOpen = forceClose ? true : !menu.classList.contains('hidden');
-      if (isOpen) {
-        menu.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-        icon?.classList.remove('rotate-180');
-      } else {
-        menu.classList.remove('hidden');
-        btn.setAttribute('aria-expanded', 'true');
-        icon?.classList.add('rotate-180');
-      }
-    };
-
-    btn.onclick = (e) => { e.preventDefault(); toggle(); };
-    document.addEventListener('click', (e) => {
-      if (wrapper && !wrapper.contains(e.target)) toggle(true);
-    });
-  };
-
-  setupDropdown('tools-dropdown-btn', 'tools-dropdown-menu', 'tools-dropdown-icon', 'tools-dropdown');
-  setupDropdown('mobile-tools-toggle', 'mobile-tools-menu', 'mobile-tools-icon', 'mobile-tools-menu');
 
   /**
    * Smooth Scroll

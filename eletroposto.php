@@ -15,7 +15,7 @@ include "includes/header.php";
       <span class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-5">
         Negócios & Mobilidade Urbana
       </span>
-      <h1 class="text-[clamp(32px,5.5vw,56px)] font-extrabold leading-tight tracking-tighter mb-6 text-white">
+      <h1 class="text-[clamp(34px,7vw,64px)] font-extrabold leading-tight tracking-tighter mb-6 text-white">
         Estações de Recarga Comercial<br>
         <span class="text-brand-green">e Eletropostos Rápidos</span>
       </h1>
@@ -93,7 +93,7 @@ include "includes/header.php";
       </div>
 
       <div class="bg-white/[0.03] border border-white/10 rounded-[32px] p-4 md:p-6 backdrop-blur-xl shadow-2xl shadow-brand-green/5">
-        <div class="relative w-full aspect-video md:h-[550px] rounded-2xl overflow-hidden border border-white/10 bg-brand-bg3 shadow-2xl">
+        <div class="relative w-full aspect-video md:h-[550px] min-h-[350px] rounded-2xl overflow-hidden border border-white/10 bg-brand-bg3 shadow-2xl">
           <iframe src="https://www.plugshare.com/widget2.html?plugs=1,2,3,4,5,6,42,13,7,8,9,10,11,12,14,15,16,17"
             width="100%" height="100%" style="border:0;" allow="geolocation" title="Mapa PlugShare">
           </iframe>

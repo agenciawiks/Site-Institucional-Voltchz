@@ -402,7 +402,20 @@ body.menu-open {
 /* ── CLASSES AUSENTES DO BUILD DO TAILWIND (viabilidade.php) ── */
 .min-w-\[650px\] { min-width: 650px; }
 .min-h-\[200px\] { min-height: 200px; }
-.aspect-\[4\/3\] { aspect-ratio: 4 / 3; }
+.aspect-\[4\/3\] { 
+  aspect-ratio: 4 / 3; 
+  isolation: isolate;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+.aspect-\[4\/3\] img {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 @media (min-width: 640px) {

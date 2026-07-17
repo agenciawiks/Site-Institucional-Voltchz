@@ -15,7 +15,7 @@ include "includes/header.php";
       <span class="inline-block px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono mb-5">
         Fase de Obras e Engenharia
       </span>
-      <h1 class="text-[clamp(32px,5.5vw,56px)] font-extrabold leading-tight tracking-tighter mb-6 text-white">
+      <h1 class="text-[clamp(34px,7vw,64px)] font-extrabold leading-tight tracking-tighter mb-6 text-white">
         Projetos de Eletromobilidade<br>
         <span class="text-brand-green">para Construtoras</span>
       </h1>

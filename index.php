@@ -70,18 +70,18 @@ include "includes/header.php";
                         <?php if ($index === 0): ?>
                             <!-- Stats -->
                             <div class="stats-container w-full max-w-[620px] mx-auto observe">
-                                <div class="stats-grid w-full flex sm:grid sm:grid-cols-3 overflow-x-auto sm:overflow-x-visible snap-x snap-mandatory scrollbar-hide bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md" style="touch-action: pan-y;">
-                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
-                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
+                                <div class="stats-grid w-full grid grid-cols-3 bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl backdrop-blur-md">
+                                    <div class="p-2 sm:p-6 text-center border-r border-white/5">
+                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
+                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
                                     </div>
-                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center border-r border-white/5 sm:w-auto sm:flex-shrink">
-                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
+                                    <div class="p-2 sm:p-6 text-center border-r border-white/5">
+                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
+                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
                                     </div>
-                                    <div class="w-full flex-shrink-0 snap-center p-6 text-center sm:w-auto sm:flex-shrink">
-                                        <div class="stat-num text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                                        <div class="text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                                    <div class="p-2 sm:p-6 text-center">
+                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
+                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
                                     </div>
                                 </div>
                             </div>
@@ -467,7 +467,7 @@ include "includes/header.php";
                                     <polyline points="12 5 19 12 12 19" />
                                 </svg>
                             </a>
-                            <a href="construtora.php" class="inline-flex items-center justify-center gap-3 border border-slate-300 hover:border-slate-400 bg-transparent text-slate-800 font-bold py-4 px-8 rounded-2xl hover:bg-slate-50 transition-all w-full sm:w-auto">
+                            <a href="construtora" class="inline-flex items-center justify-center gap-3 border border-slate-300 hover:border-slate-400 bg-transparent text-slate-800 font-bold py-4 px-8 rounded-2xl hover:bg-slate-50 transition-all w-full sm:w-auto">
                                 Soluções & Portfólio
                             </a>
                         </div>
@@ -732,7 +732,7 @@ include "includes/header.php";
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
                         Projeto e Inspeção de<br>
-                        <span class="text-brand-green">Sistemas SPDA</span>
+                        <span class="text-brand-green">SPDA</span>
                     </h2>
                     <p class="text-brand-muted text-lg leading-relaxed mb-8">
                         Garantimos a segurança absoluta de condomínios, indústrias e infraestruturas de recarga antes e durante toda a operação, avaliando a conformidade normativa dos sistemas de proteção contra raios e aterramento.
@@ -896,10 +896,10 @@ include "includes/header.php";
                                 <polyline points="12 5 19 12 12 19" />
                             </svg>
                         </a>
-                        <a href="portfolio.php" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
+                        <a href="portfolio" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
                             Portfólio Residencial
                         </a>
-                        <a href="condominio.php" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
+                        <a href="condominio" class="inline-flex items-center gap-3 border border-white/20 bg-white/5 backdrop-blur-sm text-brand-text py-4 px-6 rounded-2xl hover:bg-white/10 transition-all font-bold text-xs sm:text-sm">
                             Portfólio Condomínio
                         </a>
                     </div>

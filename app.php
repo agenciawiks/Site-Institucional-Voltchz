@@ -253,7 +253,7 @@ include "includes/header.php";
       </div>
 
       <!-- Metric counters -->
-      <div class="observe grid grid-cols-3 gap-6 md:gap-16 border-t border-white/5 pt-12 w-full max-w-3xl"
+      <div class="observe flex flex-col sm:grid sm:grid-cols-3 gap-6 md:gap-16 border-t border-white/5 pt-12 w-full max-w-3xl"
         style="transition-delay:0.4s">
         <div class="text-center">
           <div class="text-[clamp(28px,3.5vw,48px)] font-extrabold text-white leading-none mb-1 font-mono">

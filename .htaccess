@@ -1,5 +1,10 @@
 RewriteEngine On
 
+# Redirecionamento 301 de index ou index.php para a raiz (evita conteúdo duplicado)
+RewriteCond %{REQUEST_URI} !/admin [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(.*)index(\.php)?[\s?] [NC]
+RewriteRule ^(.*)index(\.php)?$ ./ [R=301,L]
+
 # 0. Redireciona qualquer URL que termine em /admin (que não seja a pasta física) para o painel administrativo
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} /admin/?$ [NC]

@@ -71,14 +71,14 @@ if (isset($_SERVER['SCRIPT_NAME'])) {
   ────────────────────────────────────────── -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 bg-brand-bg/90 backdrop-blur-[18px] border-b border-white/5 transition-all duration-300">
         <div class="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between gap-8">
-            <a href="index" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
-                <img src="static/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto" loading="lazy" width="160" height="32">
+            <a href="./" class="flex-shrink-0" aria-label="VoltchZ Brasil Home">
+                <img src="static/logo.webp" alt="VoltchZ Brasil" class="h-8 w-auto transition-all duration-300" loading="lazy" width="160" height="32">
             </a>
 
             <?php $active_page = isset($current_page) ? $current_page : ''; ?>
 
             <div id="nav-links" class="hidden md:flex items-center gap-1.5">
-                <a href="index" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'index' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Início</a>
+                <a href="./" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'index' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Início</a>
                 <a href="sobre" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'sobre' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Sobre</a>
                 <a href="portfolio" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'portfolio' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Residencial</a>
                 <a href="condominio" class="text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200 <?php echo $active_page === 'condominio' ? 'text-brand-text bg-white/5' : 'text-brand-muted hover:text-brand-text hover:bg-white/5'; ?>">Condomínio</a>
@@ -111,7 +111,7 @@ if (isset($_SERVER['SCRIPT_NAME'])) {
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] z-40 bg-brand-bg/95 backdrop-blur-xl px-6 py-8 border-t border-white/5 overflow-y-auto max-h-[85vh]">
             <div class="flex flex-col gap-3">
-                <a href="index" class="text-xl font-bold py-1.5 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
+                <a href="./" class="text-xl font-bold py-1.5 <?php echo $active_page === 'index' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Início</a>
                 <a href="sobre" class="text-xl font-bold py-1.5 <?php echo $active_page === 'sobre' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Sobre</a>
                 <a href="portfolio" class="text-xl font-bold py-1.5 <?php echo $active_page === 'portfolio' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Residencial</a>
                 <a href="condominio" class="text-xl font-bold py-1.5 <?php echo $active_page === 'condominio' ? 'text-brand-green' : 'text-brand-muted hover:text-brand-green'; ?>">Condomínio</a>
