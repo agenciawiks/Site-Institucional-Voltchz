@@ -398,3 +398,14 @@ body.menu-open {
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
 }
+
+/* ── CLASSES AUSENTES DO BUILD DO TAILWIND (viabilidade.php) ── */
+.min-w-\[650px\] { min-width: 650px; }
+.min-h-\[200px\] { min-height: 200px; }
+.aspect-\[4\/3\] { aspect-ratio: 4 / 3; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .sm\:min-w-full { min-width: 100%; }
+  .sm\:min-h-\[280px\] { min-height: 280px; }
+}
