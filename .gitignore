@@ -43,3 +43,4 @@ package-lock.json
 # Adicione aqui arquivos que não devem ser versionados mas que são específicos deste repo
 db_config.php
 includes/db_config.php
+docs/uploads-e-deploy.md
