@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initHeroCarousel();
   initClientsCarousel();
-  initStatsCarousel();
   initPortfolioExpandido();
   initLightbox();
   initFaq();
