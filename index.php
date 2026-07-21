@@ -14,7 +14,11 @@ include "includes/header.php";
             $banners = get_banners(true);
             foreach ($banners as $index => $b):
                 $is_active = ($index === 0);
-                $is_webp = (strtolower(pathinfo($b['image'], PATHINFO_EXTENSION)) === 'webp');
+                $img_path = $b['image'];
+                if (!preg_match('/^https?:\/\//', $img_path) && strpos($img_path, '/') !== 0) {
+                    $img_path = $img_path; // mantém relativo ao diretório raiz da página
+                }
+                $is_webp = (strtolower(pathinfo($img_path, PATHINFO_EXTENSION)) === 'webp');
                 $button_link = $b['button_link'];
                 if ($button_link === 'contato') {
                     $button_link = 'contato';
@@ -24,11 +28,11 @@ include "includes/header.php";
             <div class="carousel-slide <?php echo $is_active ? 'active' : ''; ?>" id="slide-<?php echo $index; ?>">
                 <?php if ($is_webp): ?>
                     <picture class="carousel-slide-bg">
-                        <source srcset="<?php echo htmlspecialchars($b['image']); ?>" type="image/webp">
-                        <img src="<?php echo htmlspecialchars($b['image']); ?>" alt="<?php echo htmlspecialchars($b['title']); ?>" class="w-full h-full object-cover">
+                        <source srcset="<?php echo htmlspecialchars($img_path); ?>" type="image/webp">
+                        <img src="<?php echo htmlspecialchars($img_path); ?>" alt="<?php echo htmlspecialchars($b['title']); ?>" class="w-full h-full object-cover">
                     </picture>
                 <?php else: ?>
-                    <div class="carousel-slide-bg" style="background-image:url('<?php echo htmlspecialchars($b['image']); ?>')"></div>
+                    <div class="carousel-slide-bg" style="background-image:url('<?php echo htmlspecialchars($img_path); ?>')"></div>
                 <?php endif; ?>
                 <div class="absolute inset-0 bg-brand-bg/40"></div>
                 <div class="orb w-[420px] h-[420px] -top-20 -right-20 bg-brand-green/20"></div>
@@ -1128,20 +1132,13 @@ include "includes/header.php";
 
 
 <?php
-// Escaneia as pastas dinamicamente para detectar todas as imagens de instalações físicas existentes e normaliza barras no Windows
-$raw_images = array_merge(
-    glob('static/clientes/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: [],
-    glob('static/uploads/*.{webp,png,jpg,jpeg,gif}', GLOB_BRACE) ?: []
-);
-
-if ($raw_images) {
-    $dir_images = array_map(function($path) {
-        return str_replace('\\', '/', $path);
-    }, $raw_images);
-    natsort($dir_images);
-    $client_images = array_values($dir_images);
-} else {
-    $client_images = [];
+// Busca as imagens ativas do portfólio da home no banco de dados
+$portfolio_home_db = get_portfolio_home_images(true);
+$client_images = [];
+foreach ($portfolio_home_db as $item) {
+    if (!empty($item['image'])) {
+        $client_images[] = $item['image'];
+    }
 }
 ?>
 <script>

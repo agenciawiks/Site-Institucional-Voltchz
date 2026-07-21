@@ -14,18 +14,21 @@ $error_message = '';
 // Exclusão de Item de Portfólio
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_portfolio') {
     $portfolio_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    $table_type = $_POST['table'] ?? 'portfolio_residencial';
+    $allowed_tables = ['portfolio_residencial', 'portfolio_condominio', 'portfolio_eletroposto'];
+    if (!in_array($table_type, $allowed_tables)) {
+        $table_type = 'portfolio_residencial';
+    }
+
     if ($portfolio_id) {
         try {
-            // Busca a imagem para deleção física no disco
-            $stmtImg = $db->prepare("SELECT image FROM portfolio WHERE id = ?");
+            $stmtImg = $db->prepare("SELECT image FROM {$table_type} WHERE id = ?");
             $stmtImg->execute([$portfolio_id]);
             $image_path = $stmtImg->fetchColumn();
 
-            // Exclui do banco
-            $stmt = $db->prepare("DELETE FROM portfolio WHERE id = ?");
+            $stmt = $db->prepare("DELETE FROM {$table_type} WHERE id = ?");
             $stmt->execute([$portfolio_id]);
 
-            // Se for arquivo em static/uploads/, deleta fisicamente para economizar espaço
             if (!empty($image_path)) {
                 uploads_delete($image_path);
             }
@@ -40,29 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // Filtro por marca
 $filtro_marca = filter_input(INPUT_GET, 'marca', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'todos';
 
-// Buscar todas as marcas únicas para o filtro
 try {
-    $stmtMarcas = $db->query("SELECT DISTINCT brand FROM portfolio ORDER BY brand ASC");
+    $stmtMarcas = $db->query("SELECT DISTINCT brand FROM portfolio_residencial ORDER BY brand ASC");
     $marcas_unicas = $stmtMarcas->fetchAll(PDO::FETCH_COLUMN);
 } catch (Exception $e) {
     $marcas_unicas = [];
 }
 
-// Monta Query
-$sql = "SELECT * FROM portfolio WHERE 1=1";
-$params = [];
-
-if ($filtro_marca !== 'todos') {
-    $sql .= " AND brand = ?";
-    $params[] = $filtro_marca;
-}
-
-$sql .= " ORDER BY id DESC";
-
 try {
-    $stmt = $db->prepare($sql);
-    $stmt->execute($params);
-    $portfolio = $stmt->fetchAll();
+    $portfolio = get_portfolio_items();
+    if ($filtro_marca !== 'todos') {
+        $portfolio = array_filter($portfolio, function($item) use ($filtro_marca) {
+            return isset($item['brand']) && $item['brand'] === $filtro_marca;
+        });
+    }
 } catch (Exception $e) {
     $portfolio = [];
     $error_message = "Erro ao buscar portfólio: " . $e->getMessage();
@@ -163,12 +157,21 @@ admin_header("Gerenciar Portfólio Completo", "portfolio");
                             </td>
                             <td class="py-4 px-4 text-right">
                                 <div class="flex justify-end items-center gap-2">
-                                    <a href="portfolio-form.php?id=<?php echo $item['id']; ?>" class="p-2 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:text-white text-brand-muted transition-all" title="Editar">
+                                    <?php 
+                                        $tipo_item = 'residencial';
+                                        if (($item['tipo'] ?? '') === 'condominio' || ($item['tipo'] ?? '') === 'construtora') {
+                                            $tipo_item = 'condominio';
+                                        } elseif (($item['tipo'] ?? '') === 'eletroposto') {
+                                            $tipo_item = 'eletroposto';
+                                        }
+                                    ?>
+                                    <a href="portfolio-form.php?type=<?php echo $tipo_item; ?>&id=<?php echo $item['id']; ?>" class="p-2 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 hover:text-white text-brand-muted transition-all" title="Editar">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg>
                                     </a>
                                     
                                     <form method="POST" action="" onsubmit="return confirm('Tem certeza que deseja excluir este projeto de <?php echo htmlspecialchars($item['model']); ?>?');" class="inline">
                                         <input type="hidden" name="action" value="delete_portfolio">
+                                        <input type="hidden" name="table" value="portfolio_<?php echo $tipo_item; ?>">
                                         <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
                                         <button type="submit" class="p-2 rounded-xl bg-white/5 border border-white/5 hover:border-red-500/20 hover:text-red-400 text-brand-muted transition-all" title="Excluir">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>

@@ -1235,6 +1235,76 @@ INSERT INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) V
 INSERT INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) VALUES (38, 'Peso líquido', '260 kg', 558);
 INSERT INTO `produto_especificacoes` (`produto_id`, `chave`, `valor`, `ordem`) VALUES (38, 'Cor', 'Cinza e preto', 559);
 
+DROP TABLE IF EXISTS `portfolio_residencial`;
+DROP TABLE IF EXISTS `portfolio_condominio`;
+DROP TABLE IF EXISTS `portfolio_eletroposto`;
+DROP TABLE IF EXISTS `portfolio_home`;
+
+CREATE TABLE IF NOT EXISTS `portfolio_residencial` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `brand` VARCHAR(50) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO `portfolio_residencial` (`id`, `brand`, `model`, `location`, `description`, `image`) VALUES
+(1, 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'),
+(2, 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'),
+(3, 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'),
+(4, 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'),
+(5, 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'),
+(6, 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'),
+(7, 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'),
+(8, 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'),
+(9, 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'),
+(10, 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'),
+(11, 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'),
+(12, 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'),
+(13, 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'),
+(14, 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp');
+
+CREATE TABLE IF NOT EXISTS `portfolio_condominio` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `tipo_sub` VARCHAR(50) DEFAULT 'condominio',
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO `portfolio_condominio` (`id`, `tipo_sub`, `model`, `location`, `description`, `image`) VALUES
+(1, 'condominio', 'Infraestrutura Coletiva', 'Condomínio Aquarius, SJC', 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.', 'static/carregador-predio-estacionamento.webp'),
+(2, 'condominio', 'Adequação Elétrica Coletiva', 'Edifício Esplanada, SJC', 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.', 'static/carregador-predio-estacionamento2.webp');
+
+CREATE TABLE IF NOT EXISTS `portfolio_eletroposto` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `portfolio_home` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `image` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(150) DEFAULT NULL,
+  `subtitle` VARCHAR(150) DEFAULT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- =====================================================================
 -- VoltchZ Brasil - Estruturas Administrativas Dinâmicas (Atualização 2026)
 -- =====================================================================
@@ -1254,35 +1324,6 @@ INSERT IGNORE INTO `configuracoes` (`chave`, `valor`) VALUES
 ('endereco', 'Rua João Teixeira Netto, 72 - Jardim Aquarius, SJC - SP'),
 ('instagram', 'https://www.instagram.com/voltchz'),
 ('linkedin', 'https://www.linkedin.com/company/voltchz/');
-
-CREATE TABLE IF NOT EXISTS `portfolio` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `tipo` VARCHAR(30) DEFAULT 'veiculo',
-  `brand` VARCHAR(50) NOT NULL,
-  `model` VARCHAR(100) NOT NULL,
-  `location` VARCHAR(150) NOT NULL,
-  `description` TEXT NOT NULL,
-  `image` VARCHAR(255) NOT NULL,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT IGNORE INTO `portfolio` (`id`, `tipo`, `brand`, `model`, `location`, `description`, `image`) VALUES
-(1, 'veiculo', 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'),
-(2, 'veiculo', 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'),
-(3, 'veiculo', 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'),
-(4, 'veiculo', 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'),
-(5, 'veiculo', 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'),
-(6, 'veiculo', 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'),
-(7, 'veiculo', 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'),
-(8, 'veiculo', 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'),
-(9, 'veiculo', 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'),
-(10, 'veiculo', 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'),
-(11, 'veiculo', 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'),
-(12, 'veiculo', 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'),
-(13, 'veiculo', 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'),
-(14, 'veiculo', 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp'),
-(15, 'condominio', 'condominio', 'Infraestrutura Coletiva', 'Condomínio Aquarius, SJC', 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.', 'static/carregador-predio-estacionamento.webp'),
-(16, 'condominio', 'condominio', 'Adequação Elétrica Coletiva', 'Edifício Esplanada, SJC', 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.', 'static/carregador-predio-estacionamento2.webp');
 
 CREATE TABLE IF NOT EXISTS `banners` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -1337,5 +1378,14 @@ INSERT IGNORE INTO `faq` (`id`, `question`, `answer`, `sort_order`, `active`) VA
 (8, '8. Posso instalar um carregador rápido DC no condomínio?', 'Sim, mas exige infraestrutura elétrica robusta (geralmente 380V trifásico), além de um projeto técnico específico de engenharia.', 8, 1),
 (9, '9. O carregador pode ser compartilhado no condomínio?', 'Sim. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.', 9, 1),
 (10, '10. Preciso contratar apenas empresas da montadora?', 'Não. O mais importante é que a instalação siga as normas técnicas. Isso garante segurança, independentemente da empresa ou marca do carregador.', 10, 1);
+
+CREATE TABLE IF NOT EXISTS `portfolio_home` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 

@@ -45,10 +45,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $type = $_REQUEST['type'] ?? '';
-    $allowed_types = ['portfolio', 'produto', 'blog', 'banner', 'depoimento', 'marca'];
     $sub_dir = '';
-    if (in_array($type, $allowed_types)) {
-        $sub_dir = $type . 's/';
+    
+    switch ($type) {
+        case 'portfolio_residencial':
+            $sub_dir = 'portfolio/residencial/';
+            break;
+        case 'portfolio_condominio':
+            $sub_dir = 'portfolio/condominio/';
+            break;
+        case 'portfolio_eletroposto':
+            $sub_dir = 'portfolio/eletroposto/';
+            break;
+        case 'portfolio_home':
+            $sub_dir = 'portfolio/home/';
+            break;
+        case 'produto':
+            $sub_dir = 'produtos/';
+            break;
+        case 'blog':
+            $sub_dir = 'blog/';
+            break;
+        default:
+            if (!empty($type)) {
+                $sub_dir = preg_replace('/[^a-z0-9_-]/i', '', $type) . '/';
+            }
+            break;
     }
 
     $upload_dir = uploads_persistent_subdir($sub_dir);
