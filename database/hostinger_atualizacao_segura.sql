@@ -1138,4 +1138,50 @@ INSERT IGNORE INTO `faq` (`id`, `question`, `answer`, `sort_order`, `active`) VA
 (9, '9. O carregador pode ser compartilhado no condomínio?', 'Sim. É uma solução econômica, desde que haja controle de consumo e gestão adequada para garantir a divisão justa da energia entre os moradores.', 9, 1),
 (10, '10. Preciso contratar apenas empresas da montadora?', 'Não. O mais importante é que a instalação siga as normas técnicas. Isso garante segurança, independentemente da empresa ou marca do carregador.', 10, 1);
 
+CREATE TABLE IF NOT EXISTS `portfolio_residencial` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `brand` VARCHAR(50) NOT NULL,
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `portfolio_condominio` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `tipo_sub` VARCHAR(50) DEFAULT 'condominio',
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `portfolio_eletroposto` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `model` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `portfolio_home` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `image` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(150) DEFAULT NULL,
+  `subtitle` VARCHAR(150) DEFAULT NULL,
+  `sort_order` INT DEFAULT 0,
+  `active` TINYINT DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 

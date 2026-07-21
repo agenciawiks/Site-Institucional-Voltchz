@@ -21,7 +21,7 @@ if ($is_local) {
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('DB_NAME', 'voltchz');
+    define('DB_NAME', 'u181893488_voltchz_db');
 } else {
     // Tenta carregar as credenciais de produção de um arquivo separado.
     // Isso evita que suas credenciais sejam sobrescritas em cada upload de ZIP para a Hostinger.
@@ -52,7 +52,19 @@ function get_db_connection() {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
-        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        
+        try {
+            $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        } catch (PDOException $e) {
+            // Se o banco não existir em ambiente local, tenta criar o banco automaticamente
+            if ($e->getCode() == 1049 || strpos($e->getMessage(), 'Unknown database') !== false) {
+                $pdoServer = new PDO("mysql:host=" . DB_HOST . ";charset=" . DB_CHARSET, DB_USER, DB_PASS, $options);
+                $pdoServer->exec("CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+                $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+            } else {
+                throw $e;
+            }
+        }
         
         // Auto-migração da coluna imagem na tabela artigos se necessário
         try {
@@ -620,56 +632,127 @@ function init_voltchz_admin_tables($pdo) {
         }
     }
 
-    // 2. Tabela portfolio
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio` (
+    // 2. Tabelas do Catálogo (Marcas, Categorias, Produtos, Especificações, Variações)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `marcas` (
+        `id` VARCHAR(50) PRIMARY KEY,
+        `nome` VARCHAR(100) NOT NULL,
+        `descricao` TEXT NULL,
+        `imagem` VARCHAR(255) NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `categorias` (
+        `id` VARCHAR(50) PRIMARY KEY,
+        `nome` VARCHAR(100) NOT NULL,
+        `descricao` TEXT NULL,
+        `imagem` VARCHAR(255) NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `produtos` (
         `id` INT AUTO_INCREMENT PRIMARY KEY,
-        `tipo` VARCHAR(30) DEFAULT 'veiculo',
-        `brand` VARCHAR(50) NOT NULL,
-        `model` VARCHAR(100) NOT NULL,
-        `location` VARCHAR(150) NOT NULL,
-        `description` TEXT NOT NULL,
-        `image` VARCHAR(255) NOT NULL,
+        `slug` VARCHAR(150) NOT NULL UNIQUE,
+        `nome` VARCHAR(150) NOT NULL,
+        `marca_id` VARCHAR(50) NOT NULL,
+        `categoria_id` VARCHAR(50) NOT NULL,
+        `potencia` VARCHAR(100) NULL,
+        `tensao` VARCHAR(150) NULL,
+        `aplicacao` VARCHAR(255) NULL,
+        `tipo` VARCHAR(150) NULL,
+        `resumo` TEXT NULL,
+        `descricao` TEXT NULL,
+        `imagem` VARCHAR(255) NULL,
+        `sort_order` INT DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `produto_diferenciais` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `produto_id` INT NOT NULL,
+        `diferencial` TEXT NOT NULL,
+        `ordem` INT DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `produto_especificacoes` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `produto_id` INT NOT NULL,
+        `chave` VARCHAR(150) NOT NULL,
+        `valor` TEXT NOT NULL,
+        `ordem` INT DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `produto_variacoes` (
+        `sku` VARCHAR(100) PRIMARY KEY,
+        `produto_id` INT NOT NULL,
+        `nome` VARCHAR(150) NOT NULL,
+        `adicional_desc` TEXT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // 3. Tabelas de Artigos (Blog)
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `artigos` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `slug` VARCHAR(150) NOT NULL,
+        `titulo` VARCHAR(255) NOT NULL,
+        `categoria` VARCHAR(100) DEFAULT NULL,
+        `resumo` TEXT DEFAULT NULL,
+        `autor` VARCHAR(100) DEFAULT NULL,
+        `cargo` VARCHAR(150) DEFAULT NULL,
+        `data_publicacao` VARCHAR(50) DEFAULT NULL,
+        `tempo_leitura` VARCHAR(50) DEFAULT NULL,
+        `svg_metadata_category` VARCHAR(50) DEFAULT NULL,
+        `svg_metadata_title` VARCHAR(150) DEFAULT NULL,
+        `svg_metadata_subtitle` VARCHAR(150) DEFAULT NULL,
+        `imagem` VARCHAR(255) DEFAULT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `artigo_conteudo` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `artigo_id` INT NOT NULL,
+        `tipo` VARCHAR(50) NOT NULL,
+        `texto` TEXT DEFAULT NULL,
+        `autor_citado` VARCHAR(150) DEFAULT NULL,
+        `ordem` INT DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `artigo_conteudo_list_items` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `conteudo_id` INT NOT NULL,
+        `item_texto` TEXT NOT NULL,
+        `ordem` INT DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // 4. Tabelas de Leads e Usuários Admin
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `leads` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `nome` VARCHAR(150) NOT NULL,
+        `email` VARCHAR(150) NOT NULL,
+        `telefone` VARCHAR(50) DEFAULT NULL,
+        `tipo_servico` VARCHAR(100) DEFAULT NULL,
+        `mensagem` TEXT DEFAULT NULL,
+        `origem` VARCHAR(100) DEFAULT 'site',
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-    // Seed portfolio se vazia
-    $countPortfolio = $pdo->query("SELECT COUNT(*) FROM portfolio")->fetchColumn();
-    if ($countPortfolio == 0) {
-        $portfolio_items = [
-            ['veiculo', 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'],
-            ['veiculo', 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'],
-            ['veiculo', 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'],
-            ['veiculo', 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'],
-            ['veiculo', 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'],
-            ['veiculo', 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'],
-            ['veiculo', 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'],
-            ['veiculo', 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'],
-            ['veiculo', 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'],
-            ['veiculo', 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'],
-            ['veiculo', 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'],
-            ['veiculo', 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'],
-            ['veiculo', 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'],
-            ['veiculo', 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp'],
-            ['condominio', 'condominio', 'Infraestrutura Coletiva', 'Condomínio Aquarius, SJC', 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.', 'static/carregador-predio-estacionamento.webp'],
-            ['condominio', 'condominio', 'Adequação Elétrica Coletiva', 'Edifício Esplanada, SJC', 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.', 'static/carregador-predio-estacionamento2.webp']
-        ];
-        $stmt = $pdo->prepare("INSERT INTO portfolio (tipo, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
-        foreach ($portfolio_items as $item) {
-            $stmt->execute($item);
-        }
-    }
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `usuarios` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `username` VARCHAR(50) NOT NULL UNIQUE,
+        `password_hash` VARCHAR(255) NOT NULL,
+        `nome` VARCHAR(100) NOT NULL,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-    // 3. Tabela banners
+    // 5. Tabela banners
     $pdo->exec("CREATE TABLE IF NOT EXISTS `banners` (
         `id` INT AUTO_INCREMENT PRIMARY KEY,
         `image` VARCHAR(255) NOT NULL,
         `title` VARCHAR(255) NOT NULL,
-        `subtitle` VARCHAR(255) NOT NULL,
+        `subtitle` TEXT NOT NULL,
         `button_text` VARCHAR(100) NOT NULL,
         `button_link` VARCHAR(255) NOT NULL,
         `sort_order` INT DEFAULT 0,
         `active` TINYINT DEFAULT 1
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    try {
+        $pdo->exec("ALTER TABLE `banners` MODIFY COLUMN `subtitle` TEXT NOT NULL");
+    } catch (Exception $e) {}
 
     // Seed banners se vazia
     $countBanners = $pdo->query("SELECT COUNT(*) FROM banners")->fetchColumn();
@@ -758,7 +841,139 @@ function init_voltchz_admin_tables($pdo) {
             $stmt->execute($f);
         }
     }
+
+    // 6. Tabelas de Portfólio Separadas por Página
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio_residencial` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `brand` VARCHAR(50) NOT NULL,
+        `model` VARCHAR(100) NOT NULL,
+        `location` VARCHAR(150) NOT NULL,
+        `description` TEXT NOT NULL,
+        `image` VARCHAR(255) NOT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio_condominio` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `tipo_sub` VARCHAR(50) DEFAULT 'condominio',
+        `model` VARCHAR(100) NOT NULL,
+        `location` VARCHAR(150) NOT NULL,
+        `description` TEXT NOT NULL,
+        `image` VARCHAR(255) NOT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio_eletroposto` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `model` VARCHAR(100) NOT NULL,
+        `location` VARCHAR(150) NOT NULL,
+        `description` TEXT NOT NULL,
+        `image` VARCHAR(255) NOT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Auto-migração e seed das tabelas de portfólio por página
+    $countResidencial = $pdo->query("SELECT COUNT(*) FROM portfolio_residencial")->fetchColumn();
+    if ($countResidencial == 0) {
+        // Tenta migrar da antiga tabela portfolio se existir
+        try {
+            $pdo->exec("INSERT INTO `portfolio_residencial` (`id`, `brand`, `model`, `location`, `description`, `image`, `created_at`)
+                        SELECT `id`, `brand`, `model`, `location`, `description`, `image`, `created_at`
+                        FROM `portfolio` WHERE `tipo` = 'veiculo' OR `tipo` IS NULL OR `tipo` = ''");
+        } catch (Exception $e) {
+            // Seed inicial de fallback
+            $res_seed = [
+                [1, 'byd', 'BYD Dolphin', 'Condomínio Alphaville, São José dos Campos', 'Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada.', 'static/clientes/cliente-5.webp'],
+                [2, 'byd', 'BYD Song Plus', 'Residencial Jardim Aquarius, SJC', 'Recarga inteligente AC com balanceamento local de carga e proteção contra surtos.', 'static/clientes/cliente-12.webp'],
+                [3, 'byd', 'BYD Seal', 'Condomínio Urbanova, SJC', 'Instalação de carregador de alta performance de 22 kW trifásico E-Wolf.', 'static/clientes/cliente-20.webp'],
+                [4, 'gwm', 'GWM Ora 03', 'Condomínio Esplanada, SJC', 'Infraestrutura executada com cabeamento blindado de alta bitola e proteção DR Tipo A.', 'static/clientes/cliente-11.webp'],
+                [5, 'gwm', 'GWM Haval H6', 'Taubaté, SP', 'Quadro de proteção E-Wolf 7.2 kW instalado integrado com Wallbox original GWM.', 'static/clientes/cliente-15.webp'],
+                [6, 'volvo', 'Volvo XC40 Recharge', 'Condomínio Bosque Imperial, SJC', 'Recarga rápida e segura de 11 kW com dispositivo DR Tipo A de segurança e aterramento dedicado.', 'static/clientes/cliente-25.webp'],
+                [7, 'volvo', 'Volvo EX30', 'Residencial Altos da Serra, SJC', 'Compacto e eficiente, carregador instalado em pedestal de alumínio VoltchZ.', 'static/clientes/cliente-32.webp'],
+                [8, 'geely', 'Zeekr 001 (Geely Group)', 'Condomínio Quinta das Flores, SJC', 'Instalação homologada premium para o esportivo da Zeekr, utilizando quadro trifásico E-Wolf.', 'static/clientes/cliente-40.webp'],
+                [9, 'geely', 'Volvo C40 (Geely Group)', 'Alphaville Industrial, Barueri', 'Instalação de carregamento integrado ao sistema de automação residencial e geração solar.', 'static/clientes/cliente-46.webp'],
+                [10, 'geely', 'Zeekr X (Geely Group)', 'São Paulo, SP', 'Carregador Wallbox inteligente de 22 kW com leitor NFC e cabeamento embutido.', 'static/clientes/cliente-55.webp'],
+                [11, 'porsche', 'Porsche Taycan', 'Condomínio Mônaco, Jacareí', 'Instalação trifásica premium de 22 kW com dupla proteção de aterramento e DPS classe II.', 'static/clientes/cliente-10.webp'],
+                [12, 'tesla', 'Tesla Model Y', 'Jardim das Colinas, SJC', 'Carregador original Tesla Wall Connector integrado com proteção avançada E-Wolf.', 'static/clientes/cliente-2.webp'],
+                [13, 'bmw', 'BMW iX', 'Valinhos, SP', 'Recarga trifásica de alta potência, com quadro de segurança tetrapolar e DR Tipo A.', 'static/clientes/cliente-18.webp'],
+                [14, 'audi', 'Audi e-tron', 'Jardim Aquarius, SJC', 'Infraestrutura completa de recarga rápida instalada em vaga privativa de condomínio vertical.', 'static/clientes/cliente-30.webp']
+            ];
+            $stmt = $pdo->prepare("INSERT IGNORE INTO portfolio_residencial (id, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
+            foreach ($res_seed as $r) {
+                $stmt->execute($r);
+            }
+        }
+    }
+
+    $countCondominio = $pdo->query("SELECT COUNT(*) FROM portfolio_condominio")->fetchColumn();
+    if ($countCondominio == 0) {
+        try {
+            $pdo->exec("INSERT INTO `portfolio_condominio` (`id`, `tipo_sub`, `model`, `location`, `description`, `image`, `created_at`)
+                        SELECT `id`, `tipo`, `model`, `location`, `description`, `image`, `created_at`
+                        FROM `portfolio` WHERE `tipo` IN ('condominio', 'construtora')");
+        } catch (Exception $e) {
+            $con_seed = [
+                [1, 'condominio', 'Infraestrutura Coletiva', 'Condomínio Aquarius, SJC', 'Instalação de barramento blindado e quadros de medição individualizada para 20 vagas de garagem.', 'static/carregador-predio-estacionamento.webp'],
+                [2, 'condominio', 'Adequação Elétrica Coletiva', 'Edifício Esplanada, SJC', 'Projeto executivo e instalação de proteção contra incêndio e DPS tetrapolar para recarga coletiva.', 'static/carregador-predio-estacionamento2.webp']
+            ];
+            $stmt = $pdo->prepare("INSERT IGNORE INTO portfolio_condominio (id, tipo_sub, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
+            foreach ($con_seed as $c) {
+                $stmt->execute($c);
+            }
+        }
+    }
+
+    $countEletroposto = $pdo->query("SELECT COUNT(*) FROM portfolio_eletroposto")->fetchColumn();
+    if ($countEletroposto == 0) {
+        try {
+            $pdo->exec("INSERT INTO `portfolio_eletroposto` (`id`, `model`, `location`, `description`, `image`, `created_at`)
+                        SELECT `id`, `model`, `location`, `description`, `image`, `created_at`
+                        FROM `portfolio` WHERE `tipo` = 'eletroposto'");
+        } catch (Exception $e) {}
+    }
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `portfolio_home` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `image` VARCHAR(255) NOT NULL,
+        `title` VARCHAR(150) DEFAULT NULL,
+        `subtitle` VARCHAR(150) DEFAULT NULL,
+        `sort_order` INT DEFAULT 0,
+        `active` TINYINT DEFAULT 1,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Seed portfolio_home se vazia
+    $countPortfolioHome = $pdo->query("SELECT COUNT(*) FROM portfolio_home")->fetchColumn();
+    if ($countPortfolioHome == 0) {
+        $dir = dirname(__DIR__) . '/static/clientes';
+        $default_images = [];
+        if (is_dir($dir)) {
+            $files = scandir($dir);
+            foreach ($files as $file) {
+                if (preg_match('/\.(webp|png|jpg|jpeg|gif)$/i', $file)) {
+                    $default_images[] = 'static/clientes/' . $file;
+                }
+            }
+        }
+        
+        if (!empty($default_images)) {
+            natsort($default_images);
+            $default_images = array_values($default_images);
+            
+            $stmt = $pdo->prepare("INSERT INTO portfolio_home (image, sort_order, active) VALUES (?, ?, 1)");
+            foreach ($default_images as $index => $img_path) {
+                $stmt->execute([$img_path, ($index + 1) * 10]);
+            }
+        }
+    }
 }
+
 
 /**
  * Retorna todas as configurações como array associativo
@@ -804,25 +1019,105 @@ function save_config($chave, $valor) {
 }
 
 /**
- * Puxa itens de portfólio dinâmico
+ * Retorna o portfólio residencial / veículos
  */
-function get_portfolio_items() {
+function get_portfolio_residencial($only_active = true) {
     try {
         $db = get_db_connection();
-        $stmt = $db->query("SELECT * FROM portfolio ORDER BY id DESC");
-        return $stmt->fetchAll();
+        $sql = "SELECT * FROM portfolio_residencial";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY sort_order ASC, id DESC";
+        return $db->query($sql)->fetchAll();
     } catch (Exception $e) {
         return [];
     }
 }
 
 /**
- * Puxa um item de portfólio específico
+ * Retorna o portfólio de condomínios e construtoras
  */
-function get_portfolio_item($id) {
+function get_portfolio_condominio($only_active = true, $sub_tipo = null) {
     try {
         $db = get_db_connection();
-        $stmt = $db->prepare("SELECT * FROM portfolio WHERE id = ?");
+        $sql = "SELECT * FROM portfolio_condominio WHERE 1=1";
+        if ($only_active) {
+            $sql .= " AND active = 1";
+        }
+        if ($sub_tipo) {
+            $sql .= " AND tipo_sub = " . $db->quote($sub_tipo);
+        }
+        $sql .= " ORDER BY sort_order ASC, id DESC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Retorna o portfólio de eletropostos
+ */
+function get_portfolio_eletroposto($only_active = true) {
+    try {
+        $db = get_db_connection();
+        $sql = "SELECT * FROM portfolio_eletroposto";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY sort_order ASC, id DESC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Puxa itens de portfólio dinâmico (com compatibilidade com as tabelas unificadas)
+ */
+function get_portfolio_items() {
+    try {
+        $res = get_portfolio_residencial(true);
+        $con = get_portfolio_condominio(true);
+        $ele = get_portfolio_eletroposto(true);
+        
+        $items = [];
+        foreach ($res as $r) {
+            $r['tipo'] = 'veiculo';
+            $items[] = $r;
+        }
+        foreach ($con as $c) {
+            $c['tipo'] = $c['tipo_sub'] ?? 'condominio';
+            $c['brand'] = $c['tipo_sub'] ?? 'condominio';
+            $items[] = $c;
+        }
+        foreach ($ele as $e) {
+            $e['tipo'] = 'eletroposto';
+            $e['brand'] = 'eletroposto';
+            $items[] = $e;
+        }
+        
+        usort($items, function($a, $b) {
+            return ($b['id'] ?? 0) <=> ($a['id'] ?? 0);
+        });
+        
+        return $items;
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+/**
+ * Puxa um item de portfólio específico por tabela ou id
+ */
+function get_portfolio_item($id, $table = 'portfolio_residencial') {
+    try {
+        $allowed_tables = ['portfolio_residencial', 'portfolio_condominio', 'portfolio_eletroposto', 'portfolio_home'];
+        if (!in_array($table, $allowed_tables)) {
+            $table = 'portfolio_residencial';
+        }
+        $db = get_db_connection();
+        $stmt = $db->prepare("SELECT * FROM {$table} WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
     } catch (Exception $e) {
@@ -880,4 +1175,22 @@ function get_depoimentos($only_active = true) {
         return [];
     }
 }
+
+/**
+ * Retorna as fotos do portfólio da home
+ */
+function get_portfolio_home_images($only_active = true) {
+    try {
+        $db = get_db_connection();
+        $sql = "SELECT * FROM portfolio_home";
+        if ($only_active) {
+            $sql .= " WHERE active = 1";
+        }
+        $sql .= " ORDER BY sort_order ASC, id DESC";
+        return $db->query($sql)->fetchAll();
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
 

@@ -11,100 +11,98 @@ $db = get_db_connection();
 $success_message = '';
 $error_message = '';
 
+$section_type = $_GET['type'] ?? 'residencial';
+$allowed_sections = ['residencial', 'condominio', 'eletroposto'];
+if (!in_array($section_type, $allowed_sections)) {
+    $section_type = 'residencial';
+}
+$target_table = 'portfolio_' . $section_type;
+
 $portfolio_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $is_edit = (bool)$portfolio_id;
 
-// Dados default do portfólio
 $portfolio = [
-    'tipo' => 'veiculo',
     'brand' => '',
     'model' => '',
     'location' => '',
     'description' => '',
-    'image' => ''
+    'image' => '',
+    'tipo_sub' => 'condominio'
 ];
 
-// Busca marcas distintas cadastradas para o preenchimento automático
 try {
-    $stmtB = $db->query("SELECT DISTINCT brand FROM portfolio ORDER BY brand ASC");
+    $stmtB = $db->query("SELECT DISTINCT brand FROM portfolio_residencial ORDER BY brand ASC");
     $existing_brands = $stmtB->fetchAll(PDO::FETCH_COLUMN);
 } catch (Exception $e) {
     $existing_brands = [];
 }
 
-// Se for edição, carrega do banco
 if ($is_edit) {
     try {
-        $stmt = $db->prepare("SELECT * FROM portfolio WHERE id = ?");
+        $stmt = $db->prepare("SELECT * FROM {$target_table} WHERE id = ?");
         $stmt->execute([$portfolio_id]);
         $loaded_portfolio = $stmt->fetch();
         if ($loaded_portfolio) {
             $portfolio = $loaded_portfolio;
         } else {
-            header('Location: portfolio.php');
+            header("Location: portfolio-{$section_type}.php");
             exit;
         }
     } catch (Exception $e) {
-        $error_message = "Erro ao carregar item do portfólio: " . $e->getMessage();
+        $error_message = "Erro ao carregar item: " . $e->getMessage();
     }
 }
 
-// Processa o form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tipo = $_POST['tipo'] ?? 'veiculo';
     $model = trim($_POST['model'] ?? '');
     $location = trim($_POST['location'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $image = trim($_POST['image'] ?? '');
-    
-    // Processamento da marca
-    if ($tipo === 'condominio' || $tipo === 'construtora' || $tipo === 'eletroposto') {
-        $brand = $tipo;
-    } else {
-        $brand_selected = $_POST['brand'] ?? '';
-        if ($brand_selected === 'new') {
-            $brand = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_POST['brand_new'] ?? '')));
-        } else {
-            $brand = $brand_selected;
-        }
+    $brand = trim($_POST['brand'] ?? '');
+    if ($brand === 'new') {
+        $brand = preg_replace('/[^a-z0-9\-]/', '', strtolower(trim($_POST['brand_new'] ?? '')));
     }
+    $tipo_sub = $_POST['tipo_sub'] ?? 'condominio';
 
-    if (empty($brand) || empty($model) || empty($location) || empty($image)) {
-        $error_message = "Marca/Tipo, Nome do Projeto/Modelo, Localização e Imagens são campos obrigatórios.";
+    if (empty($model) || empty($location) || empty($image)) {
+        $error_message = "Nome do Projeto/Modelo, Localização e Imagens são campos obrigatórios.";
     } else {
         try {
-            if ($is_edit) {
-                $old_images = array_filter(array_map('trim', explode(',', $portfolio['image'] ?? '')));
-
-                $stmtUp = $db->prepare("UPDATE portfolio SET tipo = ?, brand = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
-                $stmtUp->execute([$tipo, $brand, $model, $location, $description, $image, $portfolio_id]);
-
-                // Remove fisicamente as imagens antigas que saíram da lista (trocadas ou removidas)
-                $new_images = array_filter(array_map('trim', explode(',', $image)));
-                foreach (array_diff($old_images, $new_images) as $removed_image) {
-                    uploads_delete($removed_image);
+            if ($section_type === 'residencial') {
+                if ($is_edit) {
+                    $stmtUp = $db->prepare("UPDATE portfolio_residencial SET brand = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
+                    $stmtUp->execute([$brand, $model, $location, $description, $image, $portfolio_id]);
+                } else {
+                    $stmtIn = $db->prepare("INSERT INTO portfolio_residencial (brand, model, location, description, image) VALUES (?, ?, ?, ?, ?)");
+                    $stmtIn->execute([$brand, $model, $location, $description, $image]);
+                }
+            } elseif ($section_type === 'condominio') {
+                if ($is_edit) {
+                    $stmtUp = $db->prepare("UPDATE portfolio_condominio SET tipo_sub = ?, model = ?, location = ?, description = ?, image = ? WHERE id = ?");
+                    $stmtUp->execute([$tipo_sub, $model, $location, $description, $image, $portfolio_id]);
+                } else {
+                    $stmtIn = $db->prepare("INSERT INTO portfolio_condominio (tipo_sub, model, location, description, image) VALUES (?, ?, ?, ?, ?)");
+                    $stmtIn->execute([$tipo_sub, $model, $location, $description, $image]);
                 }
             } else {
-                $stmtIn = $db->prepare("INSERT INTO portfolio (tipo, brand, model, location, description, image) VALUES (?, ?, ?, ?, ?, ?)");
-                $stmtIn->execute([$tipo, $brand, $model, $location, $description, $image]);
+                if ($is_edit) {
+                    $stmtUp = $db->prepare("UPDATE portfolio_eletroposto SET model = ?, location = ?, description = ?, image = ? WHERE id = ?");
+                    $stmtUp->execute([$model, $location, $description, $image, $portfolio_id]);
+                } else {
+                    $stmtIn = $db->prepare("INSERT INTO portfolio_eletroposto (model, location, description, image) VALUES (?, ?, ?, ?)");
+                    $stmtIn->execute([$model, $location, $description, $image]);
+                }
             }
-            header("Location: portfolio.php?saved=1");
+
+            header("Location: portfolio-{$section_type}.php?saved=1");
             exit;
         } catch (Exception $e) {
-            $error_message = "Erro ao salvar item do portfólio: " . $e->getMessage();
-            $portfolio = [
-                'tipo' => $tipo,
-                'brand' => $brand,
-                'model' => $model,
-                'location' => $location,
-                'description' => $description,
-                'image' => $image
-            ];
+            $error_message = "Erro ao salvar item: " . $e->getMessage();
         }
     }
 }
 
-admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portfolio");
+admin_header($is_edit ? "Editar Caso - Portfólio (" . ucfirst($section_type) . ")" : "Cadastrar Novo Caso (" . ucfirst($section_type) . ")", "portfolio-{$section_type}");
 ?>
 
 <?php if (!empty($error_message)): ?>
@@ -114,61 +112,61 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
 <?php endif; ?>
 
 <form method="POST" action="" class="grid grid-cols-1 lg:grid-cols-3 gap-8 font-outfit">
+    <input type="hidden" name="type" value="<?php echo htmlspecialchars($section_type); ?>">
+    
     <!-- PRINCIPAL CONFIG -->
     <div class="lg:col-span-2 space-y-6">
         <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 space-y-6">
             <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green border-b border-white/5 pb-3">Informações Técnicas & Local</h3>
 
-            <!-- TIPO DE INSTALAÇÃO -->
-            <div>
-                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Tipo de Instalação</label>
-                <select id="tipo-select" name="tipo" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
-                    <option value="veiculo" <?php echo ($portfolio['tipo'] === 'veiculo') ? 'selected' : ''; ?>>Residencial (Veículo/Montadora)</option>
-                    <option value="condominio" <?php echo ($portfolio['tipo'] === 'condominio') ? 'selected' : ''; ?>>Infraestrutura Coletiva (Condomínio)</option>
-                    <option value="construtora" <?php echo ($portfolio['tipo'] === 'construtora') ? 'selected' : ''; ?>>Infraestrutura Coletiva (Construtora)</option>
-                    <option value="eletroposto" <?php echo ($portfolio['tipo'] === 'eletroposto') ? 'selected' : ''; ?>>Comercial & Eletroposto</option>
-                </select>
-            </div>
+            <?php if ($section_type === 'residencial'): ?>
+                <!-- BRAND SELECT & NEW INPUT -->
+                <div id="brand-selection-block">
+                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Marca do Veículo</label>
+                    <select id="brand-select" name="brand" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                        <option value="">Selecione uma marca existente...</option>
+                        <?php foreach ($existing_brands as $eb): ?>
+                            <option value="<?php echo htmlspecialchars($eb); ?>" <?php echo ($portfolio['brand'] === $eb) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars(strtoupper($eb)); ?>
+                            </option>
+                        <?php endforeach; ?>
+                        <option value="new" <?php echo ($is_edit && !empty($portfolio['brand']) && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
+                    </select>
 
-            <!-- BRAND SELECT & NEW INPUT -->
-            <div id="brand-selection-block" class="<?php echo ($portfolio['tipo'] === 'condominio' || $portfolio['tipo'] === 'construtora' || $portfolio['tipo'] === 'eletroposto') ? 'hidden' : ''; ?>">
-                <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Marca do Veículo</label>
-                <select id="brand-select" name="brand" class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30" <?php echo ($portfolio['tipo'] !== 'condominio' && $portfolio['tipo'] !== 'construtora' && $portfolio['tipo'] !== 'eletroposto') ? 'required' : ''; ?>>
-                    <option value="">Selecione uma marca existente...</option>
-                    <?php foreach ($existing_brands as $eb): 
-                        if ($eb === 'condominio' || $eb === 'construtora' || $eb === 'eletroposto') continue;
-                    ?>
-                        <option value="<?php echo htmlspecialchars($eb); ?>" <?php echo ($portfolio['brand'] === $eb) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars(strtoupper($eb)); ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <option value="new" <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto' && !in_array($portfolio['brand'], $existing_brands)) ? 'selected' : ''; ?>>[Nova Marca...]</option>
-                </select>
-
-                <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && $portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto' && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
-                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Nome da Nova Marca (Slug/Letras Minúsculas)</label>
-                    <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars(($portfolio['brand'] !== 'condominio' && $portfolio['brand'] !== 'construtora' && $portfolio['brand'] !== 'eletroposto') ? $portfolio['brand'] : ''); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
-                           class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                    <div id="new-brand-container" class="mt-4 <?php echo ($is_edit && !empty($portfolio['brand']) && !in_array($portfolio['brand'], $existing_brands)) ? '' : 'hidden'; ?>">
+                        <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Nome da Nova Marca (Slug/Letras Minúsculas)</label>
+                        <input type="text" id="brand-new" name="brand_new" value="<?php echo htmlspecialchars($portfolio['brand'] ?? ''); ?>" placeholder="ex: byd, gwm, porsche, tesla..."
+                               class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white placeholder-brand-muted/30 focus:outline-none focus:border-brand-green/30">
+                    </div>
                 </div>
-            </div>
+            <?php elseif ($section_type === 'condominio'): ?>
+                <!-- SUB-TIPO CONDOMÍNIO / CONSTRUTORA -->
+                <div>
+                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Categoria da Infraestrutura</label>
+                    <select name="tipo_sub" required class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
+                        <option value="condominio" <?php echo (($portfolio['tipo_sub'] ?? '') === 'condominio') ? 'selected' : ''; ?>>Condomínio Residencial / Comercial</option>
+                        <option value="construtora" <?php echo (($portfolio['tipo_sub'] ?? '') === 'construtora') ? 'selected' : ''; ?>>Construtora / Empreendimento</option>
+                    </select>
+                </div>
+            <?php endif; ?>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Modelo / Veículo</label>
-                    <input type="text" name="model" value="<?php echo htmlspecialchars($portfolio['model']); ?>" required placeholder="ex: BYD Dolphin Plus"
+                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Modelo / Nome do Projeto</label>
+                    <input type="text" name="model" value="<?php echo htmlspecialchars($portfolio['model'] ?? ''); ?>" required placeholder="ex: BYD Dolphin GS ou Vaga Privativa"
                            class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Localização / Cidade / Condomínio</label>
-                    <input type="text" name="location" value="<?php echo htmlspecialchars($portfolio['location']); ?>" required placeholder="ex: Condomínio Alphaville, SJC"
+                    <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Localização / Cidade / Estado</label>
+                    <input type="text" name="location" value="<?php echo htmlspecialchars($portfolio['location'] ?? ''); ?>" required placeholder="ex: São Paulo / São José dos Campos"
                            class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30">
                 </div>
             </div>
 
             <div>
                 <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Descrição dos Equipamentos e Instalação</label>
-                <textarea name="description" rows="5" required placeholder="ex: Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada de eletrodutos de aço galvanizado."
-                          class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30 resize-y"><?php echo htmlspecialchars($portfolio['description']); ?></textarea>
+                <textarea name="description" rows="5" required placeholder="ex: Instalação de Wallbox de 7.4 kW com Quadro de Proteção E-Wolf e infraestrutura dedicada."
+                          class="w-full bg-brand-bg3/50 border border-white/5 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-brand-green/30 resize-y"><?php echo htmlspecialchars($portfolio['description'] ?? ''); ?></textarea>
             </div>
         </div>
     </div>
@@ -176,11 +174,11 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
     <!-- IMAGEM E SALVAR -->
     <div class="space-y-6">
         <div class="bg-brand-bg2 border border-white/5 rounded-2xl p-6 space-y-6">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green border-b border-white/5 pb-3">Imagem Real</h3>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-brand-green border-b border-white/5 pb-3">Mídia do Projeto</h3>
 
             <div>
                 <label class="block text-xs font-semibold text-brand-muted uppercase tracking-wider mb-2">Fotos da Instalação / Carregador</label>
-                <input type="hidden" id="portfolio-image" name="image" value="<?php echo htmlspecialchars($portfolio['image']); ?>" required>
+                <input type="hidden" id="portfolio-image" name="image" value="<?php echo htmlspecialchars($portfolio['image'] ?? ''); ?>" required>
                 
                 <!-- Grade de Imagens Adicionadas -->
                 <div id="images-grid" class="grid grid-cols-2 gap-3 mb-4">
@@ -192,7 +190,7 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
                     <svg class="w-4.5 h-4.5 text-brand-green" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                     Fazer Upload de Fotos
                 </button>
-                <p class="text-[10px] text-brand-muted/50 mt-2">Você pode enviar mais de uma foto para criar um carrossel de fotos no site.</p>
+                <p class="text-[10px] text-brand-muted/50 mt-2">Envie uma ou mais fotos para compor a galeria do projeto.</p>
             </div>
         </div>
 
@@ -202,7 +200,7 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path></svg>
                 Salvar Projeto
             </button>
-            <a href="portfolio.php" class="w-full text-center py-2.5 rounded-xl border border-white/5 hover:bg-white/5 text-brand-muted hover:text-white text-xs font-semibold transition-all">
+            <a href="portfolio-<?php echo $section_type; ?>.php" class="w-full text-center py-2.5 rounded-xl border border-white/5 hover:bg-white/5 text-brand-muted hover:text-white text-xs font-semibold transition-all">
                 Cancelar e Voltar
             </a>
         </div>
@@ -210,28 +208,10 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
 </form>
 
 <script>
-    // Gerenciador do select de nova marca
-    const tipoSelect = document.getElementById('tipo-select');
-    const brandBlock = document.getElementById('brand-selection-block');
+    const sectionType = <?php echo json_encode($section_type); ?>;
     const select = document.getElementById('brand-select');
     const newBrandContainer = document.getElementById('new-brand-container');
     const brandNewInput = document.getElementById('brand-new');
-
-    if (tipoSelect && brandBlock && select) {
-        tipoSelect.addEventListener('change', function() {
-            if (this.value === 'condominio' || this.value === 'construtora' || this.value === 'eletroposto') {
-                brandBlock.classList.add('hidden');
-                select.required = false;
-                brandNewInput.required = false;
-            } else {
-                brandBlock.classList.remove('hidden');
-                select.required = true;
-                if (select.value === 'new') {
-                    brandNewInput.required = true;
-                }
-            }
-        });
-    }
 
     if (select && newBrandContainer && brandNewInput) {
         select.addEventListener('change', function() {
@@ -246,7 +226,6 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
         });
     }
 
-    // Gerenciador de múltiplas imagens
     const imageInput = document.getElementById('portfolio-image');
     const imagesGrid = document.getElementById('images-grid');
     let imagesList = imageInput.value ? imageInput.value.split(',').filter(Boolean) : [];
@@ -293,7 +272,7 @@ admin_header($is_edit ? "Editar Caso de Sucesso" : "Cadastrar Novo Caso", "portf
             let uploadPromises = files.map(file => {
                 const formData = new FormData();
                 formData.append('file', file);
-                return fetch('upload.php?type=portfolio', {
+                return fetch('upload.php?type=portfolio_' + encodeURIComponent(sectionType), {
                     method: 'POST',
                     body: formData
                 })
