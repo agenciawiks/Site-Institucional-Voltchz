@@ -1,0 +1,24 @@
+{
+  "name": "site-institucional-voltchz",
+  "version": "1.0.0",
+  "description": "Site institucional moderno e de alta conversão para a **VoltchZ Brasil**, empresa especializada em engenharia de infraestrutura para carregamento de veículos elétricos (VEs).",
+  "main": "tailwind.config.js",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agenciawiks/Site-Institucional-Voltchz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/agenciawiks/Site-Institucional-Voltchz/issues"
+  },
+  "homepage": "https://github.com/agenciawiks/Site-Institucional-Voltchz#readme"
+}
