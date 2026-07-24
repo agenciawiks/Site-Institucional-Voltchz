@@ -37,7 +37,7 @@ include "includes/header.php";
       <!-- SEÇÃO MONTADORAS (VEÍCULOS) -->
       <div id="section-veiculos" class="space-y-12">
         <!-- Logos Grid: Marcas com Eletromobilidade Homologada -->
-        <div class="mb-16 observe">
+        <div class="mb-16">
           <p class="text-xs font-mono font-bold uppercase tracking-wider text-brand-green/60 text-center mb-8">Compatibilidade e Homologação Garantida</p>
           
           <style>
@@ -123,7 +123,7 @@ include "includes/header.php";
         </div>
 
         <!-- Filtros (Tabs) -->
-        <div id="portfolio-tabs-expandido" class="flex flex-wrap items-center justify-center gap-2 mb-10 observe">
+        <div id="portfolio-tabs-expandido" class="flex flex-wrap items-center justify-center gap-2 mb-10">
           <button data-filter="all" class="portfolio-tab-btn px-4 py-2.5 text-xs font-bold rounded-xl border border-brand-green bg-brand-green text-brand-bg transition-all uppercase tracking-wider">
             Todos
           </button>
@@ -154,7 +154,7 @@ include "includes/header.php";
         </div>
 
         <!-- Portfolio Grid -->
-        <div id="portfolio-grid-expandido" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 observe">
+        <div id="portfolio-grid-expandido" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <?php 
           $portfolio_items = get_portfolio_items();
           if (empty($portfolio_items)) {
@@ -319,43 +319,40 @@ include "includes/header.php";
             $firstImg = reset($imgs) ?: '';
             $brand = strtolower($item['brand']);
           ?>
-            <div class="portfolio-card fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 shadow-2xl transition-all duration-300 hover:-translate-y-1.5"
+            <div class="portfolio-card group bg-white/[0.02] border border-white/5 rounded-[24px] overflow-hidden flex flex-col p-4"
                  data-brand="<?php echo htmlspecialchars($brand); ?>"
                  data-tipo="<?php echo htmlspecialchars($tipo); ?>">
-              
+
               <?php if ($hasMultiple): ?>
                 <!-- Carrossel de Imagens -->
                 <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 group/carousel">
-                    <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
+                    <div class="carousel-images-container w-full h-full flex">
                         <?php foreach ($imgs as $i => $src): ?>
                             <div class="w-full h-full flex-shrink-0 cursor-pointer relative btn-open-lightbox" data-src="<?php echo htmlspecialchars($src); ?>">
                                 <img src="<?php echo htmlspecialchars($src); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?> - Foto <?php echo $i+1; ?>" class="w-full h-full object-cover" loading="lazy">
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    
+
                     <!-- Setas de navegação -->
-                    <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer">
+                    <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/10 z-20 cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg>
                     </button>
-                    <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer">
+                    <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/10 z-20 cursor-pointer">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
                     </button>
 
                     <!-- Indicadores (bullets) -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/30 px-2 py-1 rounded-full backdrop-blur-md border border-white/5">
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/50 px-2 py-1 rounded-full border border-white/5">
                         <?php foreach ($imgs as $i => $_): ?>
-                            <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 transition-all <?php echo $i === 0 ? 'bg-brand-green w-3' : ''; ?>"></span>
+                            <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 <?php echo $i === 0 ? 'bg-brand-green w-3' : ''; ?>"></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
               <?php else: ?>
                 <!-- Imagem Única -->
                 <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer btn-open-lightbox" data-src="<?php echo htmlspecialchars($firstImg); ?>">
-                    <img src="<?php echo htmlspecialchars($firstImg); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
-                    </div>
+                    <img src="<?php echo htmlspecialchars($firstImg); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?>" class="w-full h-full object-cover" loading="lazy">
                 </div>
               <?php endif; ?>
 

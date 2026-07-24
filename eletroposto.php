@@ -195,7 +195,7 @@ $existing_images = array_map(function($path) {
 
         filtered.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
+            card.className = 'group bg-white/[0.02] border border-white/5 rounded-[24px] overflow-hidden flex flex-col p-4';
             
             const imgs = (item.image || '').split(',').map(s => s.trim()).filter(Boolean);
             const hasMultiple = imgs.length > 1;
@@ -205,22 +205,22 @@ $existing_images = array_map(function($path) {
             if (hasMultiple) {
                 imageHtml = `
                 <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 group/carousel">
-                    <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
+                    <div class="carousel-images-container w-full h-full flex">
                         ${imgs.map((src, i) => `
                             <div class="w-full h-full flex-shrink-0 cursor-pointer relative" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${src}' } }))">
                                 <img src="${src}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model} - Foto ${i+1}" class="w-full h-full object-cover" loading="lazy">
                             </div>
                         `).join('')}
                     </div>
-                    <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                    <button type="button" class="carousel-prev-btn absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/10 z-20 cursor-pointer" onclick="event.stopPropagation();">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path></svg>
                     </button>
-                    <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 cursor-pointer" onclick="event.stopPropagation();">
+                    <button type="button" class="carousel-next-btn absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center border border-white/10 z-20 cursor-pointer" onclick="event.stopPropagation();">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>
                     </button>
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/30 px-2 py-1 rounded-full backdrop-blur-md border border-white/5">
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-black/50 px-2 py-1 rounded-full border border-white/5">
                         ${imgs.map((_, i) => `
-                            <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 transition-all ${i === 0 ? 'bg-brand-green w-3' : ''}"></span>
+                            <span class="carousel-indicator w-1.5 h-1.5 rounded-full bg-white/45 ${i === 0 ? 'bg-brand-green w-3' : ''}"></span>
                         `).join('')}
                     </div>
                 </div>
@@ -228,10 +228,7 @@ $existing_images = array_map(function($path) {
             } else {
                 imageHtml = `
                 <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${firstImg}' } }))">
-                    <img src="${firstImg}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                    <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
-                    </div>
+                    <img src="${firstImg}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model}" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 `;
             }
