@@ -12,6 +12,16 @@ export const initPortfolioExpandido = () => {
 
     const cards = gridVeiculos.querySelectorAll('.portfolio-card');
 
+    // Forca um reflow/repaint nos cards logo apos o carregamento.
+    // Alguns navegadores mobile deixam de pintar os cards ate que algo
+    // force um recalculo de layout (o mesmo efeito que clicar num filtro
+    // causa via card.style.display). Reproduzimos isso automaticamente.
+    cards.forEach(card => {
+        card.style.display = 'none';
+        void card.offsetHeight;
+        card.style.display = '';
+    });
+
     // 1. Inicializa Filtros de Abas (Tabs)
     if (tabsContainer) {
         tabsContainer.querySelectorAll('.portfolio-tab-btn').forEach(btn => {

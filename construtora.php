@@ -233,6 +233,15 @@ $existing_images = array_map(function($path) {
                 });
             }
         });
+
+        // Forca um reflow/repaint nos cards logo apos serem injetados.
+        // Alguns navegadores mobile deixam de pintar cards inseridos via JS
+        // ate que algo force um recalculo de layout.
+        Array.from(grid.children).forEach(card => {
+            card.style.display = 'none';
+            void card.offsetHeight;
+            card.style.display = '';
+        });
     });
 </script>
 
