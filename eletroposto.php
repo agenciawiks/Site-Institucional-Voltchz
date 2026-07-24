@@ -195,7 +195,7 @@ $existing_images = array_map(function($path) {
 
         filtered.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
+            card.className = 'group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 shadow-2xl transition-all duration-300 hover:-translate-y-1.5';
             
             const imgs = (item.image || '').split(',').map(s => s.trim()).filter(Boolean);
             const hasMultiple = imgs.length > 1;

@@ -319,7 +319,7 @@ include "includes/header.php";
             $firstImg = reset($imgs) ?: '';
             $brand = strtolower($item['brand']);
           ?>
-            <div class="portfolio-card fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:-translate-y-1.5"
+            <div class="portfolio-card fade-item group bg-white/[0.02] border border-white/5 hover:border-brand-green/20 rounded-[24px] overflow-hidden flex flex-col p-4 shadow-2xl transition-all duration-300 hover:-translate-y-1.5"
                  data-brand="<?php echo htmlspecialchars($brand); ?>"
                  data-tipo="<?php echo htmlspecialchars($tipo); ?>">
               
