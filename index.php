@@ -8,8 +8,8 @@ include "includes/header.php";
     <!-- ──────────────────────────────────────────
        HERO SECTION (BANNER PRINCIPAL)
   ────────────────────────────────────────── -->
-    <header id="hero-section" class="relative min-h-[92vh] overflow-hidden pt-[60px]">
-        <div class="carousel-wrapper relative w-full h-full min-h-[92vh]">
+    <header id="hero-section" class="relative min-h-[92dvh] overflow-hidden pt-[60px]">
+        <div class="carousel-wrapper relative w-full h-full min-h-[92dvh]">
             <?php 
             $banners = get_banners(true);
             foreach ($banners as $index => $b):
@@ -40,25 +40,25 @@ include "includes/header.php";
 
                 <div class="hero-content">
                     <?php if ($index === 0): ?>
-                        <div class="mb-8 flex justify-center observe">
+                        <div class="mb-[clamp(1rem,3dvh,2rem)] flex justify-center observe">
                             <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
                                 <span class="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></span> Engenharia Certificada
                             </span>
                         </div>
                     <?php else: ?>
-                        <div class="mb-8 flex justify-center">
+                        <div class="mb-[clamp(1rem,3dvh,2rem)] flex justify-center">
                             <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-[11px] text-brand-green font-bold tracking-widest uppercase font-mono">
                                 Diferenciais VoltchZ
                             </span>
                         </div>
                     <?php endif; ?>
-                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-8 <?php echo $index === 0 ? 'observe' : ''; ?>">
+                    <h1 class="text-[clamp(34px,6vw,68px)] font-extrabold leading-[1.05] tracking-tight text-brand-text mb-[clamp(1rem,3dvh,2rem)] <?php echo $index === 0 ? 'observe' : ''; ?>">
                         <?php echo $b['title']; ?>
                     </h1>
-                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-10 leading-relaxed <?php echo $index === 0 ? 'observe' : ''; ?>">
+                    <p class="text-[clamp(16px,2vw,19px)] text-white/90 max-w-[620px] mb-[clamp(1.5rem,5dvh,2.5rem)] leading-relaxed <?php echo $index === 0 ? 'observe' : ''; ?>">
                         <?php echo htmlspecialchars($b['subtitle']); ?>
                     </p>
-                    <div class="flex items-center justify-center gap-4 flex-wrap mb-16 <?php echo $index === 0 ? 'observe' : ''; ?>">
+                    <div class="flex items-center justify-center gap-4 flex-wrap mb-[clamp(2rem,7dvh,4rem)] <?php echo $index === 0 ? 'observe' : ''; ?>">
                         <?php if (!empty($b['button_text'])): ?>
                             <a href="<?php echo htmlspecialchars($button_link); ?>" <?php echo (strpos($button_link, 'http') === 0) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?> class="bg-brand-green text-brand-bg font-bold py-4 px-10 rounded-2xl hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand-green/20">
                                 <?php echo htmlspecialchars($b['button_text']); ?>
@@ -75,17 +75,17 @@ include "includes/header.php";
                             <!-- Stats -->
                             <div class="stats-container w-full max-w-[620px] mx-auto observe">
                                 <div class="stats-grid w-full grid grid-cols-3 bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl backdrop-blur-md">
-                                    <div class="p-2 sm:p-6 text-center border-r border-white/5">
-                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
-                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
+                                    <div class="p-2 sm:p-[clamp(0.75rem,3dvh,1.5rem)] text-center border-r border-white/5">
+                                        <div class="stat-num text-[clamp(1.25rem,4vmin,1.875rem)] font-extrabold text-brand-green tracking-tighter font-mono" data-target="300" data-prefix="+">+0</div>
+                                        <div class="text-[clamp(8px,1.5vmin,10px)] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Clientes Atendidos</div>
                                     </div>
-                                    <div class="p-2 sm:p-6 text-center border-r border-white/5">
-                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
-                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
+                                    <div class="p-2 sm:p-[clamp(0.75rem,3dvh,1.5rem)] text-center border-r border-white/5">
+                                        <div class="stat-num text-[clamp(1.25rem,4vmin,1.875rem)] font-extrabold text-brand-green tracking-tighter font-mono" data-target="500" data-prefix="+">+0</div>
+                                        <div class="text-[clamp(8px,1.5vmin,10px)] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Instalações</div>
                                     </div>
-                                    <div class="p-2 sm:p-6 text-center">
-                                        <div class="stat-num text-xl sm:text-3xl font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
-                                        <div class="text-[8px] sm:text-[10px] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
+                                    <div class="p-2 sm:p-[clamp(0.75rem,3dvh,1.5rem)] text-center">
+                                        <div class="stat-num text-[clamp(1.25rem,4vmin,1.875rem)] font-extrabold text-brand-green tracking-tighter font-mono" data-target="22" data-prefix="">0</div>
+                                        <div class="text-[clamp(8px,1.5vmin,10px)] text-white/50 uppercase tracking-[0.1em] mt-1 font-bold text-balance">Anos de Experiência</div>
                                     </div>
                                 </div>
                             </div>
