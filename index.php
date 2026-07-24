@@ -8,8 +8,8 @@ include "includes/header.php";
     <!-- ──────────────────────────────────────────
        HERO SECTION (BANNER PRINCIPAL)
   ────────────────────────────────────────── -->
-    <header id="hero-section" class="relative min-h-[92dvh] overflow-hidden pt-[60px]">
-        <div class="carousel-wrapper relative w-full h-full min-h-[92dvh]">
+    <header id="hero-section" class="relative overflow-hidden pt-[60px]" style="min-height: max(92dvh, 680px);">
+        <div class="carousel-wrapper relative w-full h-full" style="min-height: max(92dvh, 680px);">
             <?php 
             $banners = get_banners(true);
             foreach ($banners as $index => $b):
@@ -107,7 +107,7 @@ include "includes/header.php";
             </button>
 
             <!-- Dots -->
-            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20" role="tablist" aria-label="Navegação do carrossel">
+            <div class="absolute bottom-[clamp(1rem,3dvh,2rem)] left-1/2 -translate-x-1/2 flex gap-3 z-20" role="tablist" aria-label="Navegação do carrossel">
                 <?php foreach ($banners as $index => $b): ?>
                     <button id="dot-<?php echo $index; ?>" class="carousel-dot <?php echo $index === 0 ? 'active' : ''; ?> w-3 h-3 rounded-full bg-white/40 border border-white/20 transition-all hover:bg-white/60 focus:outline-none focus:ring-2 focus:ring-brand-green" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>" role="tab" aria-label="Ir para slide <?php echo $index + 1; ?>"></button>
                 <?php endforeach; ?>
