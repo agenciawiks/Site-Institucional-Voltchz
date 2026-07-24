@@ -9,7 +9,7 @@ include "includes/header.php";
        HERO SECTION (BANNER PRINCIPAL)
   ────────────────────────────────────────── -->
     <header id="hero-section" class="relative overflow-hidden pt-[60px]" style="min-height: max(92dvh, 680px);">
-        <div class="carousel-wrapper relative w-full h-full" style="min-height: max(92dvh, 680px);">
+        <div class="carousel-wrapper relative grid w-full h-full" style="min-height: max(92dvh, 680px);">
             <?php 
             $banners = get_banners(true);
             foreach ($banners as $index => $b):
