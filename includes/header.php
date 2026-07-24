@@ -51,8 +51,8 @@ if (isset($_SERVER['SCRIPT_NAME'])) {
     <link rel="preload" as="image" href="static/banner-rotativo-01webp.webp" fetchpriority="high">
 
     <!-- CSS & Tailwind (compilado localmente, ver build-css.bat) -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="static/tailwind.min.css">
+    <link rel="stylesheet" href="styles.css?v=<?php echo @filemtime(__DIR__ . '/../styles.css') ?: time(); ?>">
+    <link rel="stylesheet" href="static/tailwind.min.css?v=<?php echo @filemtime(__DIR__ . '/../static/tailwind.min.css') ?: time(); ?>">
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <?php if (isset($additional_head)) echo $additional_head; ?>

@@ -182,6 +182,6 @@
 
     <!-- SCRIPTS -->
     <?php if (isset($additional_scripts)) echo $additional_scripts; ?>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/main.js?v=<?php echo @filemtime(__DIR__ . '/../js/main.js') ?: time(); ?>"></script>
 </body>
 </html>
