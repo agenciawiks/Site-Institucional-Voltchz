@@ -208,7 +208,7 @@ $existing_images = array_map(function($path) {
                     <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
                         ${imgs.map((src, i) => `
                             <div class="w-full h-full flex-shrink-0 cursor-pointer relative" onclick="window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { src: '${src}' } }))">
-                                <img src="${src}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model} - Foto ${i+1}" class="w-full h-full object-cover">
+                                <img src="${src}" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação ${item.model} - Foto ${i+1}" class="w-full h-full object-cover" loading="lazy">
                             </div>
                         `).join('')}
                     </div>

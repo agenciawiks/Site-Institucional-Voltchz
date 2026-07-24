@@ -329,7 +329,7 @@ include "includes/header.php";
                     <div class="carousel-images-container w-full h-full flex transition-transform duration-300">
                         <?php foreach ($imgs as $i => $src): ?>
                             <div class="w-full h-full flex-shrink-0 cursor-pointer relative btn-open-lightbox" data-src="<?php echo htmlspecialchars($src); ?>">
-                                <img src="<?php echo htmlspecialchars($src); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?> - Foto <?php echo $i+1; ?>" class="w-full h-full object-cover" loading="eager">
+                                <img src="<?php echo htmlspecialchars($src); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?> - Foto <?php echo $i+1; ?>" class="w-full h-full object-cover" loading="lazy">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -352,7 +352,7 @@ include "includes/header.php";
               <?php else: ?>
                 <!-- Imagem Única -->
                 <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-brand-bg mb-4 border border-white/5 flex items-center justify-center cursor-pointer btn-open-lightbox" data-src="<?php echo htmlspecialchars($firstImg); ?>">
-                    <img src="<?php echo htmlspecialchars($firstImg); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="eager">
+                    <img src="<?php echo htmlspecialchars($firstImg); ?>" onerror="this.src='static/logo.webp'; this.classList.add('object-contain', 'p-6')" alt="Instalação <?php echo htmlspecialchars($item['model']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                     <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <span class="bg-white/90 text-black text-xs font-bold px-4 py-2 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">Ampliar Foto</span>
                     </div>
